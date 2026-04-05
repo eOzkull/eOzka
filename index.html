@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>eOzka — Building the Inevitable</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #080808;
+    --off-black: #0e0e0e;
+    --surface: #141414;
+    --border: #1e1e1e;
+    --border-mid: #2a2a2a;
+    --white: #f0eeea;
+    --white-dim: #888;
+    --white-dimmer: #3a3a3a;
+    --accent: #d4c9a8;
+    --accent-dim: #6b6252;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  ::selection { background: var(--accent); color: var(--black); }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--white-dim);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  /* ── INLINE HEX SVG FOR LOGO ── */
+  .hex-inline {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 80px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--white-dimmer);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .hero-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(52px, 8vw, 108px);
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    color: var(--white);
+    max-width: 900px;
+    margin-bottom: 32px;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--white-dim);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+    font-weight: 400;
+  }
+
+  .hero-sub strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    padding: 13px 28px;
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--accent); }
+
+  .btn-secondary {
+    padding: 13px 28px;
+    background: transparent;
+    color: var(--white-dim);
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--border-mid);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--white-dim); color: var(--white); }
+
+  .hero-tagline {
+    position: absolute;
+    bottom: 80px;
+    right: 48px;
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--white-dimmer);
+    letter-spacing: 1px;
+  }
+
+  /* ── SECTION SHARED ── */
+  section {
+    padding: 96px 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--white-dimmer);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 48px;
+    background: var(--border-mid);
+  }
+
+  .section-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .section-headline em { font-style: italic; color: var(--accent); }
+
+  /* ── ORIGIN ── */
+  #story .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 48px;
+    align-items: start;
+  }
+
+  .story-body {
+    font-size: 15px;
+    color: var(--white-dim);
+    line-height: 1.8;
+  }
+
+  .story-body p + p { margin-top: 20px; }
+
+  .stats-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 0;
+  }
+
+  .stat-cell {
+    background: var(--off-black);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    font-weight: 400;
+    color: var(--white);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--white-dimmer);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── ABOUT ── */
+  #about .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 48px;
+  }
+
+  .about-block h3 {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .about-block p {
+    font-size: 15px;
+    color: var(--white-dim);
+    line-height: 1.8;
+  }
+
+  /* ── PRODUCTS ── */
+  #products .products-intro {
+    max-width: 560px;
+    font-size: 15px;
+    color: var(--white-dim);
+    line-height: 1.8;
+    margin-top: 16px;
+    margin-bottom: 56px;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .product-card {
+    background: var(--off-black);
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: background 0.2s;
+  }
+
+  .product-card:hover { background: var(--surface); }
+
+  .product-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .product-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--white-dimmer);
+    letter-spacing: 0.1em;
+  }
+
+  .product-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .tag-live { border: 1px solid #2a4a2a; color: #5a9a5a; background: #0a180a; }
+  .tag-research { border: 1px solid #3a3020; color: #8a7040; background: #14100a; }
+
+  .product-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+
+  .product-desc {
+    font-size: 13px;
+    color: var(--white-dim);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .product-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .product-link {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--accent-dim);
+    padding-bottom: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .product-link:hover { border-color: var(--accent); }
+
+  .product-link-dim {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--white-dimmer);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-mid);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .product-link-dim:hover { color: var(--white-dim); border-color: var(--white-dimmer); }
+
+  /* ── TEAM ── */
+  #team .team-intro {
+    max-width: 560px;
+    font-size: 15px;
+    color: var(--white-dim);
+    line-height: 1.8;
+    margin-top: 16px;
+    margin-bottom: 56px;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .team-card {
+    background: var(--off-black);
+    padding: 28px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: background 0.2s;
+  }
+
+  .team-card:hover { background: var(--surface); }
+
+  .team-initials {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--white-dim);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .team-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: -0.2px;
+  }
+
+  .team-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--white-dimmer);
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--off-black);
+  }
+
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .contact-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.2;
+    letter-spacing: -0.8px;
+    margin-bottom: 16px;
+  }
+
+  .contact-sub {
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .contact-email {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-dim);
+    padding-bottom: 4px;
+    transition: border-color 0.2s;
+  }
+
+  .contact-email:hover { border-color: var(--accent); }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-link-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .contact-link-row:first-child { border-top: 1px solid var(--border); }
+
+  .contact-link-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--white-dimmer);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .contact-link-val {
+    font-size: 13px;
+    color: var(--white-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-link-val:hover { color: var(--white); }
+
+  /* ── VENTURES / SUBSIDIARIES ── */
+  #ventures .ventures-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 48px;
+  }
+
+  .venture-card {
+    background: var(--off-black);
+    padding: 48px 40px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .venture-card:hover { background: var(--surface); }
+
+  .venture-card::after {
+    content: '→';
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    font-size: 20px;
+    color: var(--white-dimmer);
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .venture-card:hover::after { color: var(--white); transform: translate(4px, -4px); }
+
+  .venture-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--white-dimmer);
+    letter-spacing: 0.14em;
+  }
+
+  .venture-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 40px;
+    font-weight: 400;
+    color: var(--white);
+    letter-spacing: -1px;
+  }
+
+  .venture-desc {
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.7;
+    max-width: 360px;
+  }
+
+  .venture-cta {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: auto;
+  }
+
+  .venture-card.coming-soon { opacity: 0.5; pointer-events: none; }
+  .venture-card.coming-soon::after { content: 'Soon'; font-size: 11px; letter-spacing: 0.08em; font-family: 'DM Mono', monospace; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 56px 48px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-brand { display: flex; flex-direction: column; gap: 16px; }
+
+  .footer-tagline {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--white-dimmer);
+    letter-spacing: 0.5px;
+  }
+
+  .footer-desc {
+    font-size: 12px;
+    color: var(--white-dimmer);
+    line-height: 1.7;
+    max-width: 260px;
+  }
+
+  .footer-col h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--white-dimmer);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+
+  .footer-col a {
+    font-size: 13px;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover { color: var(--white-dim); }
+
+  .footer-bottom {
+    padding: 24px 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--white-dimmer);
+    letter-spacing: 0.06em;
+  }
+
+  .footer-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #3a3a3a;
+    letter-spacing: 0.08em;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #2a4a2a;
+    box-shadow: 0 0 6px #2a4a2a;
+  }
+
+  /* ── ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── HERO ENTRANCE ── */
+  .hero-eyebrow { animation: fadeUp 0.8s 0.1s both ease; }
+  .hero-headline { animation: fadeUp 0.9s 0.25s both ease; }
+  .hero-sub { animation: fadeUp 0.8s 0.4s both ease; }
+  .hero-ctas { animation: fadeUp 0.8s 0.55s both ease; }
+  .hero-tagline { animation: fadeUp 0.7s 0.7s both ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 24px 64px; }
+    section { padding: 72px 24px; }
+    footer { padding: 48px 24px 32px; grid-template-columns: 1fr; }
+    .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 12px; }
+    #story .story-grid { grid-template-columns: 1fr; gap: 40px; }
+    #about .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .products-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr 1fr; }
+    .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+    #ventures .ventures-grid { grid-template-columns: 1fr; }
+    .hero-tagline { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-text">
+      e
+      <svg class="hex-inline" width="22" height="25" viewBox="100 0 116 124" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="158,6 206,34 206,88 158,116 110,88 110,34" fill="none" stroke="#e0e0e0" stroke-width="1.6"/>
+        <line x1="158" y1="6"   x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2"/>
+        <line x1="206" y1="34"  x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2"/>
+        <line x1="206" y1="88"  x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2"/>
+        <line x1="158" y1="116" x2="140" y2="60" stroke="#404040" stroke-width="0.8"/>
+        <line x1="110" y1="88"  x2="140" y2="60" stroke="#404040" stroke-width="0.8"/>
+        <line x1="110" y1="34"  x2="140" y2="60" stroke="#404040" stroke-width="0.8"/>
+        <line x1="158" y1="6"   x2="176" y2="60" stroke="#2e2e2e" stroke-width="0.8"/>
+        <line x1="206" y1="34"  x2="176" y2="60" stroke="#2e2e2e" stroke-width="0.8"/>
+        <line x1="206" y1="88"  x2="176" y2="60" stroke="#2e2e2e" stroke-width="0.8"/>
+        <line x1="158" y1="116" x2="176" y2="60" stroke="#727272" stroke-width="1.2"/>
+        <line x1="110" y1="88"  x2="176" y2="60" stroke="#727272" stroke-width="1.2"/>
+        <line x1="110" y1="34"  x2="176" y2="60" stroke="#727272" stroke-width="1.2"/>
+        <circle cx="158" cy="60" r="7" fill="#ffffff"/>
+      </svg>
+      zka
+    </span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#story">Story</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#ventures">Ventures</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <p class="hero-eyebrow">eOzka — Technology Holding Company</p>
+  <h1 class="hero-headline">
+    Shipping products.<br/><em>Building the inevitable.</em>
+  </h1>
+  <p class="hero-sub">
+    eOzka is a student-founded technology holding company with
+    <strong>2 live products</strong>, a <strong>9-person founding team</strong>,
+    and an expansion roadmap into healthcare and agri-tech.
+  </p>
+  <div class="hero-ctas">
+    <a href="#products" class="btn-primary">See Our Products</a>
+    <a href="#story" class="btn-secondary">Our Story</a>
+  </div>
+  <span class="hero-tagline">Building the inevitable.</span>
+</section>
+
+<!-- ── STORY ── -->
+<section id="story">
+  <div class="section-label">01 — Story</div>
+  <h2 class="section-headline reveal">A gap we couldn't ignore.<br/><em>Two products. Then everything else.</em></h2>
+  <div class="story-grid">
+    <div class="story-body reveal">
+      <p>A group of college students noticed that capable builders rarely get the environment to build things that matter. eOzka was founded to close that gap — starting with technology, expanding into healthcare and agri-tech.</p>
+      <p>We are a structured holding company, not a club. Two products are already live. A formal team of 9 is already operational. The rest is being built in public.</p>
+      <p>The name eOzka is a phonetic evolution of OSKA — a term coined by the Founder to encapsulate the spirit of the organisation. Every product shipped, every governance standard upheld, every person brought in during this phase contributes to the institutional credibility that makes the broader structure possible.</p>
+    </div>
+    <div class="stats-strip reveal">
+      <div class="stat-cell">
+        <span class="stat-num">2</span>
+        <span class="stat-label">Live products</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">9</span>
+        <span class="stat-label">Founding team</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Target sectors</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-label">02 — About</div>
+  <h2 class="section-headline reveal">We build technology that solves<br/>real problems for real people.</h2>
+  <div class="about-grid">
+    <div class="about-block reveal">
+      <h3>The Mission</h3>
+      <p>Our mission is to build software that extends human capability — starting with tools for health monitoring and personal productivity, and expanding into healthcare and agricultural technology. eOzka at the parent level holds equity, sets enterprise-wide standards, and provides the structural backing that enables subsidiaries to operate with both autonomy and accountability.</p>
+    </div>
+    <div class="about-block reveal">
+      <h3>The Philosophy</h3>
+      <p>We believe the best builders are underestimated early. We are proving that conviction one product at a time — with the governance, structure, and discipline of a company built to last beyond college. Technology is the first chapter. Healthcare and agri-tech are the next two domains where we've identified both meaningful need and a realistic pathway to execution.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRODUCTS ── -->
+<section id="products">
+  <div class="section-label">03 — Products</div>
+  <h2 class="section-headline reveal">Two products. Live.<br/><em>In active use.</em></h2>
+  <p class="products-intro reveal">Both products are open-source under Apache 2.0 and available on GitHub. Built and maintained by the eOzka engineering team.</p>
+  <div class="products-grid reveal">
+    <div class="product-card">
+      <div class="product-card-top">
+        <span class="product-num">01</span>
+        <span class="product-tag tag-live">Live</span>
+      </div>
+      <div class="product-name">Stress-Calculator</div>
+      <p class="product-desc">A Flutter app that assesses stress risk using biometric data — heart rate and blood pressure. Built for real users. Processes physiological inputs to generate meaningful, actionable stress assessments.</p>
+      <div class="product-links">
+        <a href="https://github.com/eOzkull" target="_blank" class="product-link">View on GitHub →</a>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-top">
+        <span class="product-num">02</span>
+        <span class="product-tag tag-live">Live</span>
+      </div>
+      <div class="product-name">entab-D</div>
+      <p class="product-desc">A Chrome extension that auto-organises browser tabs by domain and title. Solves tab chaos for anyone working with 20+ tabs open. One-click install. Zero configuration needed.</p>
+      <div class="product-links">
+        <a href="https://github.com/eOzkull" target="_blank" class="product-link">View on GitHub →</a>
+        <a href="https://github.com/eOzkull" target="_blank" class="product-link-dim">Install Extension</a>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-top">
+        <span class="product-num">03</span>
+        <span class="product-tag tag-research">In Research</span>
+      </div>
+      <div class="product-name">Healthcare &amp; Agri-tech</div>
+      <p class="product-desc">Our next two expansion domains. Healthcare tools for underserved populations and agricultural monitoring technology for small-scale farmers. Groundwork is underway concurrently as the technology company matures.</p>
+      <div class="product-links">
+        <a href="#ventures" class="product-link-dim">Learn more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM ── -->
+<section id="team">
+  <div class="section-label">04 — Team</div>
+  <h2 class="section-headline reveal">The people<br/><em>building eOzka.</em></h2>
+  <p class="team-intro reveal">A 9-person founding team with formal executive roles, structured governance, and one shared conviction — that the gap between student potential and real-world impact is closable.</p>
+  <div class="team-grid reveal">
+    <div class="team-card">
+      <div class="team-initials">HDJ</div>
+      <div class="team-name">Harsh Dev Jha</div>
+      <div class="team-title">Founder &amp; Chairperson</div>
+    </div>
+    <div class="team-card">
+      <div class="team-initials">KD</div>
+      <div class="team-name">Krishyangi Dixit</div>
+      <div class="team-title">Chief Executive Officer</div>
+    </div>
+    <div class="team-card">
+      <div class="team-initials">MP</div>
+      <div class="team-name">Mrinal Prakash</div>
+      <div class="team-title">Chief Strategy Officer</div>
+    </div>
+    <div class="team-card">
+      <div class="team-initials">PS</div>
+      <div class="team-name">Pratham Sharma</div>
+      <div class="team-title">Chief Technology Officer</div>
+    </div>
+    <div class="team-card">
+      <div class="team-initials">AC</div>
+      <div class="team-name">Aman Chapadiya</div>
+      <div class="team-title">Chief Operations Officer</div>
+    </div>
+    <div class="team-card">
+      <div class="team-initials">R</div>
+      <div class="team-name">Rishita</div>
+      <div class="team-title">Chief Documentation Officer</div>
+    </div>
+    <div class="team-card">
+      <div class="team-initials">AB</div>
+      <div class="team-name">Aditya Bhatia</div>
+      <div class="team-title">Chief Growth Officer</div>
+    </div>
+    <div class="team-card">
+      <div class="team-initials">SM</div>
+      <div class="team-name">Saurabh Mudgal</div>
+      <div class="team-title">Software Development Engineer</div>
+    </div>
+    <div class="team-card">
+      <div class="team-initials">KB</div>
+      <div class="team-name">Kushagra Bharadwaj</div>
+      <div class="team-title">Software Development Engineer</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="reveal">
+      <div class="section-label">05 — Contact</div>
+      <h2 class="contact-headline">Want to collaborate,<br/>invest, or join us?</h2>
+      <p class="contact-sub">We're open to partnerships, sponsorships, and new talent. If you believe in what we're building, reach out directly.</p>
+      <a href="mailto:eozka.hq@gmail.com" class="contact-email">eozka.hq@gmail.com</a>
+    </div>
+    <div class="contact-links reveal">
+      <div class="contact-link-row">
+        <span class="contact-link-label">GitHub</span>
+        <a href="https://github.com/eOzkull" target="_blank" class="contact-link-val">github.com/eOzkull</a>
+      </div>
+      <div class="contact-link-row">
+        <span class="contact-link-label">Instagram</span>
+        <a href="https://instagram.com/weareeozka" target="_blank" class="contact-link-val">@weareeozka</a>
+      </div>
+      <div class="contact-link-row">
+        <span class="contact-link-label">LinkedIn</span>
+        <a href="https://linkedin.com/company/eozka" target="_blank" class="contact-link-val">linkedin.com/company/eozka</a>
+      </div>
+      <div class="contact-link-row">
+        <span class="contact-link-label">X / Twitter</span>
+        <a href="https://x.com/e_ozka35965" target="_blank" class="contact-link-val">@e_ozka35965</a>
+      </div>
+      <div class="contact-link-row">
+        <span class="contact-link-label">Email</span>
+        <a href="mailto:eozka.hq@gmail.com" class="contact-link-val">eozka.hq@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VENTURES ── -->
+<section id="ventures">
+  <div class="section-label">06 — Ventures</div>
+  <h2 class="section-headline reveal">Our <em>ventures.</em></h2>
+  <div class="ventures-grid">
+    <a href="https://inkesk-dozing.github.io/eozka-website/moce/index.html" class="venture-card reveal">
+      <span class="venture-num">Subsidiary I</span>
+      <span class="venture-name">MOCE</span>
+      <p class="venture-desc">The technology arm of eOzka. Home to Stress-Calculator, entab-D, and the engineering team building what comes next. Focused on software that extends human capability.</p>
+      <span class="venture-cta">Explore MOCE</span>
+    </a>
+    <div class="venture-card coming-soon reveal">
+      <span class="venture-num">Subsidiary II</span>
+      <span class="venture-name">MOCK</span>
+      <p class="venture-desc">The research and experimentation arm. Currently laying groundwork for eOzka's expansion into healthcare and agri-tech. Operational framework in development.</p>
+      <span class="venture-cta">Coming Soon</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">
+    <span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);letter-spacing:-0.3px;display:flex;align-items:center;gap:2px;">
+      e
+      <svg style="display:inline-block;vertical-align:middle;position:relative;top:-1px;" width="18" height="20" viewBox="100 0 116 124" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="158,6 206,34 206,88 158,116 110,88 110,34" fill="none" stroke="#555" stroke-width="1.6"/>
+        <line x1="158" y1="6"   x2="140" y2="60" stroke="#555" stroke-width="1.2"/>
+        <line x1="206" y1="34"  x2="140" y2="60" stroke="#555" stroke-width="1.2"/>
+        <line x1="206" y1="88"  x2="140" y2="60" stroke="#555" stroke-width="1.2"/>
+        <line x1="158" y1="116" x2="140" y2="60" stroke="#2a2a2a" stroke-width="0.8"/>
+        <line x1="110" y1="88"  x2="140" y2="60" stroke="#2a2a2a" stroke-width="0.8"/>
+        <line x1="110" y1="34"  x2="140" y2="60" stroke="#2a2a2a" stroke-width="0.8"/>
+        <circle cx="158" cy="60" r="6" fill="#555"/>
+      </svg>
+      zka
+    </span>
+    <span class="footer-tagline">Building the inevitable.</span>
+    <p class="footer-desc">A student-founded technology holding company building software that lasts — starting with tech, expanding into healthcare and agri-tech.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Ecosystem</h4>
+    <ul>
+      <li><a href="#story">Our story</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="https://inkesk-dozing.github.io/eozka-website/moce/index.html" target="_blank">MOCE subsidiary</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Connect</h4>
+    <ul>
+      <li><a href="https://github.com/eOzkull" target="_blank">GitHub</a></li>
+      <li><a href="https://instagram.com/weareeozka" target="_blank">Instagram</a></li>
+      <li><a href="https://linkedin.com/company/eozka" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:eozka.hq@gmail.com">eozka.hq@gmail.com</a></li>
+    </ul>
+  </div>
+</footer>
+
+<div class="footer-bottom">
+  <span class="footer-copy">© 2026 eOzka. All rights reserved.</span>
+  <div class="footer-status">
+    <span class="status-dot"></span>
+    <span>All systems operational</span>
+  </div>
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
