@@ -1,659 +1,1135 @@
-﻿<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>eOzka — Augmenting Sentient</title>
+    <meta
+      name="description"
+      content="eOzka is a student-founded technology holding company building software that extends human capability — starting with tech, expanding into healthcare and agri-tech."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>eOzka — Augmenting Sentient</title>
-  <meta name="description"
-    content="eOzka is a student-founded technology holding company building software that extends human capability — starting with tech, expanding into healthcare and agri-tech." />
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <body>
+    <!-- Custom cursor -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
 
-<body>
+    <!-- Scroll progress bar -->
+    <div id="scroll-progress"></div>
 
-  <!-- Custom cursor -->
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
+    <!-- Particle canvas -->
+    <canvas id="particle-canvas"></canvas>
 
-  <!-- Scroll progress bar -->
-  <div id="scroll-progress"></div>
-
-  <!-- Particle canvas -->
-  <canvas id="particle-canvas"></canvas>
-
-  <!-- â”€â”€ NAV â”€â”€ -->
-  <nav id="main-nav">
-    <a href="#" class="nav-logo">
-      <span class="nav-logo-text">
-        e
-        <svg class="hex-inline" width="22" height="25" viewBox="100 0 116 124" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="158,6 206,34 206,88 158,116 110,88 110,34" fill="none" stroke="#e0e0e0" stroke-width="1.6" />
-          <line x1="158" y1="6" x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2" />
-          <line x1="206" y1="34" x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2" />
-          <line x1="206" y1="88" x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2" />
-          <line x1="158" y1="116" x2="140" y2="60" stroke="#808080" stroke-width="0.8" />
-          <line x1="110" y1="88" x2="140" y2="60" stroke="#808080" stroke-width="0.8" />
-          <line x1="110" y1="34" x2="140" y2="60" stroke="#808080" stroke-width="0.8" />
-          <line x1="158" y1="6" x2="176" y2="60" stroke="#505050" stroke-width="0.8" />
-          <line x1="206" y1="34" x2="176" y2="60" stroke="#505050" stroke-width="0.8" />
-          <line x1="206" y1="88" x2="176" y2="60" stroke="#505050" stroke-width="0.8" />
-          <line x1="158" y1="116" x2="176" y2="60" stroke="#a0a0a0" stroke-width="1.2" />
-          <line x1="110" y1="88" x2="176" y2="60" stroke="#a0a0a0" stroke-width="1.2" />
-          <line x1="110" y1="34" x2="176" y2="60" stroke="#a0a0a0" stroke-width="1.2" />
-          <circle cx="158" cy="60" r="7" fill="#ffffff" />
-        </svg>
-        zka
-      </span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#story">Story</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#products">Products</a></li>
-      <li><a href="#team">Team</a></li>
-      <li><a href="#ventures">Ventures</a></li>
-    </ul>
-  </nav>
-
-  <!-- â”€â”€ HERO â”€â”€ -->
-  <section class="hero" id="hero">
-    <p class="hero-eyebrow">
-      <neutral-case>eOzka</neutral-case> — Parent Holding Company
-    </p>
-    <h1 class="hero-headline">
-      Where ideas<br /><em style="color: var(--accent); text-transform: uppercase;">become Impact.</em>
-    </h1>
-    <p class="hero-sub">
-      We believe great ideas need room to breathe. Our goal is to <strong>support a family of independent companies
-        across tech, health, and farming</strong>, giving them the resources to grow on their own terms while
-      <strong>staying true to a shared set of values.</strong>
-    </p>
-    <div class="hero-ctas">
-      <a href="#products" class="btn-primary"><span>See Our Products</span></a>
-      <a href="#story" class="btn-secondary">Our Story</a>
-    </div>
-    <span class="hero-tagline">Augmenting Sentient.</span>
-    <div class="hero-scroll-hint">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
-
-  <!-- â”€â”€ VALUE STRIP (replaces marquee) â”€â”€ -->
-  <div class="value-strip">
-    <div class="value-item">
-      <span class="value-num">2</span>
-      <span class="value-label">Live Products</span>
-      <span class="value-sub">Open-source, Apache 2.0</span>
-    </div>
-    <div class="value-item">
-      <span class="value-num">10</span>
-      <span class="value-label">Founding Team</span>
-      <span class="value-sub">Structured governance</span>
-    </div>
-    <div class="value-item">
-      <span class="value-num">3</span>
-      <span class="value-label">Target Sectors</span>
-      <span class="value-sub">Tech Â· Health Â· Agri-tech</span>
-    </div>
-    <div class="value-item">
-      <span class="value-num">∞</span>
-      <span class="value-label">Conviction</span>
-      <span class="value-sub">Built to last beyond college</span>
-    </div>
-  </div>
-
-  <!-- â”€â”€ STORY â”€â”€ -->
-  <section id="story">
-    <div class="section-label">01 — Story</div>
-    <h2 class="section-headline reveal">A gap we couldn't ignore.<br /><em>Born from conviction. Built with intent.</em>
-    </h2>
-    <div class="story-grid">
-      <div class="story-body reveal">
-        <p>A group of college students noticed that capable builders rarely get the environment to build things that
-          matter. eOzka was founded to close that gap, starting with technology, expanding into more fields.</p>
-        <p>We are a structured holding company, not a club.</p>
-        <p>The name eOzka is a phonetic evolution of OSKA, a term coined by the Founder to encapsulate the spirit of
-          the organisation. Every product shipped, every governance standard upheld, every person brought in during this
-          phase contributes to the institutional credibility that makes the broader structure possible.</p>
-      </div>
-      <div class="stats-strip reveal">
-        <div class="stat-cell">
-          <span class="stat-num" data-target="2">0</span>
-          <span class="stat-label">Live products</span>
-        </div>
-        <div class="stat-cell">
-          <span class="stat-num" data-target="10">0</span>
-          <span class="stat-label">Founding team</span>
-        </div>
-        <div class="stat-cell">
-          <span class="stat-num" data-target="3">0</span>
-          <span class="stat-label">Target sectors</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- â”€â”€ ABOUT â”€â”€ -->
-  <section id="about">
-    <div class="section-label">02 — About</div>
-    <h2 class="section-headline reveal">We build technology that solves<br />real problems for real people.</h2>
-    <div class="about-grid">
-      <div class="about-block reveal">
-        <h3>The Mission</h3>
-        <p>Our mission is to build software that extends human capability — starting with tools for health monitoring
-          and personal productivity, and expanding into healthcare and agricultural technology. eOzka at the parent
-          level holds equity, sets enterprise-wide standards, and provides the structural backing that enables
-          subsidiaries to operate with both autonomy and accountability.</p>
-      </div>
-      <div class="about-block reveal">
-        <h3>The Philosophy</h3>
-        <p>We believe the best builders are underestimated early. We are proving that conviction one product at a time
-          —
-          with the governance, structure, and discipline of a company built to last beyond college. Technology is the
-          first chapter. Healthcare and agri-tech are the next two domains where we've identified both meaningful need
-          and a realistic pathway to execution.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- â”€â”€ PRODUCTS â”€â”€ -->
-  <section id="products">
-    <div class="section-label">03 — Products</div>
-    <h2 class="section-headline reveal">Two products. Live.<br /><em>In active use.</em></h2>
-    <p class="products-intro reveal">Both products are open-source under Apache 2.0 and available on GitHub. Built and
-      maintained by the eOzka engineering team.</p>
-    <div class="products-grid reveal">
-      <div class="product-card">
-        <div class="product-card-top">
-          <span class="product-num">01</span>
-          <span class="product-tag tag-live">Live</span>
-        </div>
-        <div class="product-name">Stress-Calculator</div>
-        <p class="product-desc">A Flutter app that assesses stress risk using biometric data — heart rate and blood
-          pressure. Built for real users. Processes physiological inputs to generate meaningful, actionable stress
-          assessments.</p>
-        <div class="product-links">
-          <a href="https://github.com/eOzkull" target="_blank" class="product-link">View on GitHub →</a>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-card-top">
-          <span class="product-num">02</span>
-          <span class="product-tag tag-live">Live</span>
-        </div>
-        <div class="product-name">entab-D</div>
-        <p class="product-desc">A Chrome extension that auto-organises browser tabs by domain and title. Solves tab
-          chaos for anyone working with 20+ tabs open. One-click install. Zero configuration needed.</p>
-        <div class="product-links">
-          <a href="https://github.com/eOzkull" target="_blank" class="product-link">View on GitHub →</a>
-          <a href="https://github.com/eOzkull" target="_blank" class="product-link-dim">Install Extension</a>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-card-top">
-          <span class="product-num">03</span>
-          <span class="product-tag tag-research">In Research</span>
-        </div>
-        <div class="product-name">Healthcare &amp; Agri-tech</div>
-        <p class="product-desc">Our next two expansion domains. Healthcare tools for underserved populations and
-          agricultural monitoring technology for small-scale farmers. Groundwork is underway concurrently as the
-          technology company matures.</p>
-        <div class="product-links">
-          <a href="#ventures" class="product-link-dim">Learn more →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- â”€â”€ TEAM â”€â”€ -->
-  <section id="team">
-    <div class="section-label">04 — Team</div>
-    <h2 class="section-headline reveal">The people<br /><em>building eOzka.</em></h2>
-    <p class="team-intro reveal">A 10-person founding team with formal executive roles, structured governance, and one
-      shared conviction — that the gap between student potential and real-world impact is closable.</p>
-
-    <div class="team-grid-wrap" id="team-grid">
-
-      <!-- CENTER ROW: FOUNDER -->
-      <div class="team-row team-row-center" style="grid-template-columns: 1fr; justify-items: center;">
-        <div style="display: flex; flex-direction: column; align-items: center; max-width: 480px; text-align: center; margin: 0 auto;">
-
-          <div class="team-card">
-            <div class="team-card-top">
-              <div class="team-card-meta">
-                <div class="team-name">Harsh Dev Jha</div>
-                <div class="team-title">Founder & Chairperson</div>
-              </div>
-              <span class="team-badge badge-founder">Founder</span>
-            </div>
-            <div class="team-desc">Founded eOzka to close the gap between student builders and real-world impact. Leads governance, vision, and the institutional standards that hold the structure together.</div>
-            <div class="team-socials">
-              <a href="https://github.com/eOzkull" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
-                GitHub
-              </a>
-              <a href="https://linkedin.com/in/" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" /></svg>
-                LinkedIn
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <div class="team-row team-spine-node-only" style="grid-template-columns: 1fr; justify-items: center; height: 60px;">
-        <div class="team-spine-node" style="display: flex; justify-content: center;">
-          <div class="team-spine-dot" style="background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow);"></div>
-        </div>
-      </div>
-
-      <div class="team-row">
-        <div class="team-cell-left">
-          <div class="team-card">
-            <div class="team-card-top">
-              <div class="team-card-meta">
-                <div class="team-name">Krishyangi Dixit</div>
-                <div class="team-title">Chief Executive Officer</div>
-              </div>
-              <span class="team-badge">CEO</span>
-            </div>
-            <div class="team-desc">Drives day-to-day operations and strategic execution across eOzka. Ensures every subsidiary moves with purpose, clarity, and institutional discipline.</div>
-            <div class="team-socials">
-              <a href="https://github.com/eOzkull" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
-                GitHub
-              </a>
-              <a href="https://linkedin.com/in/" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" /></svg>
-                LinkedIn
-              </a>
-            </div>
-          </div>
-
-        </div>
-        <div class="team-spine-node">
-          <div class="team-spine-dot"></div>
-        </div>
-        <div class="team-cell-right">
-        </div>
-      </div>
-
-      <div class="team-row">
-        <div class="team-cell-left">
-        </div>
-        <div class="team-spine-node">
-          <div class="team-spine-dot"></div>
-        </div>
-        <div class="team-cell-right">
-          <div class="team-card">
-            <div class="team-card-top">
-              <div class="team-card-meta">
-                <div class="team-name">Mrinal Prakash</div>
-                <div class="team-title">Chief Strategy Officer</div>
-              </div>
-              <span class="team-badge">CSO</span>
-            </div>
-            <div class="team-desc">Defines eOzka's multi-sector roadmap and long-term positioning. Focused on stakeholder alignment and turning conviction into a structured expansion plan.</div>
-            <div class="team-socials">
-              <a href="https://github.com/eOzkull" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
-                GitHub
-              </a>
-              <a href="https://linkedin.com/in/" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" /></svg>
-                LinkedIn
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="team-row">
-        <div class="team-cell-left">
-          <div class="team-card">
-            <div class="team-card-top">
-              <div class="team-card-meta">
-                <div class="team-name">Pratham Sharma</div>
-                <div class="team-title">Chief Technology Officer</div>
-              </div>
-              <span class="team-badge">CTO</span>
-            </div>
-            <div class="team-desc">Spearheads product engineering across the eOzka ecosystem. Architecting systems that are reliable, scalable, and built with long-term accountability at their core.</div>
-            <div class="team-socials">
-              <a href="https://github.com/eOzkull" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
-                GitHub
-              </a>
-              <a href="https://linkedin.com/in/" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" /></svg>
-                LinkedIn
-              </a>
-            </div>
-          </div>
-
-        </div>
-        <div class="team-spine-node">
-          <div class="team-spine-dot"></div>
-        </div>
-        <div class="team-cell-right">
-        </div>
-      </div>
-
-      <div class="team-row">
-        <div class="team-cell-left">
-        </div>
-        <div class="team-spine-node">
-          <div class="team-spine-dot"></div>
-        </div>
-        <div class="team-cell-right">
-          <div class="team-card">
-            <div class="team-card-top">
-              <div class="team-card-meta">
-                <div class="team-name">Mahin</div>
-                <div class="team-title">Chief Product Officer</div>
-              </div>
-              <span class="team-badge">CPO</span>
-            </div>
-            <div class="team-desc">Owns the product experience end-to-end. Translates real user needs into elegant, functional solutions that reflect eOzka's standard of quality.</div>
-            <div class="team-socials">
-              <a href="https://github.com/eOzkull" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
-                GitHub
-              </a>
-              <a href="https://linkedin.com/in/" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" /></svg>
-                LinkedIn
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="team-row">
-        <div class="team-cell-left">
-          <div class="team-card">
-            <div class="team-card-top">
-              <div class="team-card-meta">
-                <div class="team-name">Aman Chapadiya</div>
-                <div class="team-title">Chief Operations Officer</div>
-              </div>
-              <span class="team-badge">COO</span>
-            </div>
-            <div class="team-desc">Keeps the machinery running smoothly. Synchronises teams, timelines, and operations across the holding structure with precision and efficiency.</div>
-            <div class="team-socials">
-              <a href="https://github.com/eOzkull" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
-                GitHub
-              </a>
-              <a href="https://linkedin.com/in/" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" /></svg>
-                LinkedIn
-              </a>
-            </div>
-          </div>
-
-        </div>
-        <div class="team-spine-node">
-          <div class="team-spine-dot"></div>
-        </div>
-        <div class="team-cell-right">
-        </div>
-      </div>
-
-      <div class="team-row">
-        <div class="team-cell-left">
-        </div>
-        <div class="team-spine-node">
-          <div class="team-spine-dot"></div>
-        </div>
-        <div class="team-cell-right">
-          <div class="team-card">
-            <div class="team-card-top">
-              <div class="team-card-meta">
-                <div class="team-name">Aditya Bhatia</div>
-                <div class="team-title">Chief Growth Officer</div>
-              </div>
-              <span class="team-badge">CGO</span>
-            </div>
-            <div class="team-desc">Building eOzka's presence and reach from the ground up. Focused on distribution, brand storytelling, and sustainable growth across all subsidiary verticals.</div>
-            <div class="team-socials">
-              <a href="https://github.com/eOzkull" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
-                GitHub
-              </a>
-              <a href="https://linkedin.com/in/" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" /></svg>
-                LinkedIn
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="team-row">
-        <div class="team-cell-left">
-          <div class="team-card">
-            <div class="team-card-top">
-              <div class="team-card-meta">
-                <div class="team-name">Rishita</div>
-                <div class="team-title">Chief Documentation Officer</div>
-              </div>
-              <span class="team-badge">CDO</span>
-            </div>
-            <div class="team-desc">Maintains institutional memory across eOzka. Ensures every decision, process, and standard is documented with precision and long-term clarity.</div>
-            <div class="team-socials">
-              <a href="https://github.com/eOzkull" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
-                GitHub
-              </a>
-              <a href="https://linkedin.com/in/" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" /></svg>
-                LinkedIn
-              </a>
-            </div>
-          </div>
-
-        </div>
-        <div class="team-spine-node">
-          <div class="team-spine-dot"></div>
-        </div>
-        <div class="team-cell-right">
-        </div>
-      </div>
-
-      <div class="team-row">
-        <div class="team-cell-left">
-        </div>
-        <div class="team-spine-node">
-          <div class="team-spine-dot"></div>
-        </div>
-        <div class="team-cell-right">
-          <div class="team-card">
-            <div class="team-card-top">
-              <div class="team-card-meta">
-                <div class="team-name">Saurabh Mudgal</div>
-                <div class="team-title">Software Development Engineer</div>
-              </div>
-              <span class="team-badge">SDE</span>
-            </div>
-            <div class="team-desc">Engineers robust, production-ready software for eOzka's technology arm. Code-first, quality-obsessed, and focused on shipping things that actually work.</div>
-            <div class="team-socials">
-              <a href="https://github.com/eOzkull" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
-                GitHub
-              </a>
-              <a href="https://linkedin.com/in/" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" /></svg>
-                LinkedIn
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="team-row">
-        <div class="team-cell-left">
-          <div class="team-card">
-            <div class="team-card-top">
-              <div class="team-card-meta">
-                <div class="team-name">Kushagra Bharadwaj</div>
-                <div class="team-title">Software Development Engineer</div>
-              </div>
-              <span class="team-badge">SDE</span>
-            </div>
-            <div class="team-desc">Builds with intent — crafting reliable, well-considered systems that underpin eOzka's live products and support the pipelines yet to come.</div>
-            <div class="team-socials">
-              <a href="https://github.com/eOzkull" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
-                GitHub
-              </a>
-              <a href="https://linkedin.com/in/" target="_blank" class="team-social-link">
-                <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" /></svg>
-                LinkedIn
-              </a>
-            </div>
-          </div>
-
-        </div>
-        <div class="team-spine-node">
-          <div class="team-spine-dot"></div>
-        </div>
-        <div class="team-cell-right">
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ── CONTACT ── -->
-  <section id="contact">
-    <div class="contact-inner">
-      <div class="reveal">
-        <div class="section-label">05 — Contact</div>
-        <h2 class="contact-headline">Want to collaborate,<br />invest, or join us?</h2>
-        <p class="contact-sub">We're open to partnerships, sponsorships, and new talent. If you believe in what we're
-          building, reach out directly.</p>
-        <a href="mailto:eozka.hq@gmail.com" class="contact-email">eozka.hq@gmail.com</a>
-      </div>
-      <div class="contact-links reveal">
-        <div class="contact-link-row">
-          <span class="contact-link-label">GitHub</span>
-          <a href="https://github.com/eOzkull" target="_blank" class="contact-link-val">github.com/eOzkull</a>
-        </div>
-        <div class="contact-link-row">
-          <span class="contact-link-label">Instagram</span>
-          <a href="https://instagram.com/weareeozka" target="_blank" class="contact-link-val">@weareeozka</a>
-        </div>
-        <div class="contact-link-row">
-          <span class="contact-link-label">LinkedIn</span>
-          <a href="https://linkedin.com/company/eozka" target="_blank"
-            class="contact-link-val">linkedin.com/company/eozka</a>
-        </div>
-        <div class="contact-link-row">
-          <span class="contact-link-label">X / Twitter</span>
-          <a href="https://x.com/e_ozka35965" target="_blank" class="contact-link-val">@weareeozka</a>
-        </div>
-        <div class="contact-link-row">
-          <span class="contact-link-label">Email</span>
-          <a href="mailto:eozka.hq@gmail.com" class="contact-link-val">eozka.hq@gmail.com</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- â”€â”€ VENTURES â”€â”€ -->
-  <section id="ventures">
-    <div class="section-label">06 — Ventures</div>
-    <h2 class="section-headline reveal">Our <em>ventures.</em></h2>
-    <div class="ventures-grid">
-      <a href="https://inkesk-dozing.github.io/eozka-website/moce/index.html" class="venture-card reveal">
-        <span class="venture-num">Subsidiary I</span>
-        <span class="venture-name">MOCE</span>
-        <p class="venture-desc">The technology arm of eOzka. Home to Stress-Calculator, entab-D, and the engineering
-          team building what comes next. Focused on software that extends human capability.</p>
-        <span class="venture-cta">Explore MOCE</span>
+    <!-- â”€â”€ NAV â”€â”€ -->
+    <nav id="main-nav">
+      <a href="#" class="nav-logo">
+        <span class="nav-logo-text">
+          e
+          <svg
+            class="hex-inline"
+            width="22"
+            height="25"
+            viewBox="100 0 116 124"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              points="158,6 206,34 206,88 158,116 110,88 110,34"
+              fill="none"
+              stroke="#e0e0e0"
+              stroke-width="1.6"
+            />
+            <line
+              x1="158"
+              y1="6"
+              x2="140"
+              y2="60"
+              stroke="#e0e0e0"
+              stroke-width="1.2"
+            />
+            <line
+              x1="206"
+              y1="34"
+              x2="140"
+              y2="60"
+              stroke="#e0e0e0"
+              stroke-width="1.2"
+            />
+            <line
+              x1="206"
+              y1="88"
+              x2="140"
+              y2="60"
+              stroke="#e0e0e0"
+              stroke-width="1.2"
+            />
+            <line
+              x1="158"
+              y1="116"
+              x2="140"
+              y2="60"
+              stroke="#404040"
+              stroke-width="0.8"
+            />
+            <line
+              x1="110"
+              y1="88"
+              x2="140"
+              y2="60"
+              stroke="#404040"
+              stroke-width="0.8"
+            />
+            <line
+              x1="110"
+              y1="34"
+              x2="140"
+              y2="60"
+              stroke="#404040"
+              stroke-width="0.8"
+            />
+            <line
+              x1="158"
+              y1="6"
+              x2="176"
+              y2="60"
+              stroke="#2e2e2e"
+              stroke-width="0.8"
+            />
+            <line
+              x1="206"
+              y1="34"
+              x2="176"
+              y2="60"
+              stroke="#2e2e2e"
+              stroke-width="0.8"
+            />
+            <line
+              x1="206"
+              y1="88"
+              x2="176"
+              y2="60"
+              stroke="#2e2e2e"
+              stroke-width="0.8"
+            />
+            <line
+              x1="158"
+              y1="116"
+              x2="176"
+              y2="60"
+              stroke="#727272"
+              stroke-width="1.2"
+            />
+            <line
+              x1="110"
+              y1="88"
+              x2="176"
+              y2="60"
+              stroke="#727272"
+              stroke-width="1.2"
+            />
+            <line
+              x1="110"
+              y1="34"
+              x2="176"
+              y2="60"
+              stroke="#727272"
+              stroke-width="1.2"
+            />
+            <circle cx="158" cy="60" r="7" fill="#ffffff" />
+          </svg>
+          zka
+        </span>
       </a>
-      <div class="venture-card coming-soon reveal">
-        <span class="venture-num">Subsidiary II</span>
-        <span class="venture-name">MOCK</span>
-        <p class="venture-desc">The research and experimentation arm. Currently laying groundwork for eOzka's expansion
-          into healthcare and agri-tech. Operational framework in development.</p>
-        <span class="venture-cta">Coming Soon</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- â”€â”€ FOOTER â”€â”€ -->
-  <footer>
-    <div class="footer-brand">
-      <span class="footer-logo-text">
-        e
-        <svg style="display:inline-block;vertical-align:middle;position:relative;top:-1px;" width="18" height="20"
-          viewBox="100 0 116 124" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="158,6 206,34 206,88 158,116 110,88 110,34" fill="none" stroke="#d4c9a8" stroke-width="1.6" />
-          <line x1="158" y1="6" x2="140" y2="60" stroke="#d4c9a8" stroke-width="1.2" />
-          <line x1="206" y1="34" x2="140" y2="60" stroke="#d4c9a8" stroke-width="1.2" />
-          <line x1="206" y1="88" x2="140" y2="60" stroke="#d4c9a8" stroke-width="1.2" />
-          <line x1="158" y1="116" x2="140" y2="60" stroke="#6b6252" stroke-width="0.8" />
-          <line x1="110" y1="88" x2="140" y2="60" stroke="#6b6252" stroke-width="0.8" />
-          <line x1="110" y1="34" x2="140" y2="60" stroke="#6b6252" stroke-width="0.8" />
-          <circle cx="158" cy="60" r="6" fill="#d4c9a8" />
-        </svg>
-        zka
-      </span>
-      <span class="footer-tagline">Augmenting Sentient.</span>
-      <p class="footer-desc">A student-founded technology holding company building software that lasts — starting with
-        tech, expanding into healthcare and agri-tech.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Ecosystem</h4>
-      <ul>
-        <li><a href="#story">Our story</a></li>
+      <ul class="nav-links">
+        <li><a href="#story">Story</a></li>
+        <li><a href="#about">About</a></li>
         <li><a href="#products">Products</a></li>
         <li><a href="#team">Team</a></li>
-        <li><a href="https://inkesk-dozing.github.io/eozka-website/moce/index.html" target="_blank">MOCE subsidiary</a>
-        </li>
+        <li><a href="#ventures">Ventures</a></li>
       </ul>
+    </nav>
+
+    <!-- â”€â”€ HERO â”€â”€ -->
+    <section class="hero" id="hero">
+      <div class="hero-content" style="position: relative; z-index: 2">
+        <p class="hero-eyebrow">
+          <neutral-case>eOzka</neutral-case> — Parent Holding Company
+        </p>
+        <h1 class="hero-headline">
+          Where ideas<br /><em
+            style="color: var(--accent); text-transform: uppercase"
+            >become Impact.</em
+          >
+        </h1>
+        <p class="hero-sub">
+          We believe great ideas need room to breathe. Our goal is to
+          <strong
+            >support a family of independent companies across tech, health, and
+            farming</strong
+          >, giving them the resources to grow on their own terms while
+          <strong>staying true to a shared set of values.</strong>
+        </p>
+        <div class="hero-ctas">
+          <a href="#products" class="btn-primary"
+            ><span>See Our Products</span></a
+          >
+          <a href="#story" class="btn-secondary">Our Story</a>
+        </div>
+        <span class="hero-tagline">Augmenting Sentient.</span>
+      </div>
+
+      <div class="hero-scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- â”€â”€ VALUE STRIP (replaces marquee) â”€â”€ -->
+    <div class="value-strip">
+      <div class="value-item">
+        <span class="value-num">2</span>
+        <span class="value-label">Live Products</span>
+        <span class="value-sub">Open-source, Apache 2.0</span>
+      </div>
+      <div class="value-item">
+        <span class="value-num">10</span>
+        <span class="value-label">Founding Team</span>
+        <span class="value-sub">Structured governance</span>
+      </div>
+      <div class="value-item">
+        <span class="value-num">3</span>
+        <span class="value-label">Target Sectors</span>
+        <span class="value-sub">Tech Â· Health Â· Agri-tech</span>
+      </div>
+      <div class="value-item">
+        <span class="value-num">∞</span>
+        <span class="value-label">Conviction</span>
+        <span class="value-sub">Built to last beyond college</span>
+      </div>
     </div>
-    <div class="footer-col">
-      <h4>Connect</h4>
-      <ul>
-        <li><a href="https://github.com/eOzkull" target="_blank">GitHub</a></li>
-        <li><a href="https://instagram.com/weareeozka" target="_blank">Instagram</a></li>
-        <li><a href="https://linkedin.com/company/eozka" target="_blank">LinkedIn</a></li>
-        <li><a href="mailto:eozka.hq@gmail.com">eozka.hq@gmail.com</a></li>
-      </ul>
+
+    <!-- â”€â”€ STORY â”€â”€ -->
+    <section id="story">
+      <div class="section-label">01 — Story</div>
+      <h2 class="section-headline reveal">
+        A gap we couldn't ignore.<br /><em
+          >Born from conviction. Built with intent.</em
+        >
+      </h2>
+      <div class="story-grid">
+        <div class="story-body reveal">
+          <p>
+            A group of college students noticed that capable builders rarely get
+            the environment to build things that matter. eOzka was founded to
+            close that gap, starting with technology, expanding into more
+            fields.
+          </p>
+          <p>We are a structured holding company, not a club.</p>
+          <p>
+            The name eOzka is a phonetic evolution of OSKA, a term coined by the
+            Founder to encapsulate the spirit of the organisation. Every product
+            shipped, every governance standard upheld, every person brought in
+            during this phase contributes to the institutional credibility that
+            makes the broader structure possible.
+          </p>
+        </div>
+        <div class="stats-strip reveal">
+          <div class="stat-cell">
+            <span class="stat-num" data-target="2">0</span>
+            <span class="stat-label">Live products</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-num" data-target="10">0</span>
+            <span class="stat-label">Founding team</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-num" data-target="3">0</span>
+            <span class="stat-label">Target sectors</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€ ABOUT â”€â”€ -->
+    <section id="about">
+      <div class="section-label">02 — About</div>
+      <h2 class="section-headline reveal">
+        We build technology that solves<br />real problems for real people.
+      </h2>
+      <div class="about-grid">
+        <div class="about-block reveal">
+          <h3>The Mission</h3>
+          <p>
+            Our mission is to build software that extends human capability —
+            starting with tools for health monitoring and personal productivity,
+            and expanding into healthcare and agricultural technology. eOzka at
+            the parent level holds equity, sets enterprise-wide standards, and
+            provides the structural backing that enables subsidiaries to operate
+            with both autonomy and accountability.
+          </p>
+        </div>
+        <div class="about-block reveal">
+          <h3>The Philosophy</h3>
+          <p>
+            We believe the best builders are underestimated early. We are
+            proving that conviction one product at a time — with the governance,
+            structure, and discipline of a company built to last beyond college.
+            Technology is the first chapter. Healthcare and agri-tech are the
+            next two domains where we've identified both meaningful need and a
+            realistic pathway to execution.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€ PRODUCTS â”€â”€ -->
+    <section id="products">
+      <div class="section-label">03 — Products</div>
+      <h2 class="section-headline reveal">
+        Two products. Live.<br /><em>In active use.</em>
+      </h2>
+      <p class="products-intro reveal">
+        Both products are open-source under Apache 2.0 and available on GitHub.
+        Built and maintained by the eOzka engineering team.
+      </p>
+      <div class="products-grid reveal">
+        <div class="product-card">
+          <div class="product-card-top">
+            <span class="product-num">01</span>
+            <span class="product-tag tag-live">Live</span>
+          </div>
+          <div class="product-name">Stress-Calculator</div>
+          <p class="product-desc">
+            A Flutter app that assesses stress risk using biometric data — heart
+            rate and blood pressure. Built for real users. Processes
+            physiological inputs to generate meaningful, actionable stress
+            assessments.
+          </p>
+          <div class="product-links">
+            <a
+              href="https://github.com/eOzkull"
+              target="_blank"
+              class="product-link"
+              >View on GitHub →</a
+            >
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-card-top">
+            <span class="product-num">02</span>
+            <span class="product-tag tag-live">Live</span>
+          </div>
+          <div class="product-name">entab-D</div>
+          <p class="product-desc">
+            A Chrome extension that auto-organises browser tabs by domain and
+            title. Solves tab chaos for anyone working with 20+ tabs open.
+            One-click install. Zero configuration needed.
+          </p>
+          <div class="product-links">
+            <a
+              href="https://github.com/eOzkull"
+              target="_blank"
+              class="product-link"
+              >View on GitHub →</a
+            >
+            <a
+              href="https://github.com/eOzkull"
+              target="_blank"
+              class="product-link-dim"
+              >Install Extension</a
+            >
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-card-top">
+            <span class="product-num">03</span>
+            <span class="product-tag tag-research">In Research</span>
+          </div>
+          <div class="product-name">Healthcare &amp; Agri-tech</div>
+          <p class="product-desc">
+            Our next two expansion domains. Healthcare tools for underserved
+            populations and agricultural monitoring technology for small-scale
+            farmers. Groundwork is underway concurrently as the technology
+            company matures.
+          </p>
+          <div class="product-links">
+            <a href="#ventures" class="product-link-dim">Learn more →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€ TEAM â”€â”€ -->
+    <section id="team">
+      <div class="section-label">04 — Team</div>
+      <h2 class="section-headline reveal">
+        The people<br /><em>building eOzka.</em>
+      </h2>
+      <p class="team-intro reveal">
+        A 10-person founding team with formal executive roles, structured
+        governance, and one shared conviction — that the gap between student
+        potential and real-world impact is closable.
+      </p>
+
+      <div class="team-grid-wrap" id="team-grid">
+        <!-- CENTER ROW: FOUNDER -->
+        <div
+          class="team-row team-row-center"
+          style="grid-template-columns: 1fr; justify-items: center"
+        >
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              max-width: 480px;
+              text-align: center;
+              margin: 0 auto;
+            "
+          >
+            <div class="team-card">
+              <div class="team-card-top">
+                <div class="team-card-meta">
+                  <div class="team-name">Harsh Dev Jha</div>
+                  <div class="team-title">Founder & Chairperson</div>
+                </div>
+                <span class="team-badge badge-founder">Founder</span>
+              </div>
+              <div class="team-desc">
+                Founded eOzka to close the gap between student builders and
+                real-world impact. Leads governance, vision, and the
+                institutional standards that hold the structure together.
+              </div>
+              <div class="team-socials">
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"
+                    />
+                  </svg>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="team-row team-spine-node-only"
+          style="
+            grid-template-columns: 1fr;
+            justify-items: center;
+            height: 60px;
+          "
+        >
+          <div
+            class="team-spine-node"
+            style="display: flex; justify-content: center"
+          >
+            <div
+              class="team-spine-dot"
+              style="
+                background: var(--accent);
+                transform: scale(1.4);
+                box-shadow: 0 0 12px var(--accent-glow);
+              "
+            ></div>
+          </div>
+        </div>
+
+        <div class="team-row">
+          <div class="team-cell-left">
+            <div class="team-card">
+              <div class="team-card-top">
+                <div class="team-card-meta">
+                  <div class="team-name">Krishyangi Dixit</div>
+                  <div class="team-title">Chief Executive Officer</div>
+                </div>
+                <span class="team-badge">CEO</span>
+              </div>
+              <div class="team-desc">
+                Drives day-to-day operations and strategic execution across
+                eOzka. Ensures every subsidiary moves with purpose, clarity, and
+                institutional discipline.
+              </div>
+              <div class="team-socials">
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"
+                    />
+                  </svg>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="team-spine-node">
+            <div class="team-spine-dot"></div>
+          </div>
+          <div class="team-cell-right"></div>
+        </div>
+
+        <div class="team-row">
+          <div class="team-cell-left"></div>
+          <div class="team-spine-node">
+            <div class="team-spine-dot"></div>
+          </div>
+          <div class="team-cell-right">
+            <div class="team-card">
+              <div class="team-card-top">
+                <div class="team-card-meta">
+                  <div class="team-name">Mrinal Prakash</div>
+                  <div class="team-title">Chief Strategy Officer</div>
+                </div>
+                <span class="team-badge">CSO</span>
+              </div>
+              <div class="team-desc">
+                Defines eOzka's multi-sector roadmap and long-term positioning.
+                Focused on stakeholder alignment and turning conviction into a
+                structured expansion plan.
+              </div>
+              <div class="team-socials">
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"
+                    />
+                  </svg>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-row">
+          <div class="team-cell-left">
+            <div class="team-card">
+              <div class="team-card-top">
+                <div class="team-card-meta">
+                  <div class="team-name">Pratham Sharma</div>
+                  <div class="team-title">Chief Technology Officer</div>
+                </div>
+                <span class="team-badge">CTO</span>
+              </div>
+              <div class="team-desc">
+                Spearheads product engineering across the eOzka ecosystem.
+                Architecting systems that are reliable, scalable, and built with
+                long-term accountability at their core.
+              </div>
+              <div class="team-socials">
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"
+                    />
+                  </svg>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="team-spine-node">
+            <div class="team-spine-dot"></div>
+          </div>
+          <div class="team-cell-right"></div>
+        </div>
+
+        <div class="team-row">
+          <div class="team-cell-left"></div>
+          <div class="team-spine-node">
+            <div class="team-spine-dot"></div>
+          </div>
+          <div class="team-cell-right">
+            <div class="team-card">
+              <div class="team-card-top">
+                <div class="team-card-meta">
+                  <div class="team-name">Mahin</div>
+                  <div class="team-title">Chief Product Officer</div>
+                </div>
+                <span class="team-badge">CPO</span>
+              </div>
+              <div class="team-desc">
+                Owns the product experience end-to-end. Translates real user
+                needs into elegant, functional solutions that reflect eOzka's
+                standard of quality.
+              </div>
+              <div class="team-socials">
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"
+                    />
+                  </svg>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-row">
+          <div class="team-cell-left">
+            <div class="team-card">
+              <div class="team-card-top">
+                <div class="team-card-meta">
+                  <div class="team-name">Aman Chapadiya</div>
+                  <div class="team-title">Chief Operations Officer</div>
+                </div>
+                <span class="team-badge">COO</span>
+              </div>
+              <div class="team-desc">
+                Keeps the machinery running smoothly. Synchronises teams,
+                timelines, and operations across the holding structure with
+                precision and efficiency.
+              </div>
+              <div class="team-socials">
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"
+                    />
+                  </svg>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="team-spine-node">
+            <div class="team-spine-dot"></div>
+          </div>
+          <div class="team-cell-right"></div>
+        </div>
+
+        <div class="team-row">
+          <div class="team-cell-left"></div>
+          <div class="team-spine-node">
+            <div class="team-spine-dot"></div>
+          </div>
+          <div class="team-cell-right">
+            <div class="team-card">
+              <div class="team-card-top">
+                <div class="team-card-meta">
+                  <div class="team-name">Aditya Bhatia</div>
+                  <div class="team-title">Chief Growth Officer</div>
+                </div>
+                <span class="team-badge">CGO</span>
+              </div>
+              <div class="team-desc">
+                Building eOzka's presence and reach from the ground up. Focused
+                on distribution, brand storytelling, and sustainable growth
+                across all subsidiary verticals.
+              </div>
+              <div class="team-socials">
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"
+                    />
+                  </svg>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-row">
+          <div class="team-cell-left">
+            <div class="team-card">
+              <div class="team-card-top">
+                <div class="team-card-meta">
+                  <div class="team-name">Rishita</div>
+                  <div class="team-title">Chief Documentation Officer</div>
+                </div>
+                <span class="team-badge">CDO</span>
+              </div>
+              <div class="team-desc">
+                Maintains institutional memory across eOzka. Ensures every
+                decision, process, and standard is documented with precision and
+                long-term clarity.
+              </div>
+              <div class="team-socials">
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"
+                    />
+                  </svg>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="team-spine-node">
+            <div class="team-spine-dot"></div>
+          </div>
+          <div class="team-cell-right"></div>
+        </div>
+
+        <div class="team-row">
+          <div class="team-cell-left"></div>
+          <div class="team-spine-node">
+            <div class="team-spine-dot"></div>
+          </div>
+          <div class="team-cell-right">
+            <div class="team-card">
+              <div class="team-card-top">
+                <div class="team-card-meta">
+                  <div class="team-name">Saurabh Mudgal</div>
+                  <div class="team-title">Software Development Engineer</div>
+                </div>
+                <span class="team-badge">SDE</span>
+              </div>
+              <div class="team-desc">
+                Engineers robust, production-ready software for eOzka's
+                technology arm. Code-first, quality-obsessed, and focused on
+                shipping things that actually work.
+              </div>
+              <div class="team-socials">
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"
+                    />
+                  </svg>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-row">
+          <div class="team-cell-left">
+            <div class="team-card">
+              <div class="team-card-top">
+                <div class="team-card-meta">
+                  <div class="team-name">Kushagra Bharadwaj</div>
+                  <div class="team-title">Software Development Engineer</div>
+                </div>
+                <span class="team-badge">SDE</span>
+              </div>
+              <div class="team-desc">
+                Builds with intent — crafting reliable, well-considered systems
+                that underpin eOzka's live products and support the pipelines
+                yet to come.
+              </div>
+              <div class="team-socials">
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/"
+                  target="_blank"
+                  class="team-social-link"
+                >
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"
+                    />
+                  </svg>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="team-spine-node">
+            <div class="team-spine-dot"></div>
+          </div>
+          <div class="team-cell-right"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTACT ── -->
+    <section id="contact">
+      <div class="contact-inner">
+        <div class="reveal">
+          <div class="section-label">05 — Contact</div>
+          <h2 class="contact-headline">
+            Want to collaborate,<br />invest, or join us?
+          </h2>
+          <p class="contact-sub">
+            We're open to partnerships, sponsorships, and new talent. If you
+            believe in what we're building, reach out directly.
+          </p>
+          <a href="mailto:eozka.hq@gmail.com" class="contact-email"
+            >eozka.hq@gmail.com</a
+          >
+        </div>
+        <div class="contact-links reveal">
+          <div class="contact-link-row">
+            <span class="contact-link-label">GitHub</span>
+            <a
+              href="https://github.com/eOzkull"
+              target="_blank"
+              class="contact-link-val"
+              >github.com/eOzkull</a
+            >
+          </div>
+          <div class="contact-link-row">
+            <span class="contact-link-label">Instagram</span>
+            <a
+              href="https://instagram.com/weareeozka"
+              target="_blank"
+              class="contact-link-val"
+              >@weareeozka</a
+            >
+          </div>
+          <div class="contact-link-row">
+            <span class="contact-link-label">LinkedIn</span>
+            <a
+              href="https://linkedin.com/company/eozka"
+              target="_blank"
+              class="contact-link-val"
+              >linkedin.com/company/eozka</a
+            >
+          </div>
+          <div class="contact-link-row">
+            <span class="contact-link-label">X / Twitter</span>
+            <a
+              href="https://x.com/e_ozka35965"
+              target="_blank"
+              class="contact-link-val"
+              >@weareeozka</a
+            >
+          </div>
+          <div class="contact-link-row">
+            <span class="contact-link-label">Email</span>
+            <a href="mailto:eozka.hq@gmail.com" class="contact-link-val"
+              >eozka.hq@gmail.com</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€ VENTURES â”€â”€ -->
+    <section id="ventures">
+      <div class="section-label">06 — Ventures</div>
+      <h2 class="section-headline reveal">Our <em>ventures.</em></h2>
+      <div class="ventures-grid">
+        <a
+          href="https://inkesk-dozing.github.io/eozka-website/moce/index.html"
+          class="venture-card reveal"
+        >
+          <span class="venture-num">Subsidiary I</span>
+          <span class="venture-name">MOCE</span>
+          <p class="venture-desc">
+            The technology arm of eOzka. Home to Stress-Calculator, entab-D, and
+            the engineering team building what comes next. Focused on software
+            that extends human capability.
+          </p>
+          <span class="venture-cta">Explore MOCE</span>
+        </a>
+        <div class="venture-card coming-soon reveal">
+          <span class="venture-num">Subsidiary II</span>
+          <span class="venture-name">MOCK</span>
+          <p class="venture-desc">
+            The research and experimentation arm. Currently laying groundwork
+            for eOzka's expansion into healthcare and agri-tech. Operational
+            framework in development.
+          </p>
+          <span class="venture-cta">Coming Soon</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- â”€â”€ FOOTER â”€â”€ -->
+    <footer>
+      <div class="footer-brand">
+        <span class="footer-logo-text">
+          e
+          <svg
+            style="
+              display: inline-block;
+              vertical-align: middle;
+              position: relative;
+              top: -1px;
+            "
+            width="18"
+            height="20"
+            viewBox="100 0 116 124"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              points="158,6 206,34 206,88 158,116 110,88 110,34"
+              fill="none"
+              stroke="#d4c9a8"
+              stroke-width="1.6"
+            />
+            <line
+              x1="158"
+              y1="6"
+              x2="140"
+              y2="60"
+              stroke="#d4c9a8"
+              stroke-width="1.2"
+            />
+            <line
+              x1="206"
+              y1="34"
+              x2="140"
+              y2="60"
+              stroke="#d4c9a8"
+              stroke-width="1.2"
+            />
+            <line
+              x1="206"
+              y1="88"
+              x2="140"
+              y2="60"
+              stroke="#d4c9a8"
+              stroke-width="1.2"
+            />
+            <line
+              x1="158"
+              y1="116"
+              x2="140"
+              y2="60"
+              stroke="#6b6252"
+              stroke-width="0.8"
+            />
+            <line
+              x1="110"
+              y1="88"
+              x2="140"
+              y2="60"
+              stroke="#6b6252"
+              stroke-width="0.8"
+            />
+            <line
+              x1="110"
+              y1="34"
+              x2="140"
+              y2="60"
+              stroke="#6b6252"
+              stroke-width="0.8"
+            />
+            <circle cx="158" cy="60" r="6" fill="#d4c9a8" />
+          </svg>
+          zka
+        </span>
+        <span class="footer-tagline">Augmenting Sentient.</span>
+        <p class="footer-desc">
+          A student-founded technology holding company building software that
+          lasts — starting with tech, expanding into healthcare and agri-tech.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Ecosystem</h4>
+        <ul>
+          <li><a href="#story">Our story</a></li>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#team">Team</a></li>
+          <li>
+            <a
+              href="https://inkesk-dozing.github.io/eozka-website/moce/index.html"
+              target="_blank"
+              >MOCE subsidiary</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li>
+            <a href="https://github.com/eOzkull" target="_blank">GitHub</a>
+          </li>
+          <li>
+            <a href="https://instagram.com/weareeozka" target="_blank"
+              >Instagram</a
+            >
+          </li>
+          <li>
+            <a href="https://linkedin.com/company/eozka" target="_blank"
+              >LinkedIn</a
+            >
+          </li>
+          <li><a href="mailto:eozka.hq@gmail.com">eozka.hq@gmail.com</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 eOzka. All rights reserved.</span>
+      <div class="footer-status">
+        <span class="status-dot"></span>
+        <span>All systems operational</span>
+      </div>
     </div>
-  </footer>
 
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 eOzka. All rights reserved.</span>
-    <div class="footer-status">
-      <span class="status-dot"></span>
-      <span>All systems operational</span>
+    <!-- Section Indicator (Scrollspy) -->
+    <div id="section-indicator" class="section-indicator">
+      <div class="indicator-bar" data-target="hero"></div>
+      <div class="indicator-bar" data-target="story"></div>
+      <div class="indicator-bar" data-target="about"></div>
+      <div class="indicator-bar" data-target="products"></div>
+      <div class="indicator-bar" data-target="team"></div>
+      <div class="indicator-bar" data-target="ventures"></div>
+      <div class="indicator-bar" data-target="contact"></div>
     </div>
-  </div>
 
-  <!-- Section Indicator (Scrollspy) -->
-  <div id="section-indicator" class="section-indicator">
-    <div class="indicator-bar" data-target="hero"></div>
-    <div class="indicator-bar" data-target="story"></div>
-    <div class="indicator-bar" data-target="about"></div>
-    <div class="indicator-bar" data-target="products"></div>
-    <div class="indicator-bar" data-target="team"></div>
-    <div class="indicator-bar" data-target="ventures"></div>
-    <div class="indicator-bar" data-target="contact"></div>
-  </div>
-
-  <script src="main.js"></script>
-</body>
-
+    <script src="main.js"></script>
+  </body>
 </html>
