@@ -19,12 +19,23 @@
       --white-dimmer: #3a3a3a;
       --accent: #d4c9a8;
       --accent-dim: #6b6252;
-      --glass-bg: rgba(255,255,255,0.03);
-      --glass-border: rgba(255,255,255,0.07);
-      --glass-hover: rgba(255,255,255,0.06);
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-hover: rgba(255, 255, 255, 0.08);
+      --glass-glow: rgba(212, 201, 168, 0.15); /* Accent color glow */
     }
 
     html { scroll-behavior: smooth; }
+
+    .site-wrapper {
+      animation: siteFloat 7s ease-in-out infinite;
+      will-change: transform;
+    }
+    
+    @keyframes siteFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
 
     body {
       background: var(--black);
@@ -165,6 +176,7 @@
     .hero-headline em { 
       font-style: italic; 
       color: var(--accent);
+      white-space: nowrap;
     }
     .typewriter-cursor-loop::after {
       content: '|';
@@ -216,7 +228,7 @@
       transition: opacity 0.3s;
     }
     .btn-primary:hover::before { opacity: 1; }
-    .btn-primary:hover { color: var(--black); box-shadow: 0 4px 20px rgba(0,0,0,0.4); transform: translateY(-1px); }
+    .btn-primary:hover { color: var(--black); box-shadow: 0 4px 20px rgba(212, 201, 168, 0.4); transform: translateY(-2px) scale(1.02); }
     .btn-primary span { position: relative; z-index: 1; }
 
     .btn-secondary {
@@ -235,10 +247,11 @@
       transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s;
     }
     .btn-secondary:hover {
-      border-color: rgba(255,255,255,0.2);
+      border-color: rgba(212, 201, 168, 0.4);
       color: var(--white);
       background: var(--glass-hover);
-      transform: translateY(-1px);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3), inset 0 0 10px var(--glass-glow);
     }
 
     .hero-tagline {
@@ -315,11 +328,9 @@
       background: var(--border);
       border: 1px solid var(--border);
       border-radius: 12px;
-      /* Remove overflow: hidden so z-indexed hover shadows can escape */
     }
     .stat-cell {
-      background: var(--glass-bg);
-      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.06);
       padding: 32px 28px;
       display: flex;
       flex-direction: column;
@@ -332,12 +343,12 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(255,255,255,0.02);
+      background: radial-gradient(circle at center, var(--glass-glow), transparent 70%);
       opacity: 0;
-      transition: opacity 0.3s;
+      transition: opacity 0.5s ease;
     }
     .stat-cell:hover::before { opacity: 1; }
-    .stat-cell:hover { background: rgba(255,255,255,0.06); z-index: 10; }
+    .stat-cell:hover { background: var(--glass-hover); z-index: 10; }
     .stat-num {
       font-family: 'DM Serif Display', serif;
       font-size: 42px;
@@ -348,7 +359,8 @@
     }
     .stat-label {
       font-size: 11px;
-      color: var(--white-dimmer);
+      color: var(--white-dim);
+      font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       font-family: 'DM Mono', monospace;
@@ -366,8 +378,6 @@
       border-radius: 16px;
       border: 1px solid var(--glass-border);
       background: var(--glass-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       transition: border-color 0.3s, background 0.3s, transform 0.3s, box-shadow 0.3s;
       position: relative;
       overflow: hidden;
@@ -376,17 +386,17 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(255,255,255,0.02);
+      background: radial-gradient(circle at 50% 0%, var(--glass-glow), transparent 70%);
       opacity: 0;
-      transition: opacity 0.4s;
+      transition: opacity 0.5s ease;
       border-radius: 16px;
     }
     .about-block:hover::before { opacity: 1; }
     .about-block:hover {
-      border-color: rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.05);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      border-color: rgba(212, 201, 168, 0.3); /* Slight accent border on hover */
+      background: var(--glass-hover);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 0 20px var(--glass-glow);
       z-index: 10;
     }
     .about-block h3 {
@@ -424,8 +434,6 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       transition: background 0.3s, border-color 0.3s, transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s;
       position: relative;
       overflow: hidden;
@@ -437,16 +445,18 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      background: linear-gradient(90deg, transparent, rgba(212, 201, 168, 0.4), transparent);
       opacity: 0;
-      transition: opacity 0.3s;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
-    .product-card:hover::before { opacity: 1; }
+    .product-card:hover::before { opacity: 1; transform: scaleX(1); }
     .product-card:hover {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.12);
-      transform: translateY(-6px);
-      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      background: var(--glass-hover);
+      border-color: rgba(212, 201, 168, 0.3);
+      transform: translateY(-8px);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6), inset 0 0 30px var(--glass-glow);
       z-index: 10;
     }
 
@@ -513,16 +523,14 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
       cursor: default;
     }
     .team-card:hover {
-      background: rgba(255,255,255,0.07);
-      border-color: rgba(255,255,255,0.12);
-      transform: translateY(-4px) scale(1.01);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+      background: var(--glass-hover);
+      border-color: rgba(212, 201, 168, 0.2);
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5), inset 0 0 15px var(--glass-glow);
       z-index: 10;
       position: relative;
     }
@@ -595,7 +603,7 @@
     .contact-link-row:first-child { border-top: 1px solid var(--border); }
     .contact-link-row:hover { background: var(--glass-bg); }
     .contact-link-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--white-dimmer); letter-spacing: 0.14em; text-transform: uppercase; }
-    .contact-link-val { font-size: 13px; color: var(--white-dim); text-decoration: none; transition: color 0.2s; }
+    .contact-link-val { font-size: 13px; color: var(--white-dim); text-decoration: none; transition: color 0.2s; text-align: right; flex: 1; margin-left: 20px; }
     .contact-link-row:hover .contact-link-val { color: var(--white); }
 
     /* ── VENTURES ── */
@@ -615,8 +623,6 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       transition: background 0.35s, border-color 0.35s, transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s;
       position: relative;
       overflow: hidden;
@@ -625,9 +631,9 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(255,255,255,0.02);
+      background: radial-gradient(circle at 50% 0%, var(--glass-glow), transparent 70%);
       opacity: 0;
-      transition: opacity 0.4s;
+      transition: opacity 0.5s ease;
       border-radius: 20px;
     }
     .venture-card:hover::before { opacity: 1; }
@@ -640,12 +646,12 @@
       color: var(--white-dimmer);
       transition: color 0.2s, transform 0.3s;
     }
-    .venture-card:hover::after { color: var(--white); transform: translate(5px, -5px); }
+    .venture-card:hover::after { color: var(--accent); transform: translate(5px, -5px); }
     .venture-card:hover {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.12);
-      transform: translateY(-8px);
-      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+      background: var(--glass-hover);
+      border-color: rgba(212, 201, 168, 0.3);
+      transform: translateY(-10px);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), inset 0 0 30px var(--glass-glow);
       z-index: 10;
     }
 
@@ -790,7 +796,59 @@
       to { opacity: 1; transform: none; }
     }
 
+    /* ── BACK TO TOP ── */
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--white);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: opacity 0.3s, transform 0.3s, background 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    #backToTop.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    #backToTop:hover {
+      background: var(--glass-hover);
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 4px 16px rgba(212, 201, 168, 0.2);
+    }
 
+    /* ── CUSTOM CURSOR ── */
+    @media (pointer: fine) {
+      body, body * { cursor: none !important; }
+    }
+    #cursor-dot {
+      position: fixed;
+      top: 0; left: 0;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      transition: width 0.3s cubic-bezier(.22,.68,0,1.2), height 0.3s cubic-bezier(.22,.68,0,1.2), background 0.3s, border-color 0.3s, opacity 0.3s;
+      will-change: transform;
+    }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
@@ -841,6 +899,8 @@
     <li><a href="#ventures">Ventures</a></li>
   </ul>
 </nav>
+
+<div class="site-wrapper">
 
 <!-- ── HERO ── -->
 <section class="hero" id="hero">
@@ -997,6 +1057,8 @@
   </div>
 </section>
 
+</div> <!-- /site-wrapper -->
+
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-brand">
@@ -1043,6 +1105,12 @@
     <span>All systems operational</span>
   </div>
 </div>
+
+<!-- CUSTOM CURSOR -->
+<div id="cursor-dot"></div>
+
+<!-- BACK TO TOP -->
+<button id="backToTop" aria-label="Back to top">↑</button>
 
 <script>
   /* ── SCROLL REVEAL ── */
@@ -1120,7 +1188,7 @@
   if (headlineEm) {
     const phrases = ['become Impact.', 'take Shape.', 'drive Change.', 'shape the Future.'];
     let phraseIndex = 0;
-    let charIndex = phrases[0].length; // Start with first phrase fully visible
+    let charIndex = phrases[0].length; // Start with first phrase fully visible if it's rendered by HTML
     let isDeleting = true;
     headlineEm.classList.add('typewriter-cursor-loop');
     
@@ -1201,6 +1269,60 @@
     label.style.transition = 'opacity 0.6s ease';
     wipeObs.observe(label);
   });
+
+  /* ── BACK TO TOP ── */
+  const backToTopBtn = document.getElementById('backToTop');
+  if (backToTopBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > window.innerHeight / 2) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  const cursor = document.getElementById('cursor-dot');
+  if (cursor && window.matchMedia("(pointer: fine)").matches) {
+    let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+    let mx = cx, my = cy;
+
+    window.addEventListener('mousemove', (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+      if (cursor.style.opacity !== '1') {
+        cursor.style.opacity = '1';
+      }
+    });
+
+    function loopCursor() {
+      cx += (mx - cx) * 0.3;
+      cy += (my - cy) * 0.3;
+      cursor.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%)`;
+      requestAnimationFrame(loopCursor);
+    }
+    loopCursor();
+
+    const interactives = document.querySelectorAll('a, button, .stat-cell, .venture-card, .team-card, .product-card, .about-block');
+    interactives.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '48px';
+        cursor.style.height = '48px';
+        cursor.style.background = 'rgba(212, 201, 168, 0.15)';
+        cursor.style.borderColor = 'transparent';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '32px';
+        cursor.style.height = '32px';
+        cursor.style.background = 'transparent';
+        cursor.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+      });
+    });
+  }
 </script>
 </body>
 </html>
