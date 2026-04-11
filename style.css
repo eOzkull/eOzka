@@ -1933,8 +1933,8 @@ a {
     font-size: 0.85rem !important;
     line-height: 1.5 !important;
     color: var(--white-dim) !important;
+    transition: none !important;
   }
-  .team-card.active .team-desc { max-height: 300px; margin-top: 16px; }
 
   .hero-tagline { display: none; }
   body { cursor: auto; }

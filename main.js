@@ -26,7 +26,7 @@ if (sentientCanvas) {
   const sentientCtx = sentientCanvas.getContext("2d");
   let sw, sh;
   let orbits = [];
-  const isMobile = window.innerWidth < 1024; // Pivot logic for Laptop and below
+  const isMobile = window.innerWidth <= 900; // Alignment with CSS breakpoints
 
   class OrbitNode {
     constructor(orbitRadius, angle, speed, size, color) {
@@ -468,6 +468,9 @@ class InteractiveMarquee {
   }
 
   init() {
+    // Only clone and set up auto-scroll if we are in mobile/tablet marquee view (<= 900px)
+    if (window.innerWidth > 900) return;
+
     // Clone children to ensure seamless loop
     const children = Array.from(this.container.children);
     children.forEach(item => {
@@ -523,12 +526,10 @@ class InteractiveMarquee {
   }
 
   animate() {
-    if (!this.paused && window.innerWidth < 1024) { // Slightly wider threshold
+    if (!this.paused && window.innerWidth <= 900) { 
       if (this.container) {
-        // Use a small buffer to handle decimal scroll values
         this.container.scrollLeft += this.speed;
         
-        // Loop check: reset when first half is passed
         if (this.container.scrollLeft >= this.container.scrollWidth / 2) {
           this.container.scrollLeft = 0;
         }
@@ -539,8 +540,7 @@ class InteractiveMarquee {
 }
 
 function initMarquees() {
-  console.log("Initializing Marquees...");
-  new InteractiveMarquee('.products-grid', 1.0); // Slightly faster for visibility
+  new InteractiveMarquee('.products-grid', 1.0); 
   new InteractiveMarquee('.ventures-grid', 0.8);
   new InteractiveMarquee('.team-grid-wrap', 0.9);
   new InteractiveMarquee('.about-grid', 0.7);
