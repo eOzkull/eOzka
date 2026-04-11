@@ -162,7 +162,15 @@
       margin-bottom: 32px;
       animation: fadeUp 0.9s 0.25s both ease;
     }
-    .hero-headline em { font-style: italic; color: var(--accent); }
+    .hero-headline em { 
+      font-style: italic; 
+      color: var(--accent);
+    }
+    .typewriter-cursor-loop::after {
+      content: '|';
+      margin-left: 4px;
+      animation: blink 1s step-start infinite;
+    }
 
     .hero-sub {
       font-size: 16px;
@@ -307,7 +315,7 @@
       background: var(--border);
       border: 1px solid var(--border);
       border-radius: 12px;
-      overflow: hidden;
+      /* Remove overflow: hidden so z-indexed hover shadows can escape */
     }
     .stat-cell {
       background: var(--glass-bg);
@@ -329,7 +337,7 @@
       transition: opacity 0.3s;
     }
     .stat-cell:hover::before { opacity: 1; }
-    .stat-cell:hover { background: rgba(255,255,255,0.06); }
+    .stat-cell:hover { background: rgba(255,255,255,0.06); z-index: 10; }
     .stat-num {
       font-family: 'DM Serif Display', serif;
       font-size: 42px;
@@ -379,6 +387,7 @@
       background: rgba(255,255,255,0.05);
       transform: translateY(-4px);
       box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      z-index: 10;
     }
     .about-block h3 {
       font-size: 11px;
@@ -438,6 +447,7 @@
       border-color: rgba(255,255,255,0.12);
       transform: translateY(-6px);
       box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      z-index: 10;
     }
 
     .product-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -513,6 +523,8 @@
       border-color: rgba(255,255,255,0.12);
       transform: translateY(-4px) scale(1.01);
       box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+      z-index: 10;
+      position: relative;
     }
     .team-initials {
       width: 40px; height: 40px;
@@ -634,6 +646,7 @@
       border-color: rgba(255,255,255,0.12);
       transform: translateY(-8px);
       box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+      z-index: 10;
     }
 
     .venture-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--white-dimmer); letter-spacing: 0.14em; }
@@ -647,7 +660,8 @@
     .venture-desc { font-size: 14px; color: var(--white-dim); line-height: 1.7; max-width: 360px; }
     .venture-cta { font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-top: auto; }
 
-    .venture-card.coming-soon { opacity: 0.45; pointer-events: none; }
+    .venture-card.coming-soon { opacity: 0.5; }
+    .venture-card.coming-soon:hover { opacity: 0.9; }
     .venture-card.coming-soon::after { content: 'Soon'; font-size: 11px; letter-spacing: 0.08em; font-family: 'DM Mono', monospace; }
 
     /* ── FOOTER ── */
@@ -1099,6 +1113,40 @@
       }
     };
     setTimeout(type, 300);
+  }
+
+  /* ── HEADLINE LOOPING TYPEWRITER ── */
+  const headlineEm = document.querySelector('.hero-headline em');
+  if (headlineEm) {
+    const phrases = ['become Impact.', 'take Shape.', 'drive Change.', 'shape the Future.'];
+    let phraseIndex = 0;
+    let charIndex = phrases[0].length; // Start with first phrase fully visible
+    let isDeleting = true;
+    headlineEm.classList.add('typewriter-cursor-loop');
+    
+    const typeLoop = () => {
+      const current = phrases[phraseIndex];
+      if (isDeleting) {
+        headlineEm.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        headlineEm.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+      }
+      
+      let speed = isDeleting ? 40 : 80;
+      
+      if (!isDeleting && charIndex === current.length) {
+        speed = 2000; // Pause at end of word
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        speed = 500; // Pause before typing new word
+      }
+      setTimeout(typeLoop, speed);
+    };
+    setTimeout(typeLoop, 2500); // Wait long initially before first backspace
   }
 
   /* ── ANIMATED COUNTERS ── */
