@@ -1,21 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>eOzka — Augmenting Sentient</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
   <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --black: #080808;
@@ -28,20 +19,15 @@
       --white-dimmer: #3a3a3a;
       --accent: #d4c9a8;
       --accent-dim: #6b6252;
-      --glass-bg: rgba(255, 255, 255, 0.04);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --glass-blur: blur(16px);
+      --glass-bg: rgba(255,255,255,0.03);
+      --glass-border: rgba(255,255,255,0.07);
+      --glass-hover: rgba(255,255,255,0.06);
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
-      background: 
-      radial-gradient(circle at 20% 20%, rgba(212,201,168,0.06), transparent 40%),
-      radial-gradient(circle at 80% 60%, rgba(255,255,255,0.03), transparent 40%),
-      var(--black);
+      background: var(--black);
       color: var(--white);
       font-family: 'Syne', sans-serif;
       font-size: 16px;
@@ -50,57 +36,47 @@
       cursor: default;
     }
 
-    ::selection {
-      background: var(--accent);
-      color: var(--black);
-    }
+    ::selection { background: var(--accent); color: var(--black); }
 
-    /* ── NOISE OVERLAY ── */
+
+
+    /* ── NOISE ── */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.025;
+      opacity: 0.03;
       pointer-events: none;
       z-index: 1000;
-    }
-
-    body::after {
-      content: '';
-      position: fixed;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(212,201,168,0.08), transparent 60%);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 0;
     }
 
     /* ── NAV ── */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 900;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 48px;
-      height: 64px;
-      background: rgba(10, 10, 10, 0.6);
+      padding: 0 28px;
+      height: 54px;
+      width: min(960px, calc(100% - 48px));
+      border-radius: 14px;
+      border: 1px solid var(--glass-border);
+      background: rgba(8, 8, 8, 0.88);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--glass-border);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+      transition: box-shadow 0.3s;
+    }
+    nav:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
     }
 
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .nav-logo-text {
       font-family: 'Syne', sans-serif;
       font-size: 15px;
@@ -111,50 +87,32 @@
       align-items: center;
       gap: 0;
     }
+    .hex-inline { display: inline-block; vertical-align: middle; position: relative; top: -1px; }
 
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
-
+    .nav-links { display: flex; gap: 32px; list-style: none; }
     .nav-links a {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       color: var(--white-dim);
       text-decoration: none;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       transition: color 0.2s;
       position: relative;
     }
-
-    .nav-links a:hover {
-      color: var(--white);
-    }
-
     .nav-links a::after {
       content: '';
       position: absolute;
       bottom: -4px;
       left: 0;
-      width: 0%;
+      right: 0;
       height: 1px;
       background: var(--accent);
-      transition: width 0.3s ease;
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
     }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    /* ── INLINE HEX SVG FOR LOGO ── */
-    .hex-inline {
-      display: inline-block;
-      vertical-align: middle;
-      position: relative;
-      top: -1px;
-    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { transform: scaleX(1); }
 
     /* ── HERO ── */
     .hero {
@@ -162,9 +120,22 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 0 48px 80px;
+      padding: 0 60px 90px;
       position: relative;
       border-bottom: 1px solid var(--border);
+      z-index: 1;
+    }
+
+    /* Grid overlay */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
     }
 
     .hero-eyebrow {
@@ -175,11 +146,10 @@
       text-transform: uppercase;
       margin-bottom: 28px;
       font-family: 'DM Mono', monospace;
+      animation: fadeUp 0.8s 0.1s both ease;
     }
 
-    neutral-case {
-      text-transform: none;
-    }
+    neutral-case { text-transform: none; }
 
     .hero-headline {
       font-family: 'DM Serif Display', serif;
@@ -190,12 +160,9 @@
       color: var(--white);
       max-width: 900px;
       margin-bottom: 32px;
+      animation: fadeUp 0.9s 0.25s both ease;
     }
-
-    .hero-headline em {
-      font-style: italic;
-      color: var(--accent);
-    }
+    .hero-headline em { font-style: italic; color: var(--accent); }
 
     .hero-sub {
       font-size: 16px;
@@ -204,22 +171,21 @@
       line-height: 1.7;
       margin-bottom: 48px;
       font-weight: 400;
+      animation: fadeUp 0.8s 0.4s both ease;
     }
-
-    .hero-sub strong {
-      color: var(--white);
-      font-weight: 500;
-    }
+    .hero-sub strong { color: var(--white); font-weight: 500; }
 
     .hero-ctas {
       display: flex;
       gap: 16px;
       align-items: center;
+      animation: fadeUp 0.8s 0.55s both ease;
     }
 
+    /* Buttons */
     .btn-primary {
       padding: 13px 28px;
-      background: linear-gradient(135deg, #ffffff, #d4c9a8);
+      background: var(--white);
       color: var(--black);
       font-family: 'Syne', sans-serif;
       font-size: 12px;
@@ -229,33 +195,25 @@
       text-decoration: none;
       border: none;
       cursor: pointer;
-      color: black;
-      transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      transition: background 0.25s, color 0.25s, transform 0.2s, box-shadow 0.25s;
     }
-
-    .btn-primary::after {
+    .btn-primary::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
-      transform: translateX(-100%);
-      transition: transform 0.6s ease;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s;
     }
-
-    .btn-primary:hover::after {
-      transform: translateX(100%);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(212, 201, 168, 0.25);
-    }
+    .btn-primary:hover::before { opacity: 1; }
+    .btn-primary:hover { color: var(--black); box-shadow: 0 4px 20px rgba(0,0,0,0.4); transform: translateY(-1px); }
+    .btn-primary span { position: relative; z-index: 1; }
 
     .btn-secondary {
       padding: 13px 28px;
-      background: transparent;
+      background: var(--glass-bg);
       color: var(--white-dim);
       font-family: 'Syne', sans-serif;
       font-size: 12px;
@@ -263,31 +221,41 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       text-decoration: none;
-      border: 1px solid var(--border-mid);
+      border: 1px solid var(--glass-border);
       cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s;
     }
-
     .btn-secondary:hover {
-      border-color: var(--white-dim);
+      border-color: rgba(255,255,255,0.2);
       color: var(--white);
+      background: var(--glass-hover);
+      transform: translateY(-1px);
     }
 
     .hero-tagline {
       position: absolute;
-      bottom: 80px;
-      right: 48px;
+      bottom: 90px;
+      right: 60px;
       font-family: 'DM Serif Display', serif;
       font-style: italic;
       font-size: 13px;
       color: var(--white-dimmer);
       letter-spacing: 1px;
+      animation: fadeUp 0.7s 0.7s both ease;
     }
 
-    /* ── SECTION SHARED ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    /* ── SECTIONS ── */
     section {
-      padding: 96px 48px;
+      padding: 96px 60px;
       border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
     }
 
     .section-label {
@@ -302,7 +270,6 @@
       align-items: center;
       gap: 16px;
     }
-
     .section-label::after {
       content: '';
       display: block;
@@ -320,13 +287,9 @@
       color: var(--white);
       margin-bottom: 20px;
     }
+    .section-headline em { font-style: italic; color: var(--accent); }
 
-    .section-headline em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    /* ── ORIGIN ── */
+    /* ── STORY ── */
     #story .story-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -334,16 +297,8 @@
       margin-top: 48px;
       align-items: start;
     }
-
-    .story-body {
-      font-size: 15px;
-      color: var(--white-dim);
-      line-height: 1.8;
-    }
-
-    .story-body p+p {
-      margin-top: 20px;
-    }
+    .story-body { font-size: 15px; color: var(--white-dim); line-height: 1.8; }
+    .story-body p+p { margin-top: 20px; }
 
     .stats-strip {
       display: grid;
@@ -351,17 +306,30 @@
       gap: 1px;
       background: var(--border);
       border: 1px solid var(--border);
-      margin-top: 0;
+      border-radius: 12px;
+      overflow: hidden;
     }
-
     .stat-cell {
-      background: var(--off-black);
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
       padding: 32px 28px;
       display: flex;
       flex-direction: column;
       gap: 6px;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
     }
-
+    .stat-cell::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.02);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .stat-cell:hover::before { opacity: 1; }
+    .stat-cell:hover { background: rgba(255,255,255,0.06); }
     .stat-num {
       font-family: 'DM Serif Display', serif;
       font-size: 42px;
@@ -370,7 +338,6 @@
       letter-spacing: -1px;
       line-height: 1;
     }
-
     .stat-label {
       font-size: 11px;
       color: var(--white-dimmer);
@@ -383,10 +350,36 @@
     #about .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 80px;
+      gap: 24px;
       margin-top: 48px;
     }
-
+    .about-block {
+      padding: 36px;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: border-color 0.3s, background 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.02);
+      opacity: 0;
+      transition: opacity 0.4s;
+      border-radius: 16px;
+    }
+    .about-block:hover::before { opacity: 1; }
+    .about-block:hover {
+      border-color: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
     .about-block h3 {
       font-size: 11px;
       font-weight: 600;
@@ -396,12 +389,7 @@
       margin-bottom: 16px;
       font-family: 'DM Mono', monospace;
     }
-
-    .about-block p {
-      font-size: 15px;
-      color: var(--white-dim);
-      line-height: 1.8;
-    }
+    .about-block p { font-size: 15px; color: var(--white-dim); line-height: 1.8; }
 
     /* ── PRODUCTS ── */
     #products .products-intro {
@@ -416,42 +404,45 @@
     .products-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      gap: 16px;
     }
 
     .product-card {
       background: var(--glass-bg);
-      backdrop-filter: var(--glass-blur);
       border: 1px solid var(--glass-border);
-      transition: all 0.35s ease;
-    }
-
-    .product-card:hover {
-      transform: translateY(-6px) scale(1.01);
-      border-color: rgba(212, 201, 168, 0.3);
-      box-shadow:
-        0 10px 40px rgba(0, 0, 0, 0.6),
-        0 0 20px rgba(212, 201, 168, 0.08);
-    }
-
-    .product-card-top {
+      border-radius: 16px;
+      padding: 40px 32px;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+      flex-direction: column;
+      gap: 16px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: background 0.3s, border-color 0.3s, transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .product-card:hover::before { opacity: 1; }
+    .product-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.12);
+      transform: translateY(-6px);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
     }
 
-    .product-card:hover .product-name {
-      color: var(--accent);
-    }
-
-    .product-num {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--white-dimmer);
-      letter-spacing: 0.1em;
-    }
+    .product-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .product-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--white-dimmer); letter-spacing: 0.1em; transition: color 0.25s; }
+    .product-card:hover .product-num { color: var(--white-dim); }
 
     .product-tag {
       font-family: 'DM Mono', monospace;
@@ -459,19 +450,10 @@
       padding: 3px 10px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
+      border-radius: 20px;
     }
-
-    .tag-live {
-      border: 1px solid #2a4a2a;
-      color: #5a9a5a;
-      background: #0a180a;
-    }
-
-    .tag-research {
-      border: 1px solid #3a3020;
-      color: #8a7040;
-      background: #14100a;
-    }
+    .tag-live { border: 1px solid rgba(90,154,90,0.4); color: #5a9a5a; background: rgba(10,24,10,0.8); }
+    .tag-research { border: 1px solid rgba(138,112,64,0.4); color: #8a7040; background: rgba(20,16,10,0.8); }
 
     .product-name {
       font-family: 'DM Serif Display', serif;
@@ -481,53 +463,21 @@
       letter-spacing: -0.5px;
       line-height: 1.1;
     }
+    .product-desc { font-size: 13px; color: var(--white-dim); line-height: 1.7; flex: 1; }
 
-    .product-desc {
-      font-size: 13px;
-      color: var(--white-dim);
-      line-height: 1.7;
-      flex: 1;
-    }
-
-    .product-links {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-
+    .product-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
     .product-link {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--accent);
-      text-decoration: none;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border-bottom: 1px solid var(--accent-dim);
-      padding-bottom: 2px;
-      transition: border-color 0.2s, color 0.2s;
+      font-size: 11px; font-weight: 600; color: var(--accent); text-decoration: none;
+      letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid var(--accent-dim);
+      padding-bottom: 2px; transition: border-color 0.2s, color 0.2s, letter-spacing 0.2s;
     }
-
-    .product-link:hover {
-      border-color: var(--accent);
-    }
-
+    .product-link:hover { border-color: var(--accent); letter-spacing: 0.14em; }
     .product-link-dim {
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--white-dimmer);
-      text-decoration: none;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border-bottom: 1px solid var(--border-mid);
-      padding-bottom: 2px;
-      transition: color 0.2s, border-color 0.2s;
+      font-size: 11px; font-weight: 500; color: var(--white-dimmer); text-decoration: none;
+      letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid var(--border-mid);
+      padding-bottom: 2px; transition: color 0.2s, border-color 0.2s;
     }
-
-    .product-link-dim:hover {
-      color: var(--white-dim);
-      border-color: var(--white-dimmer);
-    }
+    .product-link-dim:hover { color: var(--white-dim); border-color: var(--white-dimmer); }
 
     /* ── TEAM ── */
     #team .team-intro {
@@ -542,67 +492,58 @@
     .team-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      gap: 12px;
     }
 
     .team-card {
       background: var(--glass-bg);
-      backdrop-filter: var(--glass-blur);
       border: 1px solid var(--glass-border);
-      transition: all 0.35s ease;
-    }
-
-    .team-card:hover {
-      transform: translateY(-6px) scale(1.01);
-      border-color: rgba(212, 201, 168, 0.3);
-      box-shadow:
-        0 10px 40px rgba(0, 0, 0, 0.6),
-        0 0 20px rgba(212, 201, 168, 0.08);
-    }
-
-    .team-initials {
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--border-mid);
+      border-radius: 14px;
+      padding: 28px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
+      flex-direction: column;
+      gap: 8px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      cursor: default;
+    }
+    .team-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.12);
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    }
+    .team-initials {
+      width: 40px; height: 40px;
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Mono', monospace; font-size: 11px; color: var(--white-dim);
+      letter-spacing: 0.05em; margin-bottom: 4px;
+      background: var(--glass-bg);
+      transition: background 0.3s, border-color 0.3s, color 0.3s;
+    }
+    .team-card:hover .team-initials {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
       color: var(--white-dim);
-      letter-spacing: 0.05em;
-      margin-bottom: 4px;
     }
-
-    .team-name {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--white);
-      letter-spacing: -0.2px;
-    }
-
-    .team-title {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--white-dimmer);
-      letter-spacing: 0.08em;
-      line-height: 1.5;
-    }
+    .team-name { font-size: 14px; font-weight: 600; color: var(--white); letter-spacing: -0.2px; }
+    .team-title { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--white-dimmer); letter-spacing: 0.08em; line-height: 1.5; transition: color 0.25s; }
+    .team-card:hover .team-title { color: var(--white-dim); }
+    .team-card:hover .team-name { color: var(--white); }
 
     /* ── CONTACT ── */
     #contact {
       background: var(--off-black);
     }
-
     .contact-inner {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 80px;
       align-items: center;
     }
-
     .contact-headline {
       font-family: 'DM Serif Display', serif;
       font-size: clamp(28px, 3.5vw, 44px);
@@ -612,14 +553,7 @@
       letter-spacing: -0.8px;
       margin-bottom: 16px;
     }
-
-    .contact-sub {
-      font-size: 14px;
-      color: var(--white-dim);
-      line-height: 1.7;
-      margin-bottom: 32px;
-    }
-
+    .contact-sub { font-size: 14px; color: var(--white-dim); line-height: 1.7; margin-bottom: 32px; }
     .contact-email {
       font-family: 'DM Serif Display', serif;
       font-style: italic;
@@ -628,75 +562,63 @@
       text-decoration: none;
       border-bottom: 1px solid var(--accent-dim);
       padding-bottom: 4px;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, text-shadow 0.3s;
     }
-
     .contact-email:hover {
       border-color: var(--accent);
+      text-shadow: 0 0 20px rgba(212,201,168,0.4);
     }
 
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
+    .contact-links { display: flex; flex-direction: column; gap: 0; }
     .contact-link-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 18px 0;
+      padding: 18px 16px;
       border-bottom: 1px solid var(--border);
-    }
-
-    .contact-link-row:first-child {
-      border-top: 1px solid var(--border);
-    }
-
-    .contact-link-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--white-dimmer);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .contact-link-val {
-      font-size: 13px;
-      color: var(--white-dim);
+      border-radius: 8px;
+      transition: background 0.2s;
       text-decoration: none;
-      transition: color 0.2s;
     }
+    .contact-link-row:first-child { border-top: 1px solid var(--border); }
+    .contact-link-row:hover { background: var(--glass-bg); }
+    .contact-link-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--white-dimmer); letter-spacing: 0.14em; text-transform: uppercase; }
+    .contact-link-val { font-size: 13px; color: var(--white-dim); text-decoration: none; transition: color 0.2s; }
+    .contact-link-row:hover .contact-link-val { color: var(--white); }
 
-    .contact-link-val:hover {
-      color: var(--white);
-    }
-
-    /* ── VENTURES / SUBSIDIARIES ── */
+    /* ── VENTURES ── */
     #ventures .ventures-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      gap: 16px;
       margin-top: 48px;
     }
 
     .venture-card {
       background: var(--glass-bg);
-      backdrop-filter: var(--glass-blur);
       border: 1px solid var(--glass-border);
-      transition: all 0.35s ease;
+      border-radius: 20px;
+      padding: 48px 40px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: background 0.35s, border-color 0.35s, transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s;
+      position: relative;
+      overflow: hidden;
     }
-
-    .venture-card:hover {
-      transform: translateY(-6px) scale(1.01);
-      border-color: rgba(212, 201, 168, 0.3);
-      box-shadow:
-        0 10px 40px rgba(0, 0, 0, 0.6),
-        0 0 20px rgba(212, 201, 168, 0.08);
+    .venture-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.02);
+      opacity: 0;
+      transition: opacity 0.4s;
+      border-radius: 20px;
     }
-
+    .venture-card:hover::before { opacity: 1; }
     .venture-card::after {
       content: '→';
       position: absolute;
@@ -704,21 +626,17 @@
       right: 40px;
       font-size: 20px;
       color: var(--white-dimmer);
-      transition: color 0.2s, transform 0.2s;
+      transition: color 0.2s, transform 0.3s;
+    }
+    .venture-card:hover::after { color: var(--white); transform: translate(5px, -5px); }
+    .venture-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.12);
+      transform: translateY(-8px);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
     }
 
-    .venture-card:hover::after {
-      color: var(--white);
-      transform: translate(4px, -4px);
-    }
-
-    .venture-num {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--white-dimmer);
-      letter-spacing: 0.14em;
-    }
-
+    .venture-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--white-dimmer); letter-spacing: 0.14em; }
     .venture-name {
       font-family: 'DM Serif Display', serif;
       font-size: 40px;
@@ -726,590 +644,515 @@
       color: var(--white);
       letter-spacing: -1px;
     }
+    .venture-desc { font-size: 14px; color: var(--white-dim); line-height: 1.7; max-width: 360px; }
+    .venture-cta { font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-top: auto; }
 
-    .venture-desc {
-      font-size: 14px;
-      color: var(--white-dim);
-      line-height: 1.7;
-      max-width: 360px;
-    }
-
-    .venture-cta {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-top: auto;
-    }
-
-    .venture-card.coming-soon {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-
-    .venture-card.coming-soon::after {
-      content: 'Soon';
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      font-family: 'DM Mono', monospace;
-    }
+    .venture-card.coming-soon { opacity: 0.45; pointer-events: none; }
+    .venture-card.coming-soon::after { content: 'Soon'; font-size: 11px; letter-spacing: 0.08em; font-family: 'DM Mono', monospace; }
 
     /* ── FOOTER ── */
     footer {
-      padding: 56px 48px 40px;
+      padding: 56px 60px 40px;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 48px;
       border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
     }
-
-    .footer-brand {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .footer-tagline {
-      font-family: 'DM Serif Display', serif;
-      font-style: italic;
-      font-size: 14px;
-      color: var(--white-dimmer);
-      letter-spacing: 0.5px;
-    }
-
-    .footer-desc {
-      font-size: 12px;
-      color: var(--white-dimmer);
-      line-height: 1.7;
-      max-width: 260px;
-    }
-
-    .footer-col h4 {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--white-dimmer);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-
-    .footer-col ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .footer-col a {
-      font-size: 13px;
-      color: #555;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-col a:hover {
-      color: var(--white-dim);
-    }
+    .footer-brand { display: flex; flex-direction: column; gap: 16px; }
+    .footer-tagline { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 14px; color: #666; letter-spacing: 0.5px; }
+    .footer-desc { font-size: 12px; color: #585858; line-height: 1.7; max-width: 260px; }
+    .footer-col h4 { font-family: 'DM Mono', monospace; font-size: 10px; color: #555; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 20px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-col a { font-size: 13px; color: #666; text-decoration: none; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--white-dim); }
 
     .footer-bottom {
-      padding: 24px 48px;
+      padding: 24px 60px;
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+      z-index: 1;
     }
-
-    .footer-copy {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--white-dimmer);
-      letter-spacing: 0.06em;
-    }
-
-    .footer-status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: #3a3a3a;
-      letter-spacing: 0.08em;
-    }
-
+    .footer-copy { font-family: 'DM Mono', monospace; font-size: 11px; color: #555; letter-spacing: 0.06em; }
+    .footer-status { display: flex; align-items: center; gap: 8px; font-family: 'DM Mono', monospace; font-size: 10px; color: #555; letter-spacing: 0.08em; }
     .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #2a4a2a;
-      box-shadow: 0 0 6px #2a4a2a;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #3a9a3a;
+      box-shadow: 0 0 8px #3a9a3a;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 8px #3a9a3a; }
+      50% { opacity: 0.5; box-shadow: 0 0 3px #3a9a3a; }
     }
 
-    /* ── ANIMATIONS ── */
+    /* ── SCROLL REVEAL ── */
     .reveal {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s cubic-bezier(.22,.68,0,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* stagger children inside a reveal parent */
+    .reveal.visible .team-card,
+    .reveal.visible .product-card {
+      animation: fadeUp 0.5s both ease;
     }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
+    /* ── SPLIT TEXT CHARS ── */
+    .char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(.22,.68,0,1.4);
     }
+    .char.in { opacity: 1; transform: none; }
 
-    /* ── HERO ENTRANCE ── */
-    .hero-eyebrow {
-      animation: fadeUp 0.8s 0.1s both ease;
+    /* ── EYEBROW TYPEWRITER ── */
+    .typewriter-cursor::after {
+      content: '|';
+      animation: blink 0.8s step-end infinite;
+      opacity: 0.5;
+      margin-left: 1px;
     }
+    @keyframes blink { 0%,100%{opacity:0.5} 50%{opacity:0} }
 
-    .hero-headline {
-      animation: fadeUp 0.9s 0.25s both ease;
-    }
+    /* ── BTN MAGNETIC WRAPPER ── */
+    .btn-wrap { display: inline-block; }
 
-    .hero-sub {
-      animation: fadeUp 0.8s 0.4s both ease;
-    }
+    /* ── UNDERLINE WIPE on section labels ── */
+    .section-label { overflow: visible; }
 
-    .hero-ctas {
-      animation: fadeUp 0.8s 0.55s both ease;
-    }
+    /* ── COUNTER ── */
+    .stat-num { transition: color 0.3s; }
+    .stat-cell:hover .stat-num { color: var(--accent); }
 
-    .hero-tagline {
-      animation: fadeUp 0.7s 0.7s both ease;
+    /* ── NAV ACTIVE ── */
+    .nav-links a.active { color: var(--white); }
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    /* ── PRODUCT NAME hover ── */
+    .product-name { transition: color 0.25s; }
+    .product-card:hover .product-name { color: var(--accent); }
+
+    /* ── VENTURE NAME hover ── */
+    .venture-name { transition: color 0.25s; }
+    .venture-card:hover .venture-name { color: var(--accent); }
+
+    /* ── ABOUT block heading hover ── */
+    .about-block h3 { transition: color 0.25s; }
+    .about-block:hover h3 { color: var(--accent); }
+    .about-block p { transition: color 0.25s; }
+    .about-block:hover p { color: #999; }
+
+    /* ── STORY body hover (whole block) ── */
+    .story-body { transition: color 0.25s; }
+
+    /* ── CONTACT link row arrow ── */
+    .contact-link-row::after {
+      content: '→';
+      font-size: 12px;
+      color: var(--white-dimmer);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.2s, transform 0.2s;
     }
+    .contact-link-row:hover::after { opacity: 1; transform: translateX(0); }
+
+    /* ── HERO HEADLINE word hover ── */
+    .hero-headline .word {
+      display: inline-block;
+      transition: transform 0.3s cubic-bezier(.22,.68,0,1.4);
+    }
+    .hero-headline .word:hover { transform: translateY(-3px); }
 
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: none;
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: none; }
     }
+
+
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      nav {
-        padding: 0 24px;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .hero {
-        padding: 0 24px 64px;
-      }
-
-      section {
-        padding: 72px 24px;
-      }
-
-      footer {
-        padding: 48px 24px 32px;
-        grid-template-columns: 1fr;
-      }
-
-      .footer-bottom {
-        padding: 20px 24px;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      #story .story-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      #about .about-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .products-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .team-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .contact-inner {
-        grid-template-columns: 1fr;
-        gap: 48px;
-      }
-
-      #ventures .ventures-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-tagline {
-        display: none;
-      }
+      nav { padding: 0 20px; top: 12px; width: calc(100% - 24px); }
+      .nav-links { display: none; }
+      .hero, section { padding-left: 24px; padding-right: 24px; }
+      footer { padding: 48px 24px 32px; grid-template-columns: 1fr; }
+      .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 12px; }
+      #story .story-grid, #about .about-grid, .contact-inner, #ventures .ventures-grid { grid-template-columns: 1fr; gap: 20px; }
+      .products-grid, .team-grid { grid-template-columns: 1fr; }
+      .hero-tagline { display: none; }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- ── NAV ── -->
-  <nav>
-    <a href="#" class="nav-logo">
-      <span class="nav-logo-text">
-        e
-        <svg class="hex-inline" width="22" height="25" viewBox="100 0 116 124" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="158,6 206,34 206,88 158,116 110,88 110,34" fill="none" stroke="#e0e0e0" stroke-width="1.6" />
-          <line x1="158" y1="6" x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2" />
-          <line x1="206" y1="34" x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2" />
-          <line x1="206" y1="88" x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2" />
-          <line x1="158" y1="116" x2="140" y2="60" stroke="#404040" stroke-width="0.8" />
-          <line x1="110" y1="88" x2="140" y2="60" stroke="#404040" stroke-width="0.8" />
-          <line x1="110" y1="34" x2="140" y2="60" stroke="#404040" stroke-width="0.8" />
-          <line x1="158" y1="6" x2="176" y2="60" stroke="#2e2e2e" stroke-width="0.8" />
-          <line x1="206" y1="34" x2="176" y2="60" stroke="#2e2e2e" stroke-width="0.8" />
-          <line x1="206" y1="88" x2="176" y2="60" stroke="#2e2e2e" stroke-width="0.8" />
-          <line x1="158" y1="116" x2="176" y2="60" stroke="#727272" stroke-width="1.2" />
-          <line x1="110" y1="88" x2="176" y2="60" stroke="#727272" stroke-width="1.2" />
-          <line x1="110" y1="34" x2="176" y2="60" stroke="#727272" stroke-width="1.2" />
-          <circle cx="158" cy="60" r="7" fill="#ffffff" />
-        </svg>
-        zka
-      </span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#story">Story</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#products">Products</a></li>
-      <li><a href="#team">Team</a></li>
-      <li><a href="#ventures">Ventures</a></li>
-    </ul>
-  </nav>
 
-  <!-- ── HERO ── -->
-  <section class="hero" id="hero">
-    <p class="hero-eyebrow">
-      <neutral-case>eOzka</neutral-case> — Parent Holding Company
-    </p>
-    <h1 class="hero-headline">
-      Where ideas<br /><em style="text-transform: uppercase;">become Impact.</em>
-    </h1>
-    <p class="hero-sub">
-      We believe great ideas need room to breathe. Our goal is to <strong>support a family of independent companies
-        across tech, health, and farming</strong>, giving them the resources to grow on their own terms while
-      <strong>staying true to a shared set of values.</strong>
-    </p>
-    <div class="hero-ctas">
-      <a href="#products" class="btn-primary">See Our Products</a>
-      <a href="#story" class="btn-secondary">Our Story</a>
-    </div>
-    <span class="hero-tagline">Augmenting Sentient.</span>
-  </section>
 
-  <!-- ── STORY ── -->
-  <section id="story">
-    <div class="section-label">01 — Story</div>
-    <h2 class="section-headline reveal">A gap we couldn't ignore.<br /><em>Born from conviction. Built with intent.</em>
-    </h2>
-    <div class="story-grid">
-      <div class="story-body reveal">
-        <p>A group of college students noticed that capable builders rarely get the environment to build things that
-          matter. eOzka was founded to close that gap, starting with technology, expanding into more fields.</p>
-        <p>We are a structured holding company, not a club.</p>
-        <p>The name eOzka is a phonetic evolution of OSKA, a term coined by the Founder to encapsulate the spirit of
-          the organisation. Every product shipped, every governance standard upheld, every person brought in during this
-          phase contributes to the institutional credibility that makes the broader structure possible.</p>
-      </div>
-      <div class="stats-strip reveal">
-        <div class="stat-cell">
-          <span class="stat-num">2</span>
-          <span class="stat-label">Live products</span>
-        </div>
-        <div class="stat-cell">
-          <span class="stat-num">9</span>
-          <span class="stat-label">Founding team</span>
-        </div>
-        <div class="stat-cell">
-          <span class="stat-num">3</span>
-          <span class="stat-label">Target sectors</span>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-text">
+      e
+      <svg class="hex-inline" width="22" height="25" viewBox="100 0 116 124" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="158,6 206,34 206,88 158,116 110,88 110,34" fill="none" stroke="#e0e0e0" stroke-width="1.6"/>
+        <line x1="158" y1="6" x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2"/>
+        <line x1="206" y1="34" x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2"/>
+        <line x1="206" y1="88" x2="140" y2="60" stroke="#e0e0e0" stroke-width="1.2"/>
+        <line x1="158" y1="116" x2="140" y2="60" stroke="#404040" stroke-width="0.8"/>
+        <line x1="110" y1="88" x2="140" y2="60" stroke="#404040" stroke-width="0.8"/>
+        <line x1="110" y1="34" x2="140" y2="60" stroke="#404040" stroke-width="0.8"/>
+        <line x1="158" y1="6" x2="176" y2="60" stroke="#2e2e2e" stroke-width="0.8"/>
+        <line x1="206" y1="34" x2="176" y2="60" stroke="#2e2e2e" stroke-width="0.8"/>
+        <line x1="206" y1="88" x2="176" y2="60" stroke="#2e2e2e" stroke-width="0.8"/>
+        <line x1="158" y1="116" x2="176" y2="60" stroke="#727272" stroke-width="1.2"/>
+        <line x1="110" y1="88" x2="176" y2="60" stroke="#727272" stroke-width="1.2"/>
+        <line x1="110" y1="34" x2="176" y2="60" stroke="#727272" stroke-width="1.2"/>
+        <circle cx="158" cy="60" r="7" fill="#ffffff"/>
+      </svg>
+      zka
+    </span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#story">Story</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#ventures">Ventures</a></li>
+  </ul>
+</nav>
 
-  <!-- ── ABOUT ── -->
-  <section id="about">
-    <div class="section-label">02 — About</div>
-    <h2 class="section-headline reveal">We build technology that solves<br />real problems for real people.</h2>
-    <div class="about-grid">
-      <div class="about-block reveal">
-        <h3>The Mission</h3>
-        <p>Our mission is to build software that extends human capability — starting with tools for health monitoring
-          and personal productivity, and expanding into healthcare and agricultural technology. eOzka at the parent
-          level holds equity, sets enterprise-wide standards, and provides the structural backing that enables
-          subsidiaries to operate with both autonomy and accountability.</p>
-      </div>
-      <div class="about-block reveal">
-        <h3>The Philosophy</h3>
-        <p>We believe the best builders are underestimated early. We are proving that conviction one product at a time —
-          with the governance, structure, and discipline of a company built to last beyond college. Technology is the
-          first chapter. Healthcare and agri-tech are the next two domains where we've identified both meaningful need
-          and a realistic pathway to execution.</p>
-      </div>
-    </div>
-  </section>
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <p class="hero-eyebrow"><neutral-case>eOzka</neutral-case> — Parent Holding Company</p>
+  <h1 class="hero-headline">Where ideas<br /><em style="text-transform:uppercase;">become Impact.</em></h1>
+  <p class="hero-sub">We believe great ideas need room to breathe. Our goal is to <strong>support a family of independent companies across tech, health, and farming</strong>, giving them the resources to grow on their own terms while <strong>staying true to a shared set of values.</strong></p>
+  <div class="hero-ctas">
+    <a href="#products" class="btn-primary"><span>See Our Products</span></a>
+    <a href="#story" class="btn-secondary">Our Story</a>
+  </div>
+  <span class="hero-tagline">Augmenting Sentient.</span>
+</section>
 
-  <!-- ── PRODUCTS ── -->
-  <section id="products">
-    <div class="section-label">03 — Products</div>
-    <h2 class="section-headline reveal">Two products. Live.<br /><em>In active use.</em></h2>
-    <p class="products-intro reveal">Both products are open-source under Apache 2.0 and available on GitHub. Built and
-      maintained by the eOzka engineering team.</p>
-    <div class="products-grid reveal">
-      <div class="product-card">
-        <div class="product-card-top">
-          <span class="product-num">01</span>
-          <span class="product-tag tag-live">Live</span>
-        </div>
-        <div class="product-name">Stress-Calculator</div>
-        <p class="product-desc">A Flutter app that assesses stress risk using biometric data — heart rate and blood
-          pressure. Built for real users. Processes physiological inputs to generate meaningful, actionable stress
-          assessments.</p>
-        <div class="product-links">
-          <a href="https://github.com/eOzkull" target="_blank" class="product-link">View on GitHub →</a>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-card-top">
-          <span class="product-num">02</span>
-          <span class="product-tag tag-live">Live</span>
-        </div>
-        <div class="product-name">entab-D</div>
-        <p class="product-desc">A Chrome extension that auto-organises browser tabs by domain and title. Solves tab
-          chaos for anyone working with 20+ tabs open. One-click install. Zero configuration needed.</p>
-        <div class="product-links">
-          <a href="https://github.com/eOzkull" target="_blank" class="product-link">View on GitHub →</a>
-          <a href="https://github.com/eOzkull" target="_blank" class="product-link-dim">Install Extension</a>
-        </div>
-      </div>
-      <div class="product-card">
-        <div class="product-card-top">
-          <span class="product-num">03</span>
-          <span class="product-tag tag-research">In Research</span>
-        </div>
-        <div class="product-name">Healthcare &amp; Agri-tech</div>
-        <p class="product-desc">Our next two expansion domains. Healthcare tools for underserved populations and
-          agricultural monitoring technology for small-scale farmers. Groundwork is underway concurrently as the
-          technology company matures.</p>
-        <div class="product-links">
-          <a href="#ventures" class="product-link-dim">Learn more →</a>
-        </div>
-      </div>
+<!-- ── STORY ── -->
+<section id="story">
+  <div class="section-label">01 — Story</div>
+  <h2 class="section-headline reveal">A gap we couldn't ignore.<br /><em>Born from conviction. Built with intent.</em></h2>
+  <div class="story-grid">
+    <div class="story-body reveal">
+      <p>A group of college students noticed that capable builders rarely get the environment to build things that matter. eOzka was founded to close that gap, starting with technology, expanding into more fields.</p>
+      <p>We are a structured holding company, not a club.</p>
+      <p>The name eOzka is a phonetic evolution of OSKA, a term coined by the Founder to encapsulate the spirit of the organisation. Every product shipped, every governance standard upheld, every person brought in during this phase contributes to the institutional credibility that makes the broader structure possible.</p>
     </div>
-  </section>
-
-  <!-- ── TEAM ── -->
-  <section id="team">
-    <div class="section-label">04 — Team</div>
-    <h2 class="section-headline reveal">The people<br /><em>building eOzka.</em></h2>
-    <p class="team-intro reveal">A 9-person founding team with formal executive roles, structured governance, and one
-      shared conviction — that the gap between student potential and real-world impact is closable.</p>
-    <div class="team-grid reveal">
-      <div class="team-card">
-        <div class="team-initials">HDJ</div>
-        <div class="team-name">Harsh Dev Jha</div>
-        <div class="team-title">Founder &amp; Chairperson</div>
+    <div class="stats-strip reveal">
+      <div class="stat-cell">
+        <span class="stat-num">2</span>
+        <span class="stat-label">Live products</span>
       </div>
-      <div class="team-card">
-        <div class="team-initials">KD</div>
-        <div class="team-name">Krishyangi Dixit</div>
-        <div class="team-title">Chief Executive Officer</div>
+      <div class="stat-cell">
+        <span class="stat-num">9</span>
+        <span class="stat-label">Founding team</span>
       </div>
-      <div class="team-card">
-        <div class="team-initials">MP</div>
-        <div class="team-name">Mrinal Prakash</div>
-        <div class="team-title">Chief Strategy Officer</div>
+      <div class="stat-cell">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Target sectors</span>
       </div>
-      <div class="team-card">
-        <div class="team-initials">PS</div>
-        <div class="team-name">Pratham Sharma</div>
-        <div class="team-title">Chief Technology Officer</div>
-      </div>
-      <div class="team-card">
-        <div class="team-initials">AC</div>
-        <div class="team-name">Aman Chapadiya</div>
-        <div class="team-title">Chief Operations Officer</div>
-      </div>
-      <div class="team-card">
-        <div class="team-initials">R</div>
-        <div class="team-name">Rishita</div>
-        <div class="team-title">Chief Documentation Officer</div>
-      </div>
-      <div class="team-card">
-        <div class="team-initials">AB</div>
-        <div class="team-name">Aditya Bhatia</div>
-        <div class="team-title">Chief Growth Officer</div>
-      </div>
-      <div class="team-card">
-        <div class="team-initials">SM</div>
-        <div class="team-name">Saurabh Mudgal</div>
-        <div class="team-title">Software Development Engineer</div>
-      </div>
-      <div class="team-card">
-        <div class="team-initials">KB</div>
-        <div class="team-name">Kushagra Bharadwaj</div>
-        <div class="team-title">Software Development Engineer</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── CONTACT ── -->
-  <section id="contact">
-    <div class="contact-inner">
-      <div class="reveal">
-        <div class="section-label">05 — Contact</div>
-        <h2 class="contact-headline">Want to collaborate,<br />invest, or join us?</h2>
-        <p class="contact-sub">We're open to partnerships, sponsorships, and new talent. If you believe in what we're
-          building, reach out directly.</p>
-        <a href="mailto:eozka.hq@gmail.com" class="contact-email">eozka.hq@gmail.com</a>
-      </div>
-      <div class="contact-links reveal">
-        <div class="contact-link-row">
-          <span class="contact-link-label">GitHub</span>
-          <a href="https://github.com/eOzkull" target="_blank" class="contact-link-val">github.com/eOzkull</a>
-        </div>
-        <div class="contact-link-row">
-          <span class="contact-link-label">Instagram</span>
-          <a href="https://instagram.com/weareeozka" target="_blank" class="contact-link-val">@weareeozka</a>
-        </div>
-        <div class="contact-link-row">
-          <span class="contact-link-label">LinkedIn</span>
-          <a href="https://linkedin.com/company/eozka" target="_blank"
-            class="contact-link-val">linkedin.com/company/eozka</a>
-        </div>
-        <div class="contact-link-row">
-          <span class="contact-link-label">X / Twitter</span>
-          <a href="https://x.com/e_ozka35965" target="_blank" class="contact-link-val">@weareeozka</a>
-        </div>
-        <div class="contact-link-row">
-          <span class="contact-link-label">Email</span>
-          <a href="mailto:eozka.hq@gmail.com" class="contact-link-val">eozka.hq@gmail.com</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── VENTURES ── -->
-  <section id="ventures">
-    <div class="section-label">06 — Ventures</div>
-    <h2 class="section-headline reveal">Our <em>ventures.</em></h2>
-    <div class="ventures-grid">
-      <a href="https://inkesk-dozing.github.io/eozka-website/moce/index.html" class="venture-card reveal">
-        <span class="venture-num">Subsidiary I</span>
-        <span class="venture-name">MOCE</span>
-        <p class="venture-desc">The technology arm of eOzka. Home to Stress-Calculator, entab-D, and the engineering
-          team building what comes next. Focused on software that extends human capability.</p>
-        <span class="venture-cta">Explore MOCE</span>
-      </a>
-      <div class="venture-card coming-soon reveal">
-        <span class="venture-num">Subsidiary II</span>
-        <span class="venture-name">MOCK</span>
-        <p class="venture-desc">The research and experimentation arm. Currently laying groundwork for eOzka's expansion
-          into healthcare and agri-tech. Operational framework in development.</p>
-        <span class="venture-cta">Coming Soon</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FOOTER ── -->
-  <footer>
-    <div class="footer-brand">
-      <span
-        style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);letter-spacing:-0.3px;display:flex;align-items:center;gap:2px;">
-        e
-        <svg style="display:inline-block;vertical-align:middle;position:relative;top:-1px;" width="18" height="20"
-          viewBox="100 0 116 124" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="158,6 206,34 206,88 158,116 110,88 110,34" fill="none" stroke="#555" stroke-width="1.6" />
-          <line x1="158" y1="6" x2="140" y2="60" stroke="#555" stroke-width="1.2" />
-          <line x1="206" y1="34" x2="140" y2="60" stroke="#555" stroke-width="1.2" />
-          <line x1="206" y1="88" x2="140" y2="60" stroke="#555" stroke-width="1.2" />
-          <line x1="158" y1="116" x2="140" y2="60" stroke="#2a2a2a" stroke-width="0.8" />
-          <line x1="110" y1="88" x2="140" y2="60" stroke="#2a2a2a" stroke-width="0.8" />
-          <line x1="110" y1="34" x2="140" y2="60" stroke="#2a2a2a" stroke-width="0.8" />
-          <circle cx="158" cy="60" r="6" fill="#555" />
-        </svg>
-        zka
-      </span>
-      <span class="footer-tagline">Augmenting Sentient.</span>
-      <p class="footer-desc">A student-founded technology holding company building software that lasts — starting with
-        tech, expanding into healthcare and agri-tech.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Ecosystem</h4>
-      <ul>
-        <li><a href="#story">Our story</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#team">Team</a></li>
-        <li><a href="https://inkesk-dozing.github.io/eozka-website/moce/index.html" target="_blank">MOCE subsidiary</a>
-        </li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Connect</h4>
-      <ul>
-        <li><a href="https://github.com/eOzkull" target="_blank">GitHub</a></li>
-        <li><a href="https://instagram.com/weareeozka" target="_blank">Instagram</a></li>
-        <li><a href="https://linkedin.com/company/eozka" target="_blank">LinkedIn</a></li>
-        <li><a href="mailto:eozka.hq@gmail.com">eozka.hq@gmail.com</a></li>
-      </ul>
-    </div>
-  </footer>
-
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 eOzka. All rights reserved.</span>
-    <div class="footer-status">
-      <span class="status-dot"></span>
-      <span>All systems operational</span>
     </div>
   </div>
+</section>
 
-  <script>
-    const reveals = document.querySelectorAll('.reveal');
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-label">02 — About</div>
+  <h2 class="section-headline reveal">We build technology that solves<br />real problems for real people.</h2>
+  <div class="about-grid">
+    <div class="about-block reveal">
+      <h3>The Mission</h3>
+      <p>Our mission is to build software that extends human capability — starting with tools for health monitoring and personal productivity, and expanding into healthcare and agricultural technology. eOzka at the parent level holds equity, sets enterprise-wide standards, and provides the structural backing that enables subsidiaries to operate with both autonomy and accountability.</p>
+    </div>
+    <div class="about-block reveal">
+      <h3>The Philosophy</h3>
+      <p>We believe the best builders are underestimated early. We are proving that conviction one product at a time — with the governance, structure, and discipline of a company built to last beyond college. Technology is the first chapter. Healthcare and agri-tech are the next two domains where we've identified both meaningful need and a realistic pathway to execution.</p>
+    </div>
+  </div>
+</section>
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
+<!-- ── PRODUCTS ── -->
+<section id="products">
+  <div class="section-label">03 — Products</div>
+  <h2 class="section-headline reveal">Two products. Live.<br /><em>In active use.</em></h2>
+  <p class="products-intro reveal">Both products are open-source under Apache 2.0 and available on GitHub. Built and maintained by the eOzka engineering team.</p>
+  <div class="products-grid reveal">
+    <div class="product-card">
+      <div class="product-card-top">
+        <span class="product-num">01</span>
+        <span class="product-tag tag-live">Live</span>
+      </div>
+      <div class="product-name">Stress-Calculator</div>
+      <p class="product-desc">A Flutter app that assesses stress risk using biometric data — heart rate and blood pressure. Built for real users. Processes physiological inputs to generate meaningful, actionable stress assessments.</p>
+      <div class="product-links">
+        <a href="https://github.com/eOzkull" target="_blank" class="product-link">View on GitHub →</a>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-top">
+        <span class="product-num">02</span>
+        <span class="product-tag tag-live">Live</span>
+      </div>
+      <div class="product-name">entab-D</div>
+      <p class="product-desc">A Chrome extension that auto-organises browser tabs by domain and title. Solves tab chaos for anyone working with 20+ tabs open. One-click install. Zero configuration needed.</p>
+      <div class="product-links">
+        <a href="https://github.com/eOzkull" target="_blank" class="product-link">View on GitHub →</a>
+        <a href="https://github.com/eOzkull" target="_blank" class="product-link-dim">Install Extension</a>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-top">
+        <span class="product-num">03</span>
+        <span class="product-tag tag-research">In Research</span>
+      </div>
+      <div class="product-name">Healthcare &amp; Agri-tech</div>
+      <p class="product-desc">Our next two expansion domains. Healthcare tools for underserved populations and agricultural monitoring technology for small-scale farmers. Groundwork is underway concurrently as the technology company matures.</p>
+      <div class="product-links">
+        <a href="#ventures" class="product-link-dim">Learn more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM ── -->
+<section id="team">
+  <div class="section-label">04 — Team</div>
+  <h2 class="section-headline reveal">The people<br /><em>building eOzka.</em></h2>
+  <p class="team-intro reveal">A 9-person founding team with formal executive roles, structured governance, and one shared conviction — that the gap between student potential and real-world impact is closable.</p>
+  <div class="team-grid reveal">
+    <div class="team-card"><div class="team-initials">HDJ</div><div class="team-name">Harsh Dev Jha</div><div class="team-title">Founder &amp; Chairperson</div></div>
+    <div class="team-card"><div class="team-initials">KD</div><div class="team-name">Krishyangi Dixit</div><div class="team-title">Chief Executive Officer</div></div>
+    <div class="team-card"><div class="team-initials">MP</div><div class="team-name">Mrinal Prakash</div><div class="team-title">Chief Strategy Officer</div></div>
+    <div class="team-card"><div class="team-initials">PS</div><div class="team-name">Pratham Sharma</div><div class="team-title">Chief Technology Officer</div></div>
+    <div class="team-card"><div class="team-initials">AC</div><div class="team-name">Aman Chapadiya</div><div class="team-title">Chief Operations Officer</div></div>
+    <div class="team-card"><div class="team-initials">R</div><div class="team-name">Rishita</div><div class="team-title">Chief Documentation Officer</div></div>
+    <div class="team-card"><div class="team-initials">AB</div><div class="team-name">Aditya Bhatia</div><div class="team-title">Chief Growth Officer</div></div>
+    <div class="team-card"><div class="team-initials">SM</div><div class="team-name">Saurabh Mudgal</div><div class="team-title">Software Development Engineer</div></div>
+    <div class="team-card"><div class="team-initials">KB</div><div class="team-name">Kushagra Bharadwaj</div><div class="team-title">Software Development Engineer</div></div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="reveal">
+      <div class="section-label">05 — Contact</div>
+      <h2 class="contact-headline">Want to collaborate,<br />invest, or join us?</h2>
+      <p class="contact-sub">We're open to partnerships, sponsorships, and new talent. If you believe in what we're building, reach out directly.</p>
+      <a href="mailto:eozka.hq@gmail.com" class="contact-email">eozka.hq@gmail.com</a>
+    </div>
+    <div class="contact-links reveal">
+      <div class="contact-link-row"><span class="contact-link-label">GitHub</span><a href="https://github.com/eOzkull" target="_blank" class="contact-link-val">github.com/eOzkull</a></div>
+      <div class="contact-link-row"><span class="contact-link-label">Instagram</span><a href="https://instagram.com/weareeozka" target="_blank" class="contact-link-val">@weareeozka</a></div>
+      <div class="contact-link-row"><span class="contact-link-label">LinkedIn</span><a href="https://linkedin.com/company/eozka" target="_blank" class="contact-link-val">linkedin.com/company/eozka</a></div>
+      <div class="contact-link-row"><span class="contact-link-label">X / Twitter</span><a href="https://x.com/e_ozka35965" target="_blank" class="contact-link-val">@weareeozka</a></div>
+      <div class="contact-link-row"><span class="contact-link-label">Email</span><a href="mailto:eozka.hq@gmail.com" class="contact-link-val">eozka.hq@gmail.com</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VENTURES ── -->
+<section id="ventures">
+  <div class="section-label">06 — Ventures</div>
+  <h2 class="section-headline reveal">Our <em>ventures.</em></h2>
+  <div class="ventures-grid">
+    <a href="https://inkesk-dozing.github.io/eozka-website/moce/index.html" class="venture-card reveal">
+      <span class="venture-num">Subsidiary I</span>
+      <span class="venture-name">MOCE</span>
+      <p class="venture-desc">The technology arm of eOzka. Home to Stress-Calculator, entab-D, and the engineering team building what comes next. Focused on software that extends human capability.</p>
+      <span class="venture-cta">Explore MOCE</span>
+    </a>
+    <div class="venture-card coming-soon reveal">
+      <span class="venture-num">Subsidiary II</span>
+      <span class="venture-name">MOCK</span>
+      <p class="venture-desc">The research and experimentation arm. Currently laying groundwork for eOzka's expansion into healthcare and agri-tech. Operational framework in development.</p>
+      <span class="venture-cta">Coming Soon</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">
+    <span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);letter-spacing:-0.3px;display:flex;align-items:center;gap:2px;">
+      e
+      <svg style="display:inline-block;vertical-align:middle;position:relative;top:-1px;" width="18" height="20" viewBox="100 0 116 124" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="158,6 206,34 206,88 158,116 110,88 110,34" fill="none" stroke="#555" stroke-width="1.6"/>
+        <line x1="158" y1="6" x2="140" y2="60" stroke="#555" stroke-width="1.2"/>
+        <line x1="206" y1="34" x2="140" y2="60" stroke="#555" stroke-width="1.2"/>
+        <line x1="206" y1="88" x2="140" y2="60" stroke="#555" stroke-width="1.2"/>
+        <line x1="158" y1="116" x2="140" y2="60" stroke="#2a2a2a" stroke-width="0.8"/>
+        <line x1="110" y1="88" x2="140" y2="60" stroke="#2a2a2a" stroke-width="0.8"/>
+        <line x1="110" y1="34" x2="140" y2="60" stroke="#2a2a2a" stroke-width="0.8"/>
+        <circle cx="158" cy="60" r="6" fill="#555"/>
+      </svg>
+      zka
+    </span>
+    <span class="footer-tagline">Augmenting Sentient.</span>
+    <p class="footer-desc">A student-founded technology holding company building software that lasts — starting with tech, expanding into healthcare and agri-tech.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Ecosystem</h4>
+    <ul>
+      <li><a href="#story">Our story</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="https://inkesk-dozing.github.io/eozka-website/moce/index.html" target="_blank">MOCE subsidiary</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Connect</h4>
+    <ul>
+      <li><a href="https://github.com/eOzkull" target="_blank">GitHub</a></li>
+      <li><a href="https://instagram.com/weareeozka" target="_blank">Instagram</a></li>
+      <li><a href="https://linkedin.com/company/eozka" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:eozka.hq@gmail.com">eozka.hq@gmail.com</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span class="footer-copy">© 2026 eOzka. All rights reserved.</span>
+  <div class="footer-status">
+    <span class="status-dot"></span>
+    <span>All systems operational</span>
+  </div>
+</div>
+
+<script>
+  /* ── SCROLL REVEAL ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => revealObs.observe(el));
+
+  /* ── STAGGER CARDS inside reveal ── */
+  document.querySelectorAll('.team-card').forEach((card, i) => {
+    card.style.transitionDelay = (i * 45) + 'ms';
+  });
+  document.querySelectorAll('.product-card').forEach((card, i) => {
+    card.style.transitionDelay = (i * 60) + 'ms';
+  });
+
+  /* ── SMOOTH SCROLL ── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  /* ── NAV ACTIVE on scroll ── */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const activeObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const match = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(s => activeObs.observe(s));
+
+  /* ── HERO HEADLINE word wrap ── */
+  const headline = document.querySelector('.hero-headline');
+  if (headline) {
+    headline.innerHTML = headline.innerHTML.replace(/(?<=>|^)([^<]+)(?=<|$)/g, (match) => {
+      return match.split(' ').map(w => w.trim() ? `<span class="word">${w}</span> ` : w).join('');
+    });
+  }
+
+  /* ── EYEBROW TYPEWRITER ── */
+  const eyebrow = document.querySelector('.hero-eyebrow');
+  if (eyebrow) {
+    const full = eyebrow.textContent.trim();
+    eyebrow.textContent = '';
+    eyebrow.classList.add('typewriter-cursor');
+    let i = 0;
+    const type = () => {
+      if (i <= full.length) {
+        eyebrow.textContent = full.slice(0, i);
+        i++;
+        setTimeout(type, i < full.length ? 38 : 600);
+      } else {
+        eyebrow.classList.remove('typewriter-cursor');
+      }
+    };
+    setTimeout(type, 300);
+  }
+
+  /* ── ANIMATED COUNTERS ── */
+  const statNums = document.querySelectorAll('.stat-num');
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.textContent, 10);
+      if (isNaN(target)) return;
+      let start = 0;
+      const duration = 900;
+      const step = 16;
+      const increment = target / (duration / step);
+      el.textContent = '0';
+      const tick = () => {
+        start += increment;
+        if (start >= target) { el.textContent = target; return; }
+        el.textContent = Math.floor(start);
+        setTimeout(tick, step);
+      };
+      setTimeout(tick, 200);
+      countObs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  statNums.forEach(el => countObs.observe(el));
+
+  /* ── MAGNETIC BUTTONS ── */
+  document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width / 2;
+      const y = e.clientY - r.top - r.height / 2;
+      btn.style.transform = `translate(${x * 0.18}px, ${y * 0.18}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  /* ── SECTION LABEL LINE WIPE ── */
+  document.querySelectorAll('.section-label').forEach(label => {
+    const wipeObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.style.transitionDelay = `${index * 80}ms`;
-          entry.target.classList.add('visible');
+          entry.target.style.opacity = '1';
+          wipeObs.unobserve(entry.target);
         }
       });
-    }, 
-    
-    { threshold: 0.1 });
-
-    reveals.forEach(el => observer.observe(el));
-
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-
-    document.addEventListener("mousemove", e => {
-      document.body.style.setProperty('--x', e.clientX + 'px');
-      document.body.style.setProperty('--y', e.clientY + 'px');
-
-      document.body.style.setProperty(
-        'background-position',
-        `${e.clientX}px ${e.clientY}px`
-      );
-    });
-
-  </script>
+    }, { threshold: 0.5 });
+    label.style.opacity = '0';
+    label.style.transition = 'opacity 0.6s ease';
+    wipeObs.observe(label);
+  });
+</script>
 </body>
-
 </html>
