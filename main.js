@@ -391,21 +391,35 @@ function updateNavUnderline(activeLink) {
 
 const spyObs = new IntersectionObserver(
   (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const id = entry.target.getAttribute("id");
-        navBars.forEach((bar) => {
-          bar.classList.toggle("current", bar.dataset.target === id);
-        });
-        navAnchors.forEach((a) => {
-          const isActive = a.getAttribute("href") === `#${id}`;
-          a.classList.toggle("nav-active", isActive);
-          if (isActive) updateNavUnderline(a);
-        });
+    // Filter out sections that are not intersecting
+    const intersecting = entries.filter(entry => entry.isIntersecting);
+    if (!intersecting.length) return;
+
+    // Sort by intersectionRatio descending to find the most visible section
+    intersecting.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    const dominantEntry = intersecting[0];
+    const id = dominantEntry.target.getAttribute("id");
+    
+    // Update Side Indicators
+    navBars.forEach((bar) => {
+      bar.classList.toggle("current", bar.dataset.target === id);
+    });
+
+    // Update Navbar Links and Underline
+    navAnchors.forEach((a) => {
+      const isActive = a.getAttribute("href") === `#${id}`;
+      if (isActive) {
+        a.classList.add("nav-active");
+        updateNavUnderline(a);
+      } else {
+        a.classList.remove("nav-active");
       }
     });
   },
-  { threshold: 0.3 },
+  { 
+    threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], 
+    rootMargin: "-15% 0px -20% 0px"
+  },
 );
 sections.forEach((sec) => { if (sec.id) spyObs.observe(sec); });
 
@@ -456,14 +470,14 @@ class InteractiveMarquee {
   constructor(selector, speed = 0.6) {
     this.container = document.querySelector(selector);
     if (!this.container) return;
-    
+
     this.speed = speed;
     this.paused = false;
     this.isDragging = false;
     this.startX = 0;
     this.scrollLeftStart = 0;
     this.pauseTimeout = null;
-    
+
     this.init();
   }
 
@@ -482,11 +496,11 @@ class InteractiveMarquee {
     this.container.addEventListener('mousedown', (e) => this.startDragging(e));
     window.addEventListener('mousemove', (e) => this.drag(e));
     window.addEventListener('mouseup', () => this.stopDragging());
-    
+
     // Touch Interaction
     this.container.addEventListener('touchstart', () => this.paused = true, { passive: true });
     this.container.addEventListener('touchend', () => this.temporaryPause());
-    
+
     // Detect manual scrolling to pause
     this.container.addEventListener('scroll', () => {
       if (!this.isDragging && !this.paused) this.temporaryPause();
@@ -522,14 +536,14 @@ class InteractiveMarquee {
     clearTimeout(this.pauseTimeout);
     this.pauseTimeout = setTimeout(() => {
       this.paused = false;
-    }, 3000); 
+    }, 3000);
   }
 
   animate() {
-    if (!this.paused && window.innerWidth <= 900) { 
+    if (!this.paused && window.innerWidth <= 900) {
       if (this.container) {
         this.container.scrollLeft += this.speed;
-        
+
         if (this.container.scrollLeft >= this.container.scrollWidth / 2) {
           this.container.scrollLeft = 0;
         }
@@ -540,7 +554,7 @@ class InteractiveMarquee {
 }
 
 function initMarquees() {
-  new InteractiveMarquee('.products-grid', 1.0); 
+  new InteractiveMarquee('.products-grid', 1.0);
   new InteractiveMarquee('.ventures-grid', 0.8);
   new InteractiveMarquee('.team-grid-wrap', 0.9);
   new InteractiveMarquee('.about-grid', 0.7);
