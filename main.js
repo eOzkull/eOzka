@@ -399,7 +399,7 @@ const spyObs = new IntersectionObserver(
     intersecting.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
     const dominantEntry = intersecting[0];
     const id = dominantEntry.target.getAttribute("id");
-    
+
     // Update Side Indicators
     navBars.forEach((bar) => {
       bar.classList.toggle("current", bar.dataset.target === id);
@@ -416,8 +416,8 @@ const spyObs = new IntersectionObserver(
       }
     });
   },
-  { 
-    threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], 
+  {
+    threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
     rootMargin: "-15% 0px -20% 0px"
   },
 );
@@ -477,18 +477,20 @@ class InteractiveMarquee {
     this.startX = 0;
     this.scrollLeftStart = 0;
     this.pauseTimeout = null;
+    this.lastAutoScrollTime = 0; // Timestamp to distinguish auto-scroll from user interaction
 
     this.init();
   }
 
   init() {
-    // Only clone and set up auto-scroll if we are in mobile/tablet marquee view (<= 900px)
-    if (window.innerWidth > 900) return;
+    // Clones are created on load regardless of device. 
+    // Their visibility is controlled by CSS (.marquee-clone).
 
     // Clone children to ensure seamless loop
     const children = Array.from(this.container.children);
     children.forEach(item => {
       const clone = item.cloneNode(true);
+      clone.classList.add('marquee-clone');
       this.container.appendChild(clone);
     });
 
@@ -498,11 +500,19 @@ class InteractiveMarquee {
     window.addEventListener('mouseup', () => this.stopDragging());
 
     // Touch Interaction
-    this.container.addEventListener('touchstart', () => this.paused = true, { passive: true });
-    this.container.addEventListener('touchend', () => this.temporaryPause());
+    this.container.addEventListener('touchstart', () => {
+      this.paused = true;
+      this.container.style.scrollSnapType = 'none'; // Disable snapping during interaction
+    }, { passive: true });
+    this.container.addEventListener('touchend', () => {
+      this.temporaryPause();
+    });
 
     // Detect manual scrolling to pause
     this.container.addEventListener('scroll', () => {
+      // If the scroll happened very close to our programmatic scroll, ignore it
+      if (Date.now() - this.lastAutoScrollTime < 100) return;
+      
       if (!this.isDragging && !this.paused) this.temporaryPause();
     }, { passive: true });
 
@@ -542,10 +552,18 @@ class InteractiveMarquee {
   animate() {
     if (!this.paused && window.innerWidth <= 900) {
       if (this.container) {
+        // Ensure no snapping is interfering with auto-scroll
+        if (this.container.style.scrollSnapType !== 'none') {
+          this.container.style.scrollSnapType = 'none';
+        }
+
+        this.lastAutoScrollTime = Date.now(); // Mark time of programmatic scroll
         this.container.scrollLeft += this.speed;
 
-        if (this.container.scrollLeft >= this.container.scrollWidth / 2) {
-          this.container.scrollLeft = 0;
+        // Reset for seamless loop
+        const halfWidth = this.container.scrollWidth / 2;
+        if (this.container.scrollLeft >= halfWidth) {
+          this.container.scrollLeft -= halfWidth;
         }
       }
     }
@@ -560,8 +578,24 @@ function initMarquees() {
   new InteractiveMarquee('.about-grid', 0.7);
 }
 
+function initScrollHints() {
+  document.querySelectorAll('.scroll-hint').forEach(hint => {
+    hint.addEventListener('click', () => {
+      const nextId = hint.getAttribute('data-next');
+      const target = document.querySelector(nextId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+}
+
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
   initMarquees();
+  initScrollHints();
 } else {
-  document.addEventListener('DOMContentLoaded', initMarquees);
+  document.addEventListener('DOMContentLoaded', () => {
+    initMarquees();
+    initScrollHints();
+  });
 }

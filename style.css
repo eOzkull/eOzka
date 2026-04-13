@@ -136,17 +136,6 @@ body:has(button:hover) #cursor-ring.active {
   transition: width 0.05s linear;
 }
 
-/* â”€â”€ NOISE OVERLAY â”€â”€ */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.025;
-  pointer-events: none;
-  z-index: 1000;
-}
-
 /* â”€â”€ PARTICLE CANVAS â”€â”€ */
 #particle-canvas {
   position: fixed;
@@ -536,6 +525,11 @@ neutral-case {
 .marquee-item span {
   color: var(--accent);
   margin: 0 8px;
+}
+
+/* ── MARQUEE CLONES ── */
+.marquee-clone {
+  display: none !important;
 }
 @keyframes marquee {
   from {
@@ -1819,42 +1813,46 @@ footer {
   }
 }
 
-/* â”€â”€ HERO SCROLL HINT â”€â”€ */
-.hero-scroll-hint {
+/* ── SECTION SCROLL HINTS ── */
+.scroll-hint, .hero-scroll-hint {
   position: absolute;
-  bottom: 32px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   opacity: 0;
   animation: fadeUp 0.8s 1.1s both ease;
+  z-index: 10;
+  cursor: pointer;
 }
-.hero-scroll-hint span {
+.scroll-hint span, .hero-scroll-hint span {
   font-family: "DM Mono", monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
+  font-size: 10px;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--white-dimmer);
+  color: var(--accent);
+  font-weight: 500;
+  opacity: 0.8;
 }
-.scroll-line {
-  width: 1px;
-  height: 48px;
-  background: linear-gradient(to bottom, var(--accent-dim), transparent);
-  animation: scroll-pulse 2s ease-in-out infinite;
+.scroll-arrow-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: arrow-float 2s ease-in-out infinite;
 }
-@keyframes scroll-pulse {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scaleY(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scaleY(0.7);
-  }
+@keyframes arrow-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Position for sectional hints */
+.scroll-hint {
+  bottom: 24px;
+  opacity: 1; /* Always visible for sections */
+  animation: none;
 }
 
 /* â”€â”€ VALUE STRIP (replaces marquee) â”€â”€ */
@@ -1933,29 +1931,26 @@ a {
   .value-strip { grid-template-columns: 1fr 1fr; }
 
   /* ── PREMIUM INTERACTIVE MARQUEES ── */
-  #products, #ventures, #team, #about {
+  #about, #products, #ventures, #team, #story, #contact {
     overflow: hidden;
     position: relative;
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 32px;
+    padding-right: 32px;
   }
-  #products::after, #ventures::after, #team::after, #about::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(90deg, var(--black) 0%, transparent 15%, transparent 85%, var(--black) 100%);
-    z-index: 5;
-  }
-  .products-grid, .ventures-grid, .team-grid-wrap, .about-grid {
+  
+  .marquee-clone {
     display: flex !important;
-    gap: 16px;
-    padding: 0 24px 32px;
-    width: 100%;
+  }
+  
+  .products-grid, .ventures-grid, .team-grid-wrap, .about-grid {
+    display: inline-flex !important;
+    gap: 20px;
+    padding: 0 32px 32px;
+    margin-inline: -32px;
+    width: max-content;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    scroll-snap-type: x mandatory;
     cursor: grab;
     -webkit-overflow-scrolling: touch;
   }
@@ -1970,6 +1965,9 @@ a {
     flex: 0 0 82vw; /* Peeking through to show more exists */
     scroll-snap-align: center;
     min-height: max-content;
+    opacity: 1 !important; /* Force visibility for marquee items */
+    transform: none !important; /* Prevent reveal animations from hiding marquee items */
+    visibility: visible !important;
   }
 
   /* Flatten Team rows for Marquee */
