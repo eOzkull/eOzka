@@ -71,7 +71,7 @@ body {
   color: var(--black);
 }
 
-/* â”€â”€ CUSTOM CURSOR â”€â”€ */
+/* ── CUSTOM CURSOR ── */
 #cursor-dot {
   width: 8px;
   height: 8px;
@@ -82,15 +82,15 @@ body {
   left: 0;
   pointer-events: none;
   z-index: 9999;
+  /* Use translate3d for GPU compositing, no position transition — JS handles it directly */
   transform: translate(-50%, -50%);
   opacity: 0;
   transition:
-    transform 0.08s ease,
     width 0.2s ease,
     height 0.2s ease,
     background 0.2s,
     opacity 0.3s ease;
-  will-change: transform;
+  will-change: left, top;
 }
 #cursor-dot.active {
   opacity: 1;
@@ -105,26 +105,74 @@ body {
   left: 0;
   pointer-events: none;
   z-index: 9998;
+  /* Remove transform transition — JS lerp provides the smooth follow */
   transform: translate(-50%, -50%);
   opacity: 0;
   transition:
-    transform 0.18s ease,
-    width 0.3s ease,
-    height 0.3s ease,
+    width 0.25s ease,
+    height 0.25s ease,
     opacity 0.3s ease;
-  will-change: transform;
+  will-change: left, top;
 }
 #cursor-ring.active {
   opacity: 1;
 }
 body:has(a:hover) #cursor-ring.active,
 body:has(button:hover) #cursor-ring.active {
-  width: 56px;
-  height: 56px;
-  opacity: 0.6;
+  width: 52px;
+  height: 52px;
+  opacity: 0.55;
 }
 
-/* â”€â”€ SCROLL PROGRESS â”€â”€ */
+/* ── NAVBAR SVG LOGOS ── */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+.nav-svg-monogram {
+  height: 42px; /* Fixed height that safely fits standard navbars */
+  width: auto;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0); /* Hardware accelerate to prevent blurring */
+}
+.nav-tagline {
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+  white-space: nowrap; /* Prevent wrapping which causes overflow */
+}
+.nav-logo-svgs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto; 
+  padding: 1px 0;
+}
+
+/* — FOOTER SVG LOGO — */
+.footer-svg-logo {
+  height: 120px; /* Minimalist scale for sophistication */
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+  display: block;
+  margin: 0 0 10px -15px; /* Tighter margins for refined fit */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+}
+
+/* ── SCROLL PROGRESS ── */
 #scroll-progress {
   position: fixed;
   top: 0;
@@ -220,16 +268,22 @@ nav:hover {
   }
 
   .nav-logo {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
+    display: flex;
+    flex-direction: row; /* keep horizontal to save vertical space on mobile */
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-svg-monogram {
+    height: 34px; /* Scaled down for mobile */
   }
 
   .nav-tagline {
     padding-left: 0;
     font-size: 10px;
-    opacity: 0.7;
-    margin-top: -2px;
+    opacity: 0.8;
+    margin-top: 2px;
+    white-space: nowrap;
   }
 
   .nav-tagline::before {
@@ -1696,10 +1750,11 @@ textarea.form-input {
 footer {
   background: #0c0c0c !important;
   color: #f0eeea !important;
-  padding: 80px 48px 40px;
+  padding: 100px 48px 40px;
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
-  gap: 64px;
+  grid-template-columns: minmax(auto, 420px) 150px 150px;
+  justify-content: center;
+  column-gap: 40px; /* Tighter gaps for professional mid-weighted look */
   border-top: 1px solid #2a2a2a;
   position: relative;
   z-index: 1;
@@ -1722,37 +1777,41 @@ footer h4 {
   color: #d4c9a8 !important;
 }
 
+/* Protect navbar SVG fills */
+.nav-svg-monogram path, .nav-svg-monogram polygon { color: unset !important; }
+.nav-svg-tagline path { color: unset !important; }
+
 .footer-brand {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.footer-logo-text {
-  font-family: "Syne", sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #f0eeea !important;
-  letter-spacing: -0.3px;
-  display: flex;
-  align-items: center;
-  gap: 2px;
+  gap: 12px;
 }
 
 .footer-tagline {
   font-family: "DM Serif Display", serif;
   font-style: italic;
-  font-size: 14px;
+  font-size: 24px; /* Scaled down for sophistication */
   color: #d4c9a8 !important;
-  letter-spacing: 0.5px;
-  opacity: 0.85;
+  letter-spacing: -0.2px;
+  opacity: 0.9;
+  margin-top: -10px;
 }
 
 .footer-desc {
-  font-size: 12px;
-  color: #666 !important;
-  line-height: 1.7;
-  max-width: 260px;
+  font-size: 13px;
+  color: #777 !important;
+  line-height: 1.6;
+  max-width: 320px;
+  margin-top: 5px;
+}
+
+/* Protect SVG fill colors inside footer from being overridden */
+.footer-svg-logo .fl-cls-1 { fill: #d4b23c !important; }
+.footer-svg-logo .fl-cls-2 { fill: #211a57 !important; }
+.footer-svg-logo .fl-cls-4 { fill: url(#fl-grad) !important; }
+.footer-svg-logo path,
+.footer-svg-logo polygon {
+  color: unset !important;
 }
 
 .footer-col h4 {
@@ -2002,9 +2061,55 @@ a {
   
   footer {
     padding: 48px 24px 32px;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
     background: #0c0c0c !important;
   }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-svg-logo {
+    height: 90px;
+    max-width: 200px;
+    margin: 0 0 4px -10px;
+  }
+
+  .footer-tagline {
+    font-size: 20px;
+  }
+
+  .footer-desc {
+    max-width: 100%;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #666 !important;
+  }
+
+  /* Ecosystem + Connect side-by-side on mobile */
+  .footer-cols-mobile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 24px;
+  }
+
+  .footer-col h4 {
+    font-size: 9px;
+    margin-bottom: 14px;
+  }
+
+  .footer-col ul {
+    gap: 10px;
+  }
+
+  .footer-col a {
+    font-size: 13px;
+  }
+
   .footer-bottom {
     padding: 20px 24px;
     flex-direction: column;
