@@ -105,9 +105,9 @@ function initSentientSphere() {
         dots.push(dot);
     }
 
-    /* Global rotation speed */
-    const globalSpeedY = 0.0035;
-    const globalSpeedX = 0.0008;
+    /* Global rotation speed — boosted for higher energy */
+    const globalSpeedY = 0.012; 
+    const globalSpeedX = 0.003;
 
     function animate() {
         ctx.clearRect(0, 0, w, h);
