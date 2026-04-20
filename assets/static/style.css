@@ -2406,7 +2406,7 @@ a {
     transform: translateY(0px) scale(1) rotate(0deg);
   }
 }
-}
+
 [data-theme="light"] .theme-icon.sun {
   display: block;
 }
