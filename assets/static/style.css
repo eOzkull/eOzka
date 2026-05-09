@@ -235,20 +235,26 @@ nav:hover {
   display: flex;
   align-items: center;
   gap: 8px;
+  position: relative; /* Must be positioned for z-index to apply */
+  z-index: 1003; /* Always above nav-links overlay (z-index: 1000) */
 }
 
 .mobile-menu-btn {
   display: none;
   background: transparent;
   border: none;
-  cursor: none;
-  width: 32px;
-  height: 32px;
+  cursor: pointer; /* Fixed: cursor:none suppresses touch/click events on mobile */
+  width: 44px;
+  height: 44px;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 6px;
   padding: 0;
-  z-index: 1001;
+  position: relative; /* Must be positioned for z-index to apply */
+  z-index: 1003; /* Above nav-links overlay */
+  -webkit-tap-highlight-color: transparent; /* Remove iOS blue tap highlight */
+  touch-action: manipulation; /* Eliminate 300ms tap delay on mobile */
 }
 
 .hamburger-line {
@@ -263,28 +269,66 @@ nav:hover {
   nav {
     height: 64px;
     top: 12px;
-    padding: 0 20px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    transform: none;
+    padding: 0 16px;
+    transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
+  }
+
+  /* Expand nav container to fullscreen when menu is active to prevent pointer event clipping (supports CSS :has and JS .active fallback) */
+  nav:has(.mobile-menu-btn.active),
+  nav.active {
+    height: 100dvh;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    border: none;
+    background: var(--black);
+    width: 100vw;
+    align-items: flex-start;
+    padding-top: 12px;
+    z-index: 2100;
+  }
+
+  nav:has(.mobile-menu-btn.active) .nav-logo,
+  nav.active .nav-logo,
+  nav:has(.mobile-menu-btn.active) .nav-actions,
+  nav.active .nav-actions {
+    height: 64px;
   }
 
   .nav-logo {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1002;
   }
 
   .nav-tagline {
-    padding-left: 0;
+    display: inline-block; /* Keep tagline visible on mobile in a single clean row */
     font-size: 10px;
-    opacity: 0.7;
-    margin-top: -2px;
+    opacity: 0.8;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
   }
 
   .nav-tagline::before {
     display: none;
   }
 
+  .nav-actions {
+    position: relative;
+    z-index: 1005; /* Definitively above the nav-links fullscreen overlay */
+  }
+
   .mobile-menu-btn {
     display: flex;
+    position: relative;
+    z-index: 1005; /* Definitively above the nav-links fullscreen overlay */
   }
   
   .nav-links {
@@ -292,13 +336,16 @@ nav:hover {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
     background: var(--black);
     display: flex !important;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 40px;
+    justify-content: flex-start; /* Changed from center to allow clean scrolling on smaller screens */
+    padding-top: 120px; /* Generous top padding so branding isn't overlapped */
+    padding-bottom: 60px; /* Bottom padding so last items aren't cropped */
+    overflow-y: auto; /* Enable vertical scrolling if items overflow viewport height */
+    gap: 28px; /* Balanced spacing for a premium layout */
     z-index: 1000;
     transform: translateY(-100%);
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -378,7 +425,7 @@ nav:hover {
   text-transform: uppercase;
   transition: color 0.3s;
   position: relative;
-  padding: 8px 0;
+  padding: 12px 4px; /* Enhanced touch target */
 }
 .nav-links a::after {
   display: none; /* Hide old underline */
@@ -404,7 +451,7 @@ nav:hover {
 }
 
 .hero {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -2180,7 +2227,13 @@ a {
   .hero-tagline { display: none; }
   body { cursor: auto; }
   #cursor-dot, #cursor-ring { display: none; }
-  a, .btn-primary, .btn-secondary { cursor: pointer; }
+  /* Restore pointer cursor for ALL interactive elements on touch devices */
+  a, button, .btn-primary, .btn-secondary, [role="button"],
+  .mobile-menu-btn, .theme-btn, .mood-btn, .chat-send, .hub-tab {
+    cursor: pointer;
+    /* Eliminate 300ms tap delay on iOS/Android — critical for perceived clickability */
+    touch-action: manipulation;
+  }
 }
 
 /* ── PHONE REFINEMENT (600px) ── */

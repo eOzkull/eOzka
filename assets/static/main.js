@@ -146,17 +146,20 @@ if (sentientCanvas) {
 /* ── MOBILE MENU ── */
 const mobileMenuBtn = document.getElementById("mobile-menu-btn");
 const navMenu = document.getElementById("nav-menu");
+const mainNav = document.getElementById("main-nav");
 
 if (mobileMenuBtn && navMenu) {
   mobileMenuBtn.addEventListener("click", () => {
     mobileMenuBtn.classList.toggle("active");
     navMenu.classList.toggle("active");
+    if (mainNav) mainNav.classList.toggle("active");
   });
 
   navMenu.querySelectorAll("a").forEach(link => {
     link.addEventListener("click", () => {
       mobileMenuBtn.classList.remove("active");
       navMenu.classList.remove("active");
+      if (mainNav) mainNav.classList.remove("active");
     });
   });
 }
