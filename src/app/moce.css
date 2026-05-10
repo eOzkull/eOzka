@@ -1,0 +1,485 @@
+/* ─── Scoped Styles for MOCE Subsidiary Page ────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Syne:wght@400;700;800&display=swap');
+
+body.moce-active {
+  /* Scope Variables for Dark Theme (Default) */
+  --brand: #A855F7; /* Neon Purple */
+  --brand-dim: #3B0764;
+  --brand-glow: rgba(168, 85, 247, 0.2);
+  --bg: #09090B; /* Ultra Dark Zinc */
+  --bg2: #18181B; /* Dark Zinc */
+  --bg3: #27272A;
+  --text: #F4F4F5;
+  --text-muted: #A1A1AA;
+  --text-dim: #71717A;
+  --text-faint: rgba(244, 244, 245, 0.1);
+  --brand-faint: rgba(168, 85, 247, 0.1);
+
+  /* Royal Gold Secondary */
+  --accent-gold: #EAB308;
+  --accent-gold-dim: #CA8A04;
+
+  /* Architectural Layout */
+  --border: #1E293B;
+  --border-hi: #334155;
+
+  --ff-display: 'Cormorant Garamond', Georgia, serif;
+  --ff-ui: 'Syne', sans-serif;
+  --ff-mono: 'DM Mono', monospace;
+
+  background: var(--bg);
+  color: var(--text);
+}
+
+.moce-container {
+  font-family: var(--ff-display);
+  font-size: 18px;
+  line-height: 1.7;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  z-index: 10;
+}
+
+/* ─── Light Theme Overrides (Synced with HTML data-theme="light") ─── */
+html[data-theme='light'] body.moce-active {
+  --brand: #EC4899; /* Vibrant Pink */
+  --brand-dim: #F59E0B; /* Amber */
+  --brand-glow: rgba(236, 72, 153, 0.15);
+  --bg: #FEFCE8; /* Soft Yellow-Cream */
+  --bg2: #FDF4FF; /* Soft Fuchsia */
+  --bg3: #ECFDF5; /* Soft Emerald */
+  --text: #4A044E; /* Deep Plum */
+  --text-muted: #9D174D; /* Deep Rose */
+  --text-dim: #065F46; /* Deep Emerald */
+  --text-faint: rgba(74, 4, 78, 0.35);
+  --brand-faint: rgba(245, 158, 11, 0.15);
+
+  /* Royal Gold Secondary */
+  --accent-gold: #D97706;
+  --accent-gold-dim: #B45309;
+
+  /* Architectural Layout */
+  --border: #E2E8F0;
+  --border-hi: #CBD5E1;
+}
+
+.moce-container em {
+  font-style: italic;
+  color: var(--accent-gold);
+  background: transparent;
+  padding: 0;
+  text-shadow: 0 0 12px rgba(234, 179, 8, 0.2);
+}
+
+html[data-theme='light'] .moce-container em {
+  color: var(--accent-gold);
+  text-shadow: none;
+}
+
+/* Custom cursors for MOCE */
+.moce-container #moce-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--brand);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate3d(-50%, -50%, 0);
+  transition:
+    width 0.3s,
+    height 0.3s,
+    background 0.3s,
+    opacity 0.3s;
+  opacity: 0;
+  will-change: transform;
+}
+
+.moce-container #moce-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--brand);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate3d(-50%, -50%, 0);
+  transition:
+    width 0.3s,
+    height 0.3s,
+    opacity 0.3s,
+    border-color 0.3s,
+    background-color 0.3s;
+  opacity: 0;
+  will-change: transform;
+}
+
+.moce-container #cosmos {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.moce-container nav {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 1200px;
+  height: 58px;
+  z-index: 1000;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(9, 9, 11, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 14px;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  box-shadow: 
+    0 12px 36px rgba(0, 0, 0, 0.5),
+    inset 0 0 12px rgba(168, 85, 247, 0.05);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html[data-theme='light'] .moce-container nav {
+  background: rgba(254, 252, 232, 0.82);
+  border: 1px solid rgba(236, 72, 153, 0.3);
+  box-shadow: 
+    0 12px 36px rgba(74, 4, 78, 0.08),
+    inset 0 0 12px rgba(236, 72, 153, 0.05);
+}
+
+.moce-container nav:hover {
+  border-color: rgba(168, 85, 247, 0.45);
+  box-shadow: 
+    0 16px 48px rgba(0, 0, 0, 0.6),
+    inset 0 0 16px rgba(168, 85, 247, 0.1);
+}
+
+html[data-theme='light'] .moce-container nav:hover {
+  border-color: rgba(236, 72, 153, 0.5);
+  box-shadow: 
+    0 16px 48px rgba(74, 4, 78, 0.12),
+    inset 0 0 16px rgba(236, 72, 153, 0.1);
+}
+
+.moce-container .nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.moce-container .nav-wordmark {
+  font-family: var(--ff-ui);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--text);
+  text-transform: uppercase;
+  line-height: 1.1;
+  display: flex;
+  flex-direction: column;
+}
+
+.moce-container .nav-wordmark span {
+  display: block;
+  font-size: 8px;
+  font-weight: 500;
+  color: var(--brand);
+  font-family: var(--ff-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+.moce-container .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.moce-container .nav-links a {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 6px 0;
+}
+
+.moce-container .nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1.5px;
+  background: var(--brand);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(-50%);
+}
+
+.moce-container .nav-links a:hover {
+  color: var(--text);
+}
+
+.moce-container .nav-links a:hover::after {
+  width: 100%;
+}
+
+.moce-container .nav-cta {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand);
+  text-decoration: none;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: rgba(168, 85, 247, 0.05);
+}
+
+html[data-theme='light'] .moce-container .nav-cta {
+  border-color: rgba(236, 72, 153, 0.4);
+  background: rgba(236, 72, 153, 0.05);
+}
+
+.moce-container .nav-cta:hover {
+  border-color: var(--brand);
+  color: var(--text);
+  background: var(--brand-faint);
+  box-shadow: 0 0 16px var(--brand-glow);
+}
+
+.moce-container .theme-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: none;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-left: 12px;
+}
+
+.moce-container .theme-btn:hover {
+  color: var(--brand);
+}
+
+.moce-container .theme-btn.active {
+  color: var(--brand);
+}
+
+.moce-container .theme-btn.muted {
+  color: var(--text-dim);
+}
+
+.moce-container #theme-toggle:hover {
+  transform: rotate(15deg);
+}
+
+.moce-container .theme-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.moce-container .theme-icon.moon {
+  display: block;
+}
+
+.moce-container .theme-icon.sun {
+  display: none;
+}
+
+html[data-theme='light'] .moce-container .theme-icon.moon {
+  display: none;
+}
+
+html[data-theme='light'] .moce-container .theme-icon.sun {
+  display: block;
+}
+
+.moce-container section {
+  position: relative;
+  z-index: 2;
+  padding: 120px 0;
+}
+
+.moce-container .section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.moce-container .section-label {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.moce-container .section-label::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--brand);
+}
+
+.moce-container #hero {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.moce-container .hero-title {
+  font-family: var(--ff-display);
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 300;
+  line-height: 1;
+  margin-bottom: 24px;
+}
+
+.moce-container .hero-sub {
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: var(--ff-display);
+  font-size: 1.1rem;
+}
+
+.moce-container .projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.moce-container .project-card {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 48px 44px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s;
+  display: block;
+}
+
+.moce-container .project-card:hover {
+  border-color: var(--brand);
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.moce-container .project-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+    var(--brand-glow),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.moce-container .project-card:hover::before {
+  opacity: 1;
+}
+
+.moce-container .project-name {
+  font-family: var(--ff-ui);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.moce-container .project-desc {
+  color: var(--text-dim);
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+
+.moce-container .project-link {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+.moce-container #scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: var(--brand);
+  z-index: 10000;
+}
+
+.moce-container .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+}
+
+.moce-container .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+
+@media (max-width: 900px) {
+  .moce-container .nav-links {
+    display: none;
+  }
+
+  .moce-container .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Global layout element suppressions when inside MOCE container ─── */
+body.moce-active #cursor-dot,
+body.moce-active #cursor-ring,
+body.moce-active #scroll-progress,
+body.moce-active #particle-canvas,
+body.moce-active #main-nav {
+  display: none !important;
+}
+
