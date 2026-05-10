@@ -30,8 +30,8 @@ const teamMembers: TeamMember[] = [
     category: 'core',
     badge: 'Co-Founder',
     desc: "Defines eOzka's multi-sector roadmap and long-term positioning. Focused on stakeholder alignment and turning conviction into a structured expansion plan.",
-    github: 'https://github.com/eOzkull',
-    linkedin: 'https://linkedin.com/in/',
+    github: 'https://github.com/mrinalprakashfsd',
+    linkedin: 'https://www.linkedin.com/in/mrinal-prakash-fullstackdeveloper/',
   },
   {
     name: 'Krishyangi Dixit',
@@ -40,7 +40,7 @@ const teamMembers: TeamMember[] = [
     badge: 'CEO',
     desc: 'Drives day-to-day operations and strategic execution across eOzka. Ensures every subsidiary moves with purpose, clarity, and institutional discipline.',
     github: 'https://github.com/krishyangi-bit',
-    linkedin: 'https://linkedin.com/in/',
+    linkedin: 'https://www.linkedin.com/in/krishyangi-dixit-9527ba388/',
   },
   {
     name: 'Aman Chapadiya',
@@ -48,8 +48,8 @@ const teamMembers: TeamMember[] = [
     category: 'directorate',
     badge: 'COO',
     desc: 'Keeps the machinery running smoothly. Synchronizes teams, timelines, and operations across the holding structure with precision and efficiency.',
-    github: 'https://github.com/eOzkull',
-    linkedin: 'https://linkedin.com/in/',
+    github: 'https://github.com/obscure-01',
+    linkedin: 'https://www.linkedin.com/in/amanchapadiya/',
   },
   {
     name: 'Pratham Sharma',
@@ -57,8 +57,8 @@ const teamMembers: TeamMember[] = [
     category: 'directorate',
     badge: 'CTO',
     desc: 'Spearheads product engineering across the eOzka ecosystem. Architecting systems that are reliable, scalable, and built with long-term accountability.',
-    github: 'https://github.com/eOzkull',
-    linkedin: 'https://linkedin.com/in/',
+    github: 'https://github.com/Prarock83',
+    linkedin: 'https://www.linkedin.com/in/pratham-sharma-574844332/',
   },
   {
     name: 'Aditya Bhatia',
@@ -66,8 +66,8 @@ const teamMembers: TeamMember[] = [
     category: 'directorate',
     badge: 'CGO',
     desc: "Building eOzka's presence and reach from the ground up. Focused on distribution, brand storytelling, and sustainable growth across all subsidiary verticals.",
-    github: 'https://github.com/eOzkull',
-    linkedin: 'https://linkedin.com/in/',
+    github: 'https://github.com/AdiT0015',
+    linkedin: 'https://www.linkedin.com/in/aditya-bhatia-244849252/',
   },
 ];
 
@@ -256,7 +256,13 @@ export default function Home() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const el = entry.target as HTMLElement;
-            const target = +(el.getAttribute('data-target') || '0');
+            const targetAttr = el.getAttribute('data-target') || '0';
+            if (targetAttr === '∞') {
+              el.textContent = '∞';
+              counterObs.unobserve(el);
+              return;
+            }
+            const target = +targetAttr;
             const duration = 1200;
             const startTime = performance.now();
             function updateCounter(now: number) {
@@ -627,29 +633,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── VALUE STRIP ── */}
-      <div className="value-strip">
-        <div className="value-item">
-          <span className="value-num">5</span>
-          <span className="value-label">Live Products</span>
-          <span className="value-sub">Open-source, Apache 2.0</span>
-        </div>
-        <div className="value-item">
-          <span className="value-num">12</span>
-          <span className="value-label">Founding Team</span>
-          <span className="value-sub">Structured governance</span>
-        </div>
-        <div className="value-item">
-          <span className="value-num">4</span>
-          <span className="value-label">Target Sectors</span>
-          <span className="value-sub">Education · Tech · Health · Agri-tech</span>
-        </div>
-        <div className="value-item">
-          <span className="value-num">∞</span>
-          <span className="value-label">Conviction</span>
-          <span className="value-sub">Built to last beyond college</span>
-        </div>
-      </div>
+
 
       {/* ── STORY SECTION ── */}
       <section id="story">
@@ -679,19 +663,37 @@ export default function Home() {
               <span className="stat-num" data-target="5">
                 0
               </span>
-              <span className="stat-label">Live products</span>
+              <span className="stat-label">
+                Live products
+                <span className="stat-sub">Open-source, Apache 2.0</span>
+              </span>
             </div>
             <div className="stat-cell">
-              <span className="stat-num" data-target="10">
+              <span className="stat-num" data-target="12">
                 0
               </span>
-              <span className="stat-label">Founding team</span>
+              <span className="stat-label">
+                Founding team
+                <span className="stat-sub">Structured governance</span>
+              </span>
             </div>
             <div className="stat-cell">
-              <span className="stat-num" data-target="3">
+              <span className="stat-num" data-target="4">
                 0
               </span>
-              <span className="stat-label">Target sectors</span>
+              <span className="stat-label">
+                Target sectors
+                <span className="stat-sub">Edu, Tech, Health, Agri</span>
+              </span>
+            </div>
+            <div className="stat-cell">
+              <span className="stat-num" data-target="∞">
+                0
+              </span>
+              <span className="stat-label">
+                Conviction
+                <span className="stat-sub">Beyond college limits</span>
+              </span>
             </div>
           </div>
         </div>
