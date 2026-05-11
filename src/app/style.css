@@ -735,6 +735,25 @@ neutral-case {
   }
 }
 
+/* ── MARQUEE TRACKS (Desktop default: layout-transparent) ── */
+.products-track,
+.ventures-track,
+.team-core-track,
+.team-directorate-track,
+.team-leads-track,
+.team-sde-track {
+  display: contents;
+}
+
+@keyframes mobile-marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 /* â”€â”€ SECTION SHARED â”€â”€ */
 section {
   padding: clamp(64px, 10vw, 120px) 48px;
@@ -2041,33 +2060,52 @@ a {
     background: rgba(20, 20, 20, 0.45) !important;
   }
 
-  /* Horizontal Scrollway Slider for Products, Ventures, and Team Category Grids on Mobile */
+  /* Viewport wrapper containers for the auto-scrolling marquees on mobile */
   .products-grid,
   .ventures-grid,
   .team-cards-grid.core,
   .team-cards-grid.directorate,
   .team-cards-grid.leads,
   .team-cards-grid.sde {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
+    display: block !important;
+    overflow-x: hidden !important; /* Lock user-scrolling of parent container to prevent scroll offset conflicts */
     overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth !important;
-    scrollbar-width: none !important; /* Hide standard Firefox scrollbar */
-    gap: 16px !important;
-    margin: 32px 0 0 0 !important;
-    padding: 12px 24px 24px 24px !important; /* elegant side & bottom spacing for shadows */
-    width: calc(100% + 48px) !important; /* expand to screen edge for bleed-scrolling */
-    margin-left: -24px !important; /* offset parent padding to match screen borders */
+    width: calc(100% + 48px) !important; /* bleed-scrolling */
+    margin-left: -24px !important;
     margin-right: -24px !important;
+    padding: 12px 0 24px 0 !important;
     background: transparent !important;
     border: none !important;
   }
 
-  /* Hide scrollbars for slick, native app-like swipe feel */
+  /* Pure CSS continuous scroll marquee tracks */
+  .products-track,
+  .ventures-track,
+  .team-core-track,
+  .team-directorate-track,
+  .team-leads-track,
+  .team-sde-track {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    width: max-content !important;
+    gap: 0 !important; /* Use card margins for exact looping math */
+    animation: mobile-marquee-scroll 32s linear infinite !important;
+    will-change: transform;
+    padding-left: 24px !important;
+  }
+
+  /* Pause auto-scroll on interaction/hover for ultimate readability and premium feel */
+  .products-track:hover,
+  .ventures-track:hover,
+  .team-core-track:hover,
+  .team-directorate-track:hover,
+  .team-leads-track:hover,
+  .team-sde-track:hover {
+    animation-play-state: paused !important;
+  }
+
+  /* Hide scrollbars for slick feel */
   .products-grid::-webkit-scrollbar,
   .ventures-grid::-webkit-scrollbar,
   .team-cards-grid.core::-webkit-scrollbar,
@@ -2077,15 +2115,16 @@ a {
     display: none !important;
   }
 
-  /* Card responsive dimensions and snap snapping */
+  /* Card dimensions on mobile marquee */
   .product-card,
   .venture-card,
   .team-card {
-    flex: 0 0 82% !important;
-    width: 82% !important;
-    max-width: 82% !important;
-    min-width: 280px !important; /* Maintain optimal density and readability */
-    scroll-snap-align: start !important;
+    flex: 0 0 290px !important; /* Premium unified card width on mobile marquee */
+    width: 290px !important;
+    max-width: 290px !important;
+    min-width: 290px !important;
+    margin-right: 16px !important;
+    scroll-snap-align: none !important; /* Disable snap rules to prevent visual jumps during marquee animation */
     box-sizing: border-box !important;
     opacity: 1 !important;
     visibility: visible !important;

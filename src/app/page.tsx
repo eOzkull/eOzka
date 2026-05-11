@@ -403,28 +403,20 @@ export default function Home() {
 
     // ── MOBILE ACTIVE AUTOSCROLLER ──
     let autoscrollInitialized = false;
-    let activeScrollers: { destroy: () => void }[] = [];
 
     const destroyMobileAutoscroll = () => {
-      activeScrollers.forEach((s) => s.destroy());
-      activeScrollers = [];
-
-      // Remove any marquee clones from all targets
       const targets = [
-        '.products-grid',
-        '.ventures-grid',
-        '.team-cards-grid.core',
-        '.team-cards-grid.directorate'
+        '.products-track',
+        '.ventures-track',
+        '.team-core-track',
+        '.team-directorate-track'
       ];
       targets.forEach((selector) => {
         const container = document.querySelector(selector) as HTMLElement | null;
         if (container) {
           container.querySelectorAll('.marquee-clone').forEach((clone) => clone.remove());
-          container.style.removeProperty('scroll-snap-type'); // Reset CSS snap type
-          container.style.removeProperty('overflow-x'); // Reset overflow
         }
       });
-
       autoscrollInitialized = false;
     };
 
@@ -441,10 +433,10 @@ export default function Home() {
       autoscrollInitialized = true;
 
       const targets = [
-        '.products-grid',
-        '.ventures-grid',
-        '.team-cards-grid.core',
-        '.team-cards-grid.directorate'
+        '.products-track',
+        '.ventures-track',
+        '.team-core-track',
+        '.team-directorate-track'
       ];
 
       targets.forEach((selector) => {
@@ -462,80 +454,6 @@ export default function Home() {
           const clone = item.cloneNode(true) as HTMLElement;
           clone.classList.add('marquee-clone');
           container.appendChild(clone);
-        });
-
-        let paused = false;
-        let pauseTimeout: NodeJS.Timeout | null = null;
-        let animationId: number;
-        const speed = 1.35; // Increased speed for speedy continuous drift
-        let scrollX = container.scrollLeft;
-        const firstClone = container.querySelector('.marquee-clone') as HTMLElement | null;
-
-        const tick = () => {
-          if (!paused && window.innerWidth <= 900) {
-            // Keep overflow-x active so scrollLeft is programmatically writable on all mobile browsers
-            container.style.setProperty('overflow-x', 'auto', 'important');
-            container.style.setProperty('scroll-snap-type', 'none', 'important');
-            scrollX += speed;
-            container.scrollLeft = scrollX;
-
-            // Check if actual scrollLeft has reached the exact offset of the first cloned child (with sub-pixel tolerance)
-            if (firstClone) {
-              const wrapThreshold = firstClone.offsetLeft;
-              if (container.scrollLeft >= wrapThreshold - 1.5) {
-                scrollX = container.scrollLeft - wrapThreshold;
-                container.scrollLeft = scrollX;
-              }
-            }
-          } else if (paused) {
-            // Synchronize the float accumulator with manual user swipes
-            scrollX = container.scrollLeft;
-          }
-          animationId = requestAnimationFrame(tick);
-        };
-
-        const triggerPause = () => {
-          paused = true;
-          // Restore native scrollways and snap points instantly for perfectly fluid touch dragging
-          container.style.setProperty('overflow-x', 'auto', 'important');
-          container.style.setProperty('scroll-snap-type', 'x mandatory', 'important');
-          if (pauseTimeout) clearTimeout(pauseTimeout);
-        };
-
-        const resumeWithDelay = () => {
-          if (pauseTimeout) clearTimeout(pauseTimeout);
-          pauseTimeout = setTimeout(() => {
-            // Industry standard: briefly toggle overflow-x to hidden to kill active swipe momentum, then restore to auto immediately
-            container.style.setProperty('overflow-x', 'hidden', 'important');
-            void container.offsetHeight; // force rendering reflow
-            container.style.setProperty('overflow-x', 'auto', 'important');
-
-            scrollX = container.scrollLeft;
-            paused = false;
-          }, 3500); // 3.5s of idle time before resuming drift
-        };
-
-        // Attach event listeners
-        container.addEventListener('touchstart', triggerPause, { passive: true });
-        container.addEventListener('touchend', resumeWithDelay, { passive: true });
-        container.addEventListener('mousedown', triggerPause);
-        container.addEventListener('mouseup', resumeWithDelay);
-        container.addEventListener('mouseleave', resumeWithDelay);
-
-        // Start the animation frame
-        tick();
-
-        // Push cleanups
-        activeScrollers.push({
-          destroy: () => {
-            cancelAnimationFrame(animationId);
-            if (pauseTimeout) clearTimeout(pauseTimeout);
-            container.removeEventListener('touchstart', triggerPause);
-            container.removeEventListener('touchend', resumeWithDelay);
-            container.removeEventListener('mousedown', triggerPause);
-            container.removeEventListener('mouseup', resumeWithDelay);
-            container.removeEventListener('mouseleave', resumeWithDelay);
-          }
         });
       });
     };
@@ -764,6 +682,7 @@ export default function Home() {
           the eOzka engineering team.
         </p>
         <div className="products-grid reveal">
+          <div className="products-track">
           <div className="product-card">
             <div className="product-card-top">
               <span className="product-num">01</span>
@@ -924,6 +843,7 @@ export default function Home() {
               <span className="product-link-dim">Coming Soon →</span>
             </div>
           </div>
+          </div>
         </div>
       </section>
 
@@ -947,9 +867,11 @@ export default function Home() {
               <div className="team-category-line"></div>
             </div>
             <div className="team-cards-grid core">
-              {teamMembers
-                .filter((m) => m.category === 'core')
-                .map((member, index) => renderTeamCard(member, index))}
+              <div className="team-core-track">
+                {teamMembers
+                  .filter((m) => m.category === 'core')
+                  .map((member, index) => renderTeamCard(member, index))}
+              </div>
             </div>
           </div>
 
@@ -960,9 +882,11 @@ export default function Home() {
               <div className="team-category-line"></div>
             </div>
             <div className="team-cards-grid directorate">
-              {teamMembers
-                .filter((m) => m.category === 'directorate')
-                .map((member, index) => renderTeamCard(member, index))}
+              <div className="team-directorate-track">
+                {teamMembers
+                  .filter((m) => m.category === 'directorate')
+                  .map((member, index) => renderTeamCard(member, index))}
+              </div>
             </div>
           </div>
         </div>
@@ -1166,6 +1090,7 @@ export default function Home() {
           Our <em>ventures.</em>
         </h2>
         <div className="ventures-grid">
+          <div className="ventures-track">
           <Link
             href="/ventures/moce"
             className="venture-card reveal"
@@ -1186,6 +1111,7 @@ export default function Home() {
               expansion into healthcare and agri-tech. Operational framework in development.
             </p>
             <span className="venture-cta">Coming Soon</span>
+          </div>
           </div>
         </div>
       </section>
