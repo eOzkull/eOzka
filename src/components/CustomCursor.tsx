@@ -7,17 +7,24 @@ export default function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
   const ringOuterRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const [isTouch, setIsTouch] = useState(true); // Default to true so we don't flash on mobile
 
   useEffect(() => {
     // Check if on mobile or touch device to disable custom cursor
     if (typeof window === 'undefined') return;
 
-    const isTouch =
-      'ontouchstart' in window ||
-      navigator.maxTouchPoints > 0 ||
-      (window.matchMedia && window.matchMedia('(max-width: 900px)').matches);
+    const checkTouch = () => {
+      return (
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        (window.matchMedia && window.matchMedia('(max-width: 900px)').matches)
+      );
+    };
 
-    if (isTouch) {
+    const touchDevice = checkTouch();
+    setIsTouch(touchDevice);
+
+    if (touchDevice) {
       return;
     }
 
@@ -62,7 +69,7 @@ export default function CustomCursor() {
       animationFrameId = requestAnimationFrame(animateRing);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     animationFrameId = requestAnimationFrame(animateRing);
 
     return () => {
@@ -71,7 +78,7 @@ export default function CustomCursor() {
     };
   }, [visible]);
 
-  if (!visible) return null;
+  if (isTouch || !visible) return null;
 
   return (
     <>

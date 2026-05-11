@@ -158,7 +158,8 @@ export default function MembersPage() {
         const container = document.querySelector(selector) as HTMLElement | null;
         if (container) {
           container.querySelectorAll('.marquee-clone').forEach((clone) => clone.remove());
-          container.style.scrollSnapType = '';
+          container.style.removeProperty('scroll-snap-type');
+          container.style.removeProperty('overflow-x');
         }
       });
 
@@ -196,32 +197,50 @@ export default function MembersPage() {
         let paused = false;
         let pauseTimeout: NodeJS.Timeout | null = null;
         let animationId: number;
-        const speed = 0.45;
+        const speed = 1.35; // Increased speed for speedy continuous drift
+        let scrollX = container.scrollLeft;
+        const firstClone = container.querySelector('.marquee-clone') as HTMLElement | null;
 
         const tick = () => {
           if (!paused && window.innerWidth <= 900) {
-            if (container.style.scrollSnapType !== 'none') {
-              container.style.scrollSnapType = 'none';
-            }
-            container.scrollLeft += speed;
+            // Keep overflow-x active so scrollLeft is programmatically writable on all mobile browsers
+            container.style.setProperty('overflow-x', 'auto', 'important');
+            container.style.setProperty('scroll-snap-type', 'none', 'important');
+            scrollX += speed;
+            container.scrollLeft = scrollX;
 
-            const halfWidth = container.scrollWidth / 2;
-            if (container.scrollLeft >= halfWidth) {
-              container.scrollLeft -= halfWidth;
+            // Check if actual scrollLeft has reached the exact offset of the first cloned child (with sub-pixel tolerance)
+            if (firstClone) {
+              const wrapThreshold = firstClone.offsetLeft;
+              if (container.scrollLeft >= wrapThreshold - 1.5) {
+                scrollX = container.scrollLeft - wrapThreshold;
+                container.scrollLeft = scrollX;
+              }
             }
+          } else if (paused) {
+            // Synchronize the float accumulator with manual user swipes
+            scrollX = container.scrollLeft;
           }
           animationId = requestAnimationFrame(tick);
         };
 
         const triggerPause = () => {
           paused = true;
-          container.style.scrollSnapType = 'x mandatory';
+          // Restore native scrollways and snap points instantly for perfectly fluid touch dragging
+          container.style.setProperty('overflow-x', 'auto', 'important');
+          container.style.setProperty('scroll-snap-type', 'x mandatory', 'important');
           if (pauseTimeout) clearTimeout(pauseTimeout);
         };
 
         const resumeWithDelay = () => {
           if (pauseTimeout) clearTimeout(pauseTimeout);
           pauseTimeout = setTimeout(() => {
+            // Industry standard: briefly toggle overflow-x to hidden to kill active swipe momentum, then restore to auto immediately
+            container.style.setProperty('overflow-x', 'hidden', 'important');
+            void container.offsetHeight; // force rendering reflow
+            container.style.setProperty('overflow-x', 'auto', 'important');
+
+            scrollX = container.scrollLeft;
             paused = false;
           }, 3500);
         };
