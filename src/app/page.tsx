@@ -20,7 +20,7 @@ const teamMembers: TeamMember[] = [
     role: 'Founder & Chairperson',
     category: 'core',
     badge: 'Founder',
-    desc: 'Founded eOzka to close the gap between student builders and real-world impact. Leads governance, vision, and the institutional standards that hold the structure together.',
+    desc: 'Founded eOzka to build enterprise-grade software and drive real-world technological impact. Leads governance, vision, and the institutional standards that hold the structure together.',
     github: 'https://github.com/inkesk-dozing',
     linkedin: 'https://linkedin.com/in/harsh-dev-jha-primus',
   },
@@ -581,9 +581,10 @@ export default function Home() {
         <div className="story-grid">
           <div className="story-body reveal">
             <p>
-              A group of college students noticed that capable builders rarely get the environment
-              to build things that matter. eOzka was founded to close that gap, starting with
-              technology, expanding into more fields.
+              eOzka was founded by a group of forward-thinking engineers and visionaries who noticed
+              that capable builders rarely get the environment to ship things that truly matter. We
+              set out to bridge this gap, starting with software and expanding across high-growth,
+              real-world fields.
             </p>
             <p>We are a structured holding company, not a club.</p>
             <p>
@@ -627,7 +628,7 @@ export default function Home() {
               </span>
               <span className="stat-label">
                 Conviction
-                <span className="stat-sub">Beyond college limits</span>
+                <span className="stat-sub">Beyond standard bounds</span>
               </span>
             </div>
           </div>
@@ -661,7 +662,7 @@ export default function Home() {
             <p>
               We believe the best builders are underestimated early. We are proving that conviction
               one product at a time — with the governance, structure, and discipline of a company
-              built to last beyond college. Technology is the first chapter that will be integrated
+              built to last for the long term. Technology is the first chapter that will be integrated
               in upcoming chapters as well. Healthcare and agri-tech are the next two domains where
               we've identified both meaningful need and a realistic pathway to execution.
             </p>
@@ -683,166 +684,166 @@ export default function Home() {
         </p>
         <div className="products-grid reveal">
           <div className="products-track">
-          <div className="product-card">
-            <div className="product-card-top">
-              <span className="product-num">01</span>
-              <span className="product-tag tag-live">Live</span>
+            <div className="product-card">
+              <div className="product-card-top">
+                <span className="product-num">01</span>
+                <span className="product-tag tag-live">Live</span>
+              </div>
+              <div className="product-name">Alris-Security</div>
+              <p className="product-desc">
+                AIris Security is a cutting-edge vulnerability scanner designed to safeguard web
+                applications. It leverages advanced AI and machine learning algorithms to detect and
+                classify security flaws with unparalleled accuracy. From SQL injection to XSS attacks,
+                AIris provides comprehensive protection for your digital assets.
+              </p>
+              <div className="product-links">
+                <a
+                  href="https://github.com/Kush05Bhardwaj/AIris-Security_AI-Powered-Vulnerability-Scanner"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="product-link"
+                >
+                  View on GitHub →
+                </a>
+                <a
+                  href="https://airis-security1.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="product-link-dim"
+                >
+                  Visit Deployment
+                </a>
+              </div>
             </div>
-            <div className="product-name">Alris-Security</div>
-            <p className="product-desc">
-              AIris Security is a cutting-edge vulnerability scanner designed to safeguard web
-              applications. It leverages advanced AI and machine learning algorithms to detect and
-              classify security flaws with unparalleled accuracy. From SQL injection to XSS attacks,
-              AIris provides comprehensive protection for your digital assets.
-            </p>
-            <div className="product-links">
-              <a
-                href="https://github.com/Kush05Bhardwaj/AIris-Security_AI-Powered-Vulnerability-Scanner"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="product-link"
-              >
-                View on GitHub →
-              </a>
-              <a
-                href="https://airis-security1.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="product-link-dim"
-              >
-                Visit Deployment
-              </a>
-            </div>
-          </div>
 
-          <div className="product-card">
-            <div className="product-card-top">
-              <span className="product-num">02</span>
-              <span className="product-tag tag-live">Live</span>
+            <div className="product-card">
+              <div className="product-card-top">
+                <span className="product-num">02</span>
+                <span className="product-tag tag-live">Live</span>
+              </div>
+              <div className="product-name">Paradigm-Shift</div>
+              <p className="product-desc">
+                ParadigmShift is a production-grade HRMS (Human Resource Management System) designed
+                for modern organizations that need a unified, real-time platform to manage people,
+                performance, and processes.
+              </p>
+              <div className="product-links">
+                <a
+                  href="https://github.com/MRINALPRAKASHFSD/MINI_PROJECT_PARADIGM_SHIFT"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="product-link"
+                >
+                  View on GitHub →
+                </a>
+                <a
+                  href="https://mini-project-paradigm-shift-5y6i.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="product-link-dim"
+                >
+                  Visit Deployment
+                </a>
+              </div>
             </div>
-            <div className="product-name">Paradigm-Shift</div>
-            <p className="product-desc">
-              ParadigmShift is a production-grade HRMS (Human Resource Management System) designed
-              for modern organizations that need a unified, real-time platform to manage people,
-              performance, and processes.
-            </p>
-            <div className="product-links">
-              <a
-                href="https://github.com/MRINALPRAKASHFSD/MINI_PROJECT_PARADIGM_SHIFT"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="product-link"
-              >
-                View on GitHub →
-              </a>
-              <a
-                href="https://mini-project-paradigm-shift-5y6i.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="product-link-dim"
-              >
-                Visit Deployment
-              </a>
-            </div>
-          </div>
 
-          <div className="product-card">
-            <div className="product-card-top">
-              <span className="product-num">03</span>
-              <span className="product-tag tag-live">Live</span>
+            <div className="product-card">
+              <div className="product-card-top">
+                <span className="product-num">03</span>
+                <span className="product-tag tag-live">Live</span>
+              </div>
+              <div className="product-name">Stress-Calculator</div>
+              <p className="product-desc">
+                A Flutter app that assesses stress risk using biometric data — heart rate and blood
+                pressure. Built for real users. Processes physiological inputs to generate meaningful,
+                actionable stress assessments.
+              </p>
+              <div className="product-links">
+                <a
+                  href="https://github.com/eOzkull/stress-calculator"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="product-link"
+                >
+                  View on GitHub →
+                </a>
+                <a
+                  href="https://github.com/eOzkull/Stress-Calculator/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="product-link-dim"
+                >
+                  Download App
+                </a>
+              </div>
             </div>
-            <div className="product-name">Stress-Calculator</div>
-            <p className="product-desc">
-              A Flutter app that assesses stress risk using biometric data — heart rate and blood
-              pressure. Built for real users. Processes physiological inputs to generate meaningful,
-              actionable stress assessments.
-            </p>
-            <div className="product-links">
-              <a
-                href="https://github.com/eOzkull/stress-calculator"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="product-link"
-              >
-                View on GitHub →
-              </a>
-              <a
-                href="https://github.com/eOzkull/Stress-Calculator/releases"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="product-link-dim"
-              >
-                Download App
-              </a>
-            </div>
-          </div>
 
-          <div className="product-card">
-            <div className="product-card-top">
-              <span className="product-num">04</span>
-              <span className="product-tag tag-live">Live</span>
+            <div className="product-card">
+              <div className="product-card-top">
+                <span className="product-num">04</span>
+                <span className="product-tag tag-live">Live</span>
+              </div>
+              <div className="product-name">Entab-D</div>
+              <p className="product-desc">
+                A Chrome extension that auto-organises browser tabs by domain and title. Solves tab
+                chaos for anyone working with 20+ tabs open. One-click install. Zero configuration
+                needed.
+              </p>
+              <div className="product-links">
+                <a
+                  href="https://github.com/eOzkull/entab-D"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="product-link"
+                >
+                  View on GitHub →
+                </a>
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="product-link-dim"
+                >
+                  Install Extension
+                </a>
+              </div>
             </div>
-            <div className="product-name">Entab-D</div>
-            <p className="product-desc">
-              A Chrome extension that auto-organises browser tabs by domain and title. Solves tab
-              chaos for anyone working with 20+ tabs open. One-click install. Zero configuration
-              needed.
-            </p>
-            <div className="product-links">
-              <a
-                href="https://github.com/eOzkull/entab-D"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="product-link"
-              >
-                View on GitHub →
-              </a>
-              <a
-                href="https://github.com/eOzkull"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="product-link-dim"
-              >
-                Install Extension
-              </a>
-            </div>
-          </div>
 
-          <div className="product-card">
-            <div className="product-card-top">
-              <span className="product-num">05</span>
-              <span className="product-tag tag-live">Live</span>
+            <div className="product-card">
+              <div className="product-card-top">
+                <span className="product-num">05</span>
+                <span className="product-tag tag-live">Live</span>
+              </div>
+              <div className="product-name">MindSpace</div>
+              <p className="product-desc">
+                MindSpace is an AI-powered mental health companion app designed to support users in
+                managing stress, anxiety, and daily emotional well-being. Through guided meditation,
+                mood tracking, and AI-driven insights, MindSpace provides personalized tools to foster
+                mental clarity and resilience.
+              </p>
+              <div className="product-links">
+                <a
+                  href="https://github.com/eOzkull/MindSpace"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="product-link"
+                >
+                  View on GitHub →
+                </a>
+              </div>
             </div>
-            <div className="product-name">MindSpace</div>
-            <p className="product-desc">
-              MindSpace is an AI-powered mental health companion app designed to support users in
-              managing stress, anxiety, and daily emotional well-being. Through guided meditation,
-              mood tracking, and AI-driven insights, MindSpace provides personalized tools to foster
-              mental clarity and resilience.
-            </p>
-            <div className="product-links">
-              <a
-                href="https://github.com/eOzkull/MindSpace"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="product-link"
-              >
-                View on GitHub →
-              </a>
-            </div>
-          </div>
 
-          <div className="product-card">
-            <div className="product-card-top">
-              <span className="product-num">06</span>
-              <span className="product-tag tag-research">In Research</span>
+            <div className="product-card">
+              <div className="product-card-top">
+                <span className="product-num">06</span>
+                <span className="product-tag tag-research">In Research</span>
+              </div>
+              <div className="product-name">Management System</div>
+              <p className="product-desc">Under Development...</p>
+              <div className="product-links">
+                <span className="product-link-dim">Coming Soon →</span>
+              </div>
             </div>
-            <div className="product-name">Management System</div>
-            <p className="product-desc">Under Development...</p>
-            <div className="product-links">
-              <span className="product-link-dim">Coming Soon →</span>
-            </div>
-          </div>
           </div>
         </div>
       </section>
@@ -1091,27 +1092,27 @@ export default function Home() {
         </h2>
         <div className="ventures-grid">
           <div className="ventures-track">
-          <Link
-            href="/ventures/moce"
-            className="venture-card reveal"
-          >
-            <span className="venture-num">Subsidiary I</span>
-            <span className="venture-name">MOCE</span>
-            <p className="venture-desc">
-              The technology arm of eOzka. Home to Stress-Calculator, entab-D, and the engineering
-              team building what comes next. Focused on software that extends human capability.
-            </p>
-            <span className="venture-cta">Explore MOCE</span>
-          </Link>
-          <div className="venture-card coming-soon reveal">
-            <span className="venture-num">Subsidiary II</span>
-            <span className="venture-name">MOCK</span>
-            <p className="venture-desc">
-              The research and experimentation arm. Currently laying groundwork for eOzka's
-              expansion into healthcare and agri-tech. Operational framework in development.
-            </p>
-            <span className="venture-cta">Coming Soon</span>
-          </div>
+            <Link
+              href="/ventures/moce"
+              className="venture-card reveal"
+            >
+              <span className="venture-num">Subsidiary I</span>
+              <span className="venture-name">MOCE</span>
+              <p className="venture-desc">
+                The technology arm of eOzka. Home to Stress-Calculator, entab-D, and the engineering
+                team building what comes next. Focused on software that extends human capability.
+              </p>
+              <span className="venture-cta">Explore MOCE</span>
+            </Link>
+            <div className="venture-card coming-soon reveal">
+              <span className="venture-num">Subsidiary II</span>
+              <span className="venture-name">MOCK</span>
+              <p className="venture-desc">
+                The research and experimentation arm. Currently laying groundwork for eOzka's
+                expansion into healthcare and agri-tech. Operational framework in development.
+              </p>
+              <span className="venture-cta">Coming Soon</span>
+            </div>
           </div>
         </div>
       </section>

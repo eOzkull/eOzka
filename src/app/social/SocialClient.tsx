@@ -55,7 +55,7 @@ export default function SocialClient() {
             url: 'https://eozka.com/social/',
             name: 'eOzka Official Social Channels',
             description:
-              'Connect with the eOzka student startup ecosystem on GitHub, LinkedIn, Instagram, and X.',
+              'Connect with the eOzka venture ecosystem on GitHub, LinkedIn, Instagram, and X.',
             about: {
               '@type': 'Organization',
               name: 'eOzka',

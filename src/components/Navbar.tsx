@@ -156,7 +156,7 @@ export default function Navbar() {
         <div className="nav-logo-svgs">
           <img
             className="nav-svg-monogram"
-            src="/assets/eOzka-essentials/eOzka_Logo_Package_V1/SVG/eozka-student-founded-logo.svg"
+            src="/assets/eOzka-essentials/eOzka_Logo_Package_V1/SVG/eozka-venture-studio-logo.svg"
             alt="eOzka Technology Holding Company Logo Monogram"
           />
         </div>

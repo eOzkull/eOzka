@@ -575,7 +575,7 @@ nav:hover {
   font-weight: 600;
   color: var(--accent);
   letter-spacing: 0.18em;
-  text-transform: uppercase;
+  text-transform: none;
   margin-bottom: 28px;
   font-family: 'DM Mono', monospace;
 }

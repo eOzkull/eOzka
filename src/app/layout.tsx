@@ -16,14 +16,15 @@ const GA_MEASUREMENT_ID = 'G-Q1YKM4J18W'; // Replace with your live Google Analy
 
 
 export const metadata: Metadata = {
-  title: 'eOzka | Student-Founded Venture Studio & Technology Holding Company',
+  title: 'eOzka | Next-Generation Venture Studio & Technology Holding Company',
   description:
-    'eOzka is a student-founded venture studio and technology holding company creating open-source software, healthcare innovations, and agri-tech solutions.',
+    'eOzka is a next-generation venture studio and technology holding company engineering open-source software, healthcare innovations, and agri-tech solutions.',
   metadataBase: new URL('https://eozka.com'),
   keywords: [
     'eOzka',
+    'Operatinoal Holding',
     'Venture Studio',
-    'Student Founded',
+    'Next-Gen Venture',
     'Technology Holding',
     'Open-Source Software',
     'Healthcare Innovation',
@@ -31,8 +32,8 @@ export const metadata: Metadata = {
     'Harsh Dev Jha',
     'MOCE',
     'AI Scanner',
-    'Student Builders',
-    'Student Startups'
+    'Venture Building',
+    'Software Engineering'
   ],
   authors: [{ name: 'Harsh Dev Jha', url: 'https://eozka.com' }],
   creator: 'eOzka',
@@ -58,37 +59,37 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/SVG/eozka-student-founded-logo.svg',
+        url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/SVG/eozka-venture-studio-logo.svg',
         type: 'image/svg+xml',
       },
       { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
     ],
     shortcut: '/favicon.ico',
-    apple: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png',
+    apple: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
   },
   openGraph: {
     type: 'website',
     url: 'https://eozka.com/',
-    title: 'eOzka | Student-Founded Venture Studio & Technology Holding Company',
+    title: 'eOzka | Next-Generation Venture Studio & Technology Holding Company',
     description:
-      'eOzka is a student-founded venture studio and technology holding company creating open-source software, healthcare innovations, and agri-tech solutions.',
+      'eOzka is a next-generation venture studio and technology holding company engineering open-source software, healthcare innovations, and agri-tech solutions.',
     siteName: 'eOzka',
     locale: 'en_US',
     images: [
       {
-        url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png',
+        url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
         width: 1200,
         height: 630,
-        alt: 'eOzka Student Founded Logo',
+        alt: 'eOzka Venture Studio Logo',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'eOzka | Student-Founded Venture Studio & Technology Holding Company',
+    title: 'eOzka | Next-Generation Venture Studio & Technology Holding Company',
     description:
-      'eOzka is a student-founded venture studio and technology holding company creating open-source software, healthcare innovations, and agri-tech solutions.',
-    images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png'],
+      'eOzka is a next-generation venture studio and technology holding company engineering open-source software, healthcare innovations, and agri-tech solutions.',
+    images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],
   },
 };
 

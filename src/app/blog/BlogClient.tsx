@@ -97,7 +97,7 @@ export default function BlogClient() {
       </h1>
       <p className="products-intro reveal" style={{ maxWidth: '800px', marginBottom: '4rem' }}>
         Technical breakdowns, open-source challenges, and the realities of building an
-        enterprise-grade venture studio from a college campus.
+        enterprise-grade venture studio and technology holding company.
       </p>
 
       <div className="story-grid">

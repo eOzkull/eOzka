@@ -207,7 +207,7 @@ export default function SentientHub() {
     }
 
     if (/\b(founder|harsh|harsh dev|prime architect|who built|who started|who created)\b/.test(q)) {
-      return 'Harsh Dev Jha is the founder, Chairperson, and prime architect of eOzka. He founded this holding venture to turn the boundless potential of student builders into enterprise-grade systems and real-world impact.';
+      return 'Harsh Dev Jha is the founder, Chairperson, and prime architect of eOzka. He founded this holding venture to construct enterprise-grade systems and drive real-world technological impact.';
     }
 
     if (/\b(ceo|krishyangi|chief executive)\b/.test(q)) {
@@ -259,7 +259,7 @@ export default function SentientHub() {
     }
 
     if (/\b(mission|goal|purpose|conviction|vision)\b/.test(q)) {
-      return 'Our mission is to close the gap between student potential and real-world impact — building software that extends human capability, starting with technology and rapidly expanding into healthcare solutions and agriculture-tech.';
+      return 'Our mission is to build software that extends human capability, starting with technology and expanding into high-growth sectors like healthcare solutions and agriculture-tech.';
     }
 
     if (/\b(moce|development house|ventures|development core)\b/.test(q)) {
@@ -275,7 +275,7 @@ export default function SentientHub() {
     }
 
     if (/\b(careers|join|hire|hiring|job|recruit|work with us|apply|collaborate)\b/.test(q)) {
-      return 'We are always looking for ambitious, student-led builders, designers, and thinkers who challenge standard bounds. To collaborate, join, or present ideas to eOzka, use the "Connect" contact form on our landing page or email us at eozka.hq@gmail.com!';
+      return 'We are always looking for ambitious engineers, builders, designers, and thinkers who challenge standard bounds. To collaborate, join, or present ideas to eOzka, use the "Connect" contact form on our landing page or email us at eozka.hq@gmail.com!';
     }
 
     if (/\b(name|origin|eozka mean|why eozka|etymology)\b/.test(q)) {
@@ -291,7 +291,7 @@ export default function SentientHub() {
     }
 
     if (/\b(where|location|college|india|university)\b/.test(q)) {
-      return 'eOzka is a decentralized, student-founded initiative operating across the digital landscape, born with the conviction to build software that goes far beyond classroom assignments.';
+      return 'eOzka is a decentralized, research-led venture studio and technology holding company operating across the digital landscape, born with the conviction to build software that extends human capability.';
     }
 
     if (/\b(help|what can you do|command|options|ask)\b/.test(q)) {

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     tags: ['Flutter', 'Health-Tech', 'Biometrics', 'Cross-Platform', 'Mobile Performance'],
     images: [
       {
-        url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png',
+        url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
         width: 1200,
         height: 630,
         alt: 'Flutter Health-Tech Blog Header Logo',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     title: 'Why We Chose Flutter for Health-Tech | eOzka Blog',
     description:
       'Analyzing the performance trade-offs of using cross-platform frameworks to process continuous biometric telemetry natively on mobile devices.',
-    images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png'],
+    images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],
   },
 };
 
@@ -70,7 +70,7 @@ export default function FlutterHealthBlog() {
               name: 'eOzka',
               logo: {
                 '@type': 'ImageObject',
-                url: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png',
+                url: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
               },
             },
             mainEntityOfPage: {

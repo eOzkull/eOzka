@@ -33,7 +33,7 @@ export async function POST(request: Request) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             username: 'eOzka Contact Node',
-            avatar_url: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png',
+            avatar_url: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
             embeds: [
               {
                 title: '📬 New Contact Form Submission',
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
                 ],
                 footer: {
                   text: 'eOzka Venture Studio Core Systems',
-                  icon_url: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png'
+                  icon_url: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'
                 },
                 timestamp: new Date().toISOString()
               }

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
       'Meet the creative designers, documentation officers, and software engineers driving eOzka\'s strategic vision forward into production.',
     images: [
       {
-        url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png',
+        url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
         width: 1200,
         height: 630,
         alt: 'eOzka Team Directory Logo',
@@ -27,8 +27,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Our Team & Members Directory | eOzka',
     description:
-      'Meet the creative designers, documentation officers, and software engineers driving eOzka\'s strategic vision forward into production.',
-    images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png'],
+      "Meet the creative designers, documentation officers, and software engineers driving eOzka's strategic vision forward into production.",
+    images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],
   },
 };
 

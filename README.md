@@ -1,6 +1,6 @@
 # eOzka Web Portal — Core Node & Venture Hub
 
-Welcome to the official repository of **eOzka**, a student-founded venture studio and software engineering ecosystem. This portal is built with a focus on speed, typography, semantic markup, and a state-of-the-art glassmorphic design system.
+Welcome to the official repository of **eOzka**, a next-generation venture studio and software engineering ecosystem. This portal is built with a focus on speed, typography, semantic markup, and a state-of-the-art glassmorphic design system.
 
 ---
 

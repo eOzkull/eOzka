@@ -4,7 +4,7 @@ import SocialClient from './SocialClient';
 export const metadata: Metadata = {
   title: 'Connect with eOzka | Official Social Channels',
   description:
-    'Connect with the eOzka student startup ecosystem on GitHub, LinkedIn, Instagram, and X. Join us in building software that extends human capability.',
+    'Connect with the eOzka venture ecosystem on GitHub, LinkedIn, Instagram, and X. Join us in building software that extends human capability.',
   alternates: {
     canonical: '/social',
   },
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: 'https://eozka.com/social',
     title: 'Connect with eOzka | Official Social Channels',
     description:
-      'Connect with the eOzka student startup ecosystem on GitHub, LinkedIn, Instagram, and X.',
+      'Connect with the eOzka venture ecosystem on GitHub, LinkedIn, Instagram, and X.',
   },
 };
 

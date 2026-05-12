@@ -27,7 +27,7 @@ export default function Footer() {
             alt="eOzka Technology Holding Company Full Logo"
           />
           <p className="footer-desc">
-            A student-founded technology holding company building software that lasts — starting
+            A premier technology holding company building software that lasts — starting
             with tech, expanding into healthcare and agri-tech.
           </p>
         </div>
