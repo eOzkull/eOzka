@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'profile',
-    url: 'https://eozka.com/social/',
+    url: 'https://eozka.com/social',
     title: 'Connect with eOzka | Official Social Channels',
     description:
       'Connect with the eOzka student startup ecosystem on GitHub, LinkedIn, Instagram, and X.',

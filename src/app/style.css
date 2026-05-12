@@ -18,22 +18,30 @@
   --accent: #d4c9a8;
   --accent-dim: #6b6252;
   --accent-glow: rgba(212, 201, 168, 0.12);
-  --nav-bg: rgba(12, 12, 12, 0.88);
+  --nav-bg: rgba(12, 12, 12, 0.94);
+  --error-shadow: rgba(0, 0, 0, 0.7);
+  --orbit-ring-1: rgba(212, 201, 168, 0.25);
+  --orbit-ring-2: rgba(212, 201, 168, 0.2);
+  --orbit-ring-3: rgba(212, 201, 168, 0.12);
 }
 
 [data-theme='light'] {
-  --black: #f0eeea;
-  --off-black: #e6e4df;
-  --surface: #dcdad5;
-  --border: #d0ceca;
-  --border-mid: #b0aeaa;
-  --white: #0c0c0c;
-  --white-dim: #555;
-  --white-dimmer: #777;
+  --black: #F9FAFB;
+  --off-black: #F3F4F6;
+  --surface: #E5E7EB;
+  --border: #E5E7EB;
+  --border-mid: #D1D5DB;
+  --white: #111827;
+  --white-dim: #4B5563;
+  --white-dimmer: #9CA3AF;
   --accent: #8b7d57;
   --accent-dim: #a69b7a;
-  --accent-glow: rgba(139, 125, 87, 0.15);
-  --nav-bg: rgba(240, 238, 234, 0.88);
+  --accent-glow: rgba(139, 125, 87, 0.12);
+  --nav-bg: rgba(249, 250, 251, 0.94);
+  --error-shadow: rgba(0, 0, 0, 0.05);
+  --orbit-ring-1: rgba(139, 125, 87, 0.35);
+  --orbit-ring-2: rgba(139, 125, 87, 0.25);
+  --orbit-ring-3: rgba(139, 125, 87, 0.15);
 }
 
 html {
@@ -2504,3 +2512,78 @@ a {
   animation: spin 1s linear infinite;
 }
 
+/* ── LIGHT THEME PROFESSIONAL POLISH ── */
+[data-theme='light'] .team-card {
+  background: rgba(255, 255, 255, 0.45) !important;
+  border-color: rgba(139, 125, 87, 0.18) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+}
+[data-theme='light'] .team-card:hover {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(139, 125, 87, 0.4) !important;
+  box-shadow: 
+    0 16px 40px rgba(139, 125, 87, 0.08),
+    0 0 1px 1px rgba(139, 125, 87, 0.05) !important;
+}
+[data-theme='light'] .team-avatar {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(139, 125, 87, 0.25) !important;
+  color: var(--white-dim) !important;
+}
+[data-theme='light'] .team-card:hover .team-avatar {
+  background: #fdfcfb !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+  box-shadow: 0 0 12px var(--accent-glow) !important;
+}
+[data-theme='light'] .team-name {
+  color: var(--white) !important;
+}
+[data-theme='light'] .team-card:hover .team-name {
+  color: var(--accent) !important;
+}
+[data-theme='light'] .team-badge {
+  background: rgba(255, 255, 255, 0.5) !important;
+  border-color: rgba(139, 125, 87, 0.2) !important;
+  color: var(--accent-dim) !important;
+}
+[data-theme='light'] .team-card:hover .team-badge {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: var(--accent-dim) !important;
+  color: var(--accent) !important;
+}
+[data-theme='light'] .team-badge.badge-founder {
+  background: rgba(139, 125, 87, 0.08) !important;
+  border-color: rgba(139, 125, 87, 0.35) !important;
+  color: var(--accent) !important;
+}
+[data-theme='light'] .team-socials {
+  border-color: rgba(139, 125, 87, 0.15) !important;
+}
+[data-theme='light'] .team-card:hover .team-socials {
+  border-color: rgba(139, 125, 87, 0.35) !important;
+}
+[data-theme='light'] .team-category-line {
+  background: linear-gradient(90deg, rgba(139, 125, 87, 0.3) 0%, transparent 100%) !important;
+}
+
+/* Products badges in light mode */
+[data-theme='light'] .tag-live {
+  background: #e2f5e2 !important;
+  border-color: #6aba6a !important;
+  color: #1a431c !important;
+}
+[data-theme='light'] .tag-research {
+  background: #fcf8ee !important;
+  border-color: #a69b7a !important;
+  color: #554a32 !important;
+}
+
+/* Contact Submission contrast fix in light mode */
+[data-theme='light'] .btn-submit {
+  color: #ffffff !important;
+}
+[data-theme='light'] .btn-submit:hover {
+  background: #736746 !important;
+  color: #ffffff !important;
+}

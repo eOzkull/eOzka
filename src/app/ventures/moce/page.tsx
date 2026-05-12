@@ -4,13 +4,13 @@ import MoceClient from './MoceClient';
 export const metadata: Metadata = {
   title: 'MOCE — Technical Subsidiary of eOzka',
   description:
-    'MOCE is the technical subsidiary of eOzka, focused on engineering, AI augmentation, and sentient system building. Shipping logic, building augmentation systems, and exploring sentient capabilities.',
+    'MOCE is the technical subsidiary of eOzka, focused on engineering, AI augmentation, and sentient system building. Shipping premium logic and agentic solutions.',
   alternates: {
     canonical: '/ventures/moce',
   },
   openGraph: {
     type: 'profile',
-    url: 'https://eozka.com/ventures/moce/',
+    url: 'https://eozka.com/ventures/moce',
     title: 'MOCE — Technical Subsidiary of eOzka',
     description:
       'MOCE is the technical subsidiary of eOzka, focused on engineering, AI augmentation, and sentient system building.',

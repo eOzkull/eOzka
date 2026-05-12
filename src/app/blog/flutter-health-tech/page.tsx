@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'article',
-    url: 'https://eozka.com/blog/flutter-health-tech/',
+    url: 'https://eozka.com/blog/flutter-health-tech',
     title: 'Why We Chose Flutter for Health-Tech | eOzka Blog',
     description:
       'Analyzing the performance trade-offs of using cross-platform frameworks to process continuous biometric telemetry natively on mobile devices.',
@@ -59,8 +59,8 @@ export default function FlutterHealthBlog() {
             headline: 'Why We Chose Flutter for Health-Tech',
             description:
               'Analyzing the performance trade-offs of using cross-platform frameworks to process continuous biometric telemetry natively on mobile devices.',
-            datePublished: '2026-09-01T00:00:00Z',
-            dateModified: '2026-09-01T00:00:00Z',
+            datePublished: '2026-05-02T00:00:00Z',
+            dateModified: '2026-05-02T00:00:00Z',
             author: {
               '@type': 'Person',
               name: 'Pratham Sharma',

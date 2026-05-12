@@ -1,4 +1,4 @@
-/* ΓöÇΓöÇ EXTRAS DESIGN SYSTEM ΓöÇΓöÇ */
+/* ── EXTRAS DESIGN SYSTEM ── */
 :root {
   --hub-bg: rgba(12, 12, 12, 0.7);
   --hub-border: rgba(212, 201, 168, 0.2);
@@ -6,6 +6,15 @@
   --hub-white: #f0eeea;
   --hub-glass: blur(25px);
   --hub-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='light'] {
+  --hub-bg: rgba(255, 255, 255, 0.82);
+  --hub-border: rgba(139, 125, 87, 0.25);
+  --hub-accent: #8b7d57;
+  --hub-white: #0c0c0c;
+  --hub-glass: blur(25px);
+  --hub-shadow: 0 20px 50px rgba(139, 125, 87, 0.12);
 }
 
 /* ΓöÇΓöÇ SENTIENT SPHERE BUTTON ΓöÇΓöÇ */
@@ -548,4 +557,137 @@
   opacity: 0.6;
   font-family: 'Geist Mono', monospace;
   font-size: 0.9rem;
+}
+
+/* ── LIGHT THEME COMPREHENSIVE OVERRIDES ── */
+[data-theme='light'] .sentient-sphere {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border: 1.5px solid rgba(139, 125, 87, 0.4) !important;
+  box-shadow: 
+    0 8px 32px rgba(139, 125, 87, 0.15),
+    inset 0 0 12px rgba(139, 125, 87, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+[data-theme='light'] .sentient-sphere-container:hover .sentient-sphere {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(139, 125, 87, 0.7) !important;
+  box-shadow: 
+    0 12px 40px rgba(139, 125, 87, 0.22),
+    0 0 15px rgba(139, 125, 87, 0.2),
+    inset 0 0 16px rgba(139, 125, 87, 0.15) !important;
+}
+
+/* Dropdown overrides in light mode */
+[data-theme='light'] .dropdown-content {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border: 1px solid rgba(139, 125, 87, 0.2) !important;
+  box-shadow: 0px 8px 24px rgba(139, 125, 87, 0.08) !important;
+}
+[data-theme='light'] .dropdown-content li a {
+  color: var(--white) !important; /* Maps to dark grey */
+}
+[data-theme='light'] .dropdown-content li a:hover {
+  background-color: rgba(139, 125, 87, 0.08) !important;
+  color: var(--accent) !important;
+}
+
+/* Social link tree overrides in light mode */
+[data-theme='light'] .social-link-card {
+  background: rgba(255, 255, 255, 0.45) !important;
+  border-color: rgba(139, 125, 87, 0.18) !important;
+  color: var(--white) !important;
+}
+[data-theme='light'] .social-link-card:hover {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 12px 32px rgba(139, 125, 87, 0.08) !important;
+}
+
+/* Dynamic Hub chat & message elements in light mode */
+[data-theme='light'] .hub-tabs {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+[data-theme='light'] .hub-tab {
+  color: var(--white) !important;
+  opacity: 0.6 !important;
+}
+[data-theme='light'] .hub-tab.active {
+  opacity: 1 !important;
+  background: rgba(139, 125, 87, 0.12) !important;
+  color: var(--hub-accent) !important;
+}
+[data-theme='light'] .chat-input {
+  background: rgba(0, 0, 0, 0.03) !important;
+  border: 1px solid rgba(139, 125, 87, 0.25) !important;
+  color: var(--white) !important;
+}
+[data-theme='light'] .chat-input::placeholder {
+  color: rgba(12, 12, 12, 0.45) !important;
+}
+[data-theme='light'] .chat-send {
+  background: var(--hub-accent) !important;
+  color: #ffffff !important;
+}
+[data-theme='light'] .chat-send:hover {
+  background: #736746 !important;
+}
+[data-theme='light'] .message.ai {
+  background: rgba(139, 125, 87, 0.06) !important;
+  border-color: rgba(139, 125, 87, 0.15) !important;
+  color: var(--white) !important;
+}
+[data-theme='light'] .message.user {
+  background: var(--hub-accent) !important;
+  color: #ffffff !important;
+}
+
+/* Atmosphere overrides in light mode */
+[data-theme='light'] .mood-btn {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(139, 125, 87, 0.2) !important;
+  color: var(--white) !important;
+}
+[data-theme='light'] .mood-btn:hover,
+[data-theme='light'] .mood-btn.active {
+  background: rgba(139, 125, 87, 0.08) !important;
+  border-color: var(--hub-accent) !important;
+}
+
+/* Songs overrides in light mode */
+[data-theme='light'] .song-card {
+  background: rgba(0, 0, 0, 0.02) !important;
+}
+[data-theme='light'] .song-card:hover {
+  background: rgba(139, 125, 87, 0.08) !important;
+  border-color: rgba(139, 125, 87, 0.25) !important;
+}
+[data-theme='light'] .song-name {
+  color: var(--white) !important;
+}
+[data-theme='light'] .song-artist {
+  color: var(--white) !important;
+  opacity: 0.65 !important;
+}
+[data-theme='light'] .play-btn {
+  background: rgba(139, 125, 87, 0.1) !important;
+  border-color: var(--hub-accent) !important;
+  color: var(--hub-accent) !important;
+}
+[data-theme='light'] .play-btn:hover,
+[data-theme='light'] .play-btn.playing {
+  background: var(--hub-accent) !important;
+  color: #ffffff !important;
+}
+
+/* Now playing area override in light mode */
+[data-theme='light'] .now-playing {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: rgba(139, 125, 87, 0.25) !important;
+  box-shadow: 0 10px 40px rgba(139, 125, 87, 0.15) !important;
+}
+[data-theme='light'] .now-playing .song-name,
+[data-theme='light'] .now-playing .song-artist {
+  color: #0c0c0c !important;
 }

@@ -37,6 +37,10 @@ export const metadata: Metadata = {
   authors: [{ name: 'Harsh Dev Jha', url: 'https://eozka.com' }],
   creator: 'eOzka',
   publisher: 'eOzka',
+  referrer: 'origin-when-cross-origin',
+  verification: {
+    google: 'google-site-verification-placeholder-hash', // Replace with live Google Search Console token
+  },
   robots: {
     index: true,
     follow: true,
@@ -57,9 +61,9 @@ export const metadata: Metadata = {
         url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/SVG/eozka-student-founded-logo.svg',
         type: 'image/svg+xml',
       },
-      { url: '/favicon/favicon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
     ],
-    shortcut: '/favicon/favicon.ico',
+    shortcut: '/favicon.ico',
     apple: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png',
   },
   openGraph: {
@@ -68,6 +72,8 @@ export const metadata: Metadata = {
     title: 'eOzka | Student-Founded Venture Studio & Technology Holding Company',
     description:
       'eOzka is a student-founded venture studio and technology holding company creating open-source software, healthcare innovations, and agri-tech solutions.',
+    siteName: 'eOzka',
+    locale: 'en_US',
     images: [
       {
         url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png',
@@ -124,7 +130,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   '@id': 'https://eozka.com/#organization',
                   name: 'eOzka',
                   url: 'https://eozka.com',
-                  logo: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-student-founded-logo.png',
+                  logo: 'https://eozka.com/favicon.png',
                   sameAs: [
                     'https://github.com/eOzkull',
                     'https://instagram.com/weareeozka',

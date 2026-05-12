@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'profile',
-    url: 'https://eozka.com/members/',
+    url: 'https://eozka.com/members',
     title: 'Our Team & Members Directory | eOzka',
     description:
       'Meet the creative designers, documentation officers, and software engineers driving eOzka\'s strategic vision forward into production.',
