@@ -57,7 +57,7 @@ export default function BlogClient() {
             url: 'https://eozka.com/blog/',
             name: 'eOzka Engineering Blog',
             description:
-              'Insights from the eOzka engineering team on open-source AI scanners, health tech, and venture studio scaling.',
+              'Insights from the eOzka engineering team on open-source AI scanners, EdTech systems, health tech, and operational holding company scaling.',
             publisher: {
               '@type': 'Organization',
               name: 'eOzka',
@@ -66,7 +66,7 @@ export default function BlogClient() {
               {
                 '@type': 'BlogPosting',
                 headline: 'Building an AI Vulnerability Scanner with Python and ML',
-                datePublished: '2026-10-01',
+                datePublished: '2026-05-04',
                 author: {
                   '@type': 'Person',
                   name: 'Kushagra Bharadwaj',
@@ -75,7 +75,7 @@ export default function BlogClient() {
               {
                 '@type': 'BlogPosting',
                 headline: 'Why We Chose Flutter for Health-Tech',
-                datePublished: '2026-09-01',
+                datePublished: '2026-05-02',
                 author: {
                   '@type': 'Person',
                   name: 'Pratham Sharma',
@@ -97,7 +97,7 @@ export default function BlogClient() {
       </h1>
       <p className="products-intro reveal" style={{ maxWidth: '800px', marginBottom: '4rem' }}>
         Technical breakdowns, open-source challenges, and the realities of building an
-        enterprise-grade venture studio and technology holding company.
+        enterprise-grade operational holding company.
       </p>
 
       <div className="story-grid">
@@ -109,7 +109,7 @@ export default function BlogClient() {
             Building an AI Vulnerability Scanner with Python and ML
           </h2>
           <p style={{ opacity: 0.7, fontSize: '0.9rem', marginBottom: '15px' }}>
-            By Kushagra Bharadwaj • October 2026
+            By Kushagra Bharadwaj • May 4, 2026
           </p>
           <p>
             A deep dive into how we integrated a hybrid Random Forest and NLP engine to classify XSS
@@ -137,7 +137,7 @@ export default function BlogClient() {
             Why We Chose Flutter for Health-Tech
           </h2>
           <p style={{ opacity: 0.7, fontSize: '0.9rem', marginBottom: '15px' }}>
-            By Pratham Sharma • September 2026
+            By Pratham Sharma • May 2, 2026
           </p>
           <p>
             Analyzing the performance trade-offs of using cross-platform frameworks to process

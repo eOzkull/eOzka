@@ -291,7 +291,7 @@ export default function SentientHub() {
     }
 
     if (/\b(where|location|college|india|university)\b/.test(q)) {
-      return 'eOzka is a decentralized, research-led venture studio and technology holding company operating across the digital landscape, born with the conviction to build software that extends human capability.';
+      return 'eOzka is a decentralized, research-led operational holding company operating across the digital landscape, born with the conviction to build software that extends human capability.';
     }
 
     if (/\b(help|what can you do|command|options|ask)\b/.test(q)) {

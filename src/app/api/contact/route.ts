@@ -44,7 +44,7 @@ export async function POST(request: Request) {
                   { name: '💬 Message Content', value: message }
                 ],
                 footer: {
-                  text: 'eOzka Venture Studio Core Systems',
+                  text: 'eOzka Operational Holding Company Core Systems',
                   icon_url: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'
                 },
                 timestamp: new Date().toISOString()
@@ -115,7 +115,7 @@ export async function POST(request: Request) {
             subject: `📬 Contact Submission from ${name}`,
             html: `
               <div style="background-color: #0c0c0c; color: #f0eeea; font-family: 'Courier New', Courier, monospace; padding: 30px; border: 1px solid #d4c9a8; max-width: 600px; margin: auto; border-radius: 4px;">
-                <h2 style="color: #d4c9a8; border-bottom: 1px solid #2a2a2a; padding-bottom: 10px; margin-top: 0;">eOzka Venture Studio Node</h2>
+                <h2 style="color: #d4c9a8; border-bottom: 1px solid #2a2a2a; padding-bottom: 10px; margin-top: 0;">eOzka Operational Holding Company Node</h2>
                 <p style="font-size: 14px; color: #999; margin-bottom: 20px;">A connection handshake has been established from the home portal form.</p>
                 
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 14px;">

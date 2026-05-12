@@ -24,11 +24,13 @@ export default function Footer() {
           <img
             className="footer-svg-logo"
             src="/assets/eOzka-essentials/eOzka_Logo_Package_V1/SVG/eozka-technology-holding-company-logo.svg"
-            alt="eOzka Technology Holding Company Full Logo"
+            alt="eOzka Operational Holding Company Full Logo"
+            width={180}
+            height={45}
           />
           <p className="footer-desc">
-            A premier technology holding company building software that lasts — starting
-            with tech, expanding into healthcare and agri-tech.
+            An operational holding company engaged in the development, management, and provision of technology solutions, 
+            software infrastructure, digital platforms, consulting services, and community‑driven programs.
           </p>
         </div>
         <div className="footer-cols-mobile">

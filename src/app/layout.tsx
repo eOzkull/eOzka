@@ -16,23 +16,30 @@ const GA_MEASUREMENT_ID = 'G-Q1YKM4J18W'; // Replace with your live Google Analy
 
 
 export const metadata: Metadata = {
-  title: 'eOzka | Next-Generation Venture Studio & Technology Holding Company',
+  title: 'eOzka | Operational Holding Company',
   description:
-    'eOzka is a next-generation venture studio and technology holding company engineering open-source software, healthcare innovations, and agri-tech solutions.',
+    'eOzka is an operational holding company engaged in the development, management, and provision of technology solutions, software infrastructure, digital platforms, consulting services, and community-driven programs, with the objective of supporting individuals, startups, and enterprises across diverse sectors.',
   metadataBase: new URL('https://eozka.com'),
   keywords: [
     'eOzka',
-    'Operatinoal Holding',
-    'Venture Studio',
-    'Next-Gen Venture',
-    'Technology Holding',
+    'Operational Holding',
+    'Operational Holding Company',
+    'Multi-Sector Portfolio',
+    'Technology Solutions',
+    'Software Infrastructure',
+    'Digital Platforms',
+    'Technology Consulting',
+    'Community Service',
+    'Community-Driven Programs',
+    'Social Impact',
+    'Education Technology',
+    'EdTech',
     'Open-Source Software',
     'Healthcare Innovation',
     'Agri-Tech Solutions',
     'Harsh Dev Jha',
     'MOCE',
     'AI Scanner',
-    'Venture Building',
     'Software Engineering'
   ],
   authors: [{ name: 'Harsh Dev Jha', url: 'https://eozka.com' }],
@@ -70,9 +77,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: 'https://eozka.com/',
-    title: 'eOzka | Next-Generation Venture Studio & Technology Holding Company',
+    title: 'eOzka | Operational Holding Company',
     description:
-      'eOzka is a next-generation venture studio and technology holding company engineering open-source software, healthcare innovations, and agri-tech solutions.',
+      'eOzka is an operational holding company engaged in the development, management, and provision of technology solutions, software infrastructure, digital platforms, consulting services, and community-driven programs, with the objective of supporting individuals, startups, and enterprises across diverse sectors.',
     siteName: 'eOzka',
     locale: 'en_US',
     images: [
@@ -80,15 +87,17 @@ export const metadata: Metadata = {
         url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
         width: 1200,
         height: 630,
-        alt: 'eOzka Venture Studio Logo',
+        alt: 'eOzka Operational Holding Company Logo',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'eOzka | Next-Generation Venture Studio & Technology Holding Company',
+    title: 'eOzka | Operational Holding Company',
     description:
-      'eOzka is a next-generation venture studio and technology holding company engineering open-source software, healthcare innovations, and agri-tech solutions.',
+      'eOzka is an operational holding company engaged in the development, management, and provision of technology solutions, software infrastructure, digital platforms, consulting services, and community-driven programs, with the objective of supporting individuals, startups, and enterprises across diverse sectors.',
+    creator: '@weareeozka',
+    site: '@weareeozka',
     images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],
   },
 };
@@ -127,11 +136,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               '@context': 'https://schema.org',
               '@graph': [
                 {
-                  '@type': 'Organization',
+                  '@type': 'Corporation',
                   '@id': 'https://eozka.com/#organization',
                   name: 'eOzka',
+                  legalName: 'eOzka Operational Holding Company',
                   url: 'https://eozka.com',
-                  logo: 'https://eozka.com/favicon.png',
+                  logo: {
+                    '@type': 'ImageObject',
+                    'url': 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
+                    'width': '512',
+                    'height': '512'
+                  },
+                  description: 'eOzka is an operational holding company engaged in the development, management, and provision of technology solutions, software infrastructure, digital platforms, consulting services, and community-driven programs, with the objective of supporting individuals, startups, and enterprises across diverse sectors.',
+                  foundingDate: '2026-04-25',
+                  email: 'eozka.hq@gmail.com',
+                  contactPoint: {
+                    '@type': 'ContactPoint',
+                    'email': 'eozka.hq@gmail.com',
+                    'contactType': 'corporate communication',
+                    'availableLanguage': ['en']
+                  },
                   sameAs: [
                     'https://github.com/eOzkull',
                     'https://instagram.com/weareeozka',
@@ -141,13 +165,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   founder: {
                     '@type': 'Person',
                     name: 'Harsh Dev Jha',
+                    jobTitle: 'Founder & Chairperson',
+                    url: 'https://eozka.com',
+                    sameAs: [
+                      'https://github.com/inkesk-dozing',
+                      'https://linkedin.com/in/harsh-dev-jha-primus'
+                    ]
                   },
+                  subOrganization: [
+                    {
+                      '@type': 'Organization',
+                      name: 'MOCE',
+                      url: 'https://eozka.com/ventures/moce',
+                    }
+                  ]
                 },
                 {
                   '@type': 'WebSite',
                   '@id': 'https://eozka.com/#website',
                   url: 'https://eozka.com',
-                  name: 'eOzka Venture Studio & Technology Holding Company',
+                  name: 'eOzka Operational Holding Company',
                   publisher: {
                     '@id': 'https://eozka.com/#organization',
                   },

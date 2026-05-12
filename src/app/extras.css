@@ -691,3 +691,78 @@
 [data-theme='light'] .now-playing .song-artist {
   color: #0c0c0c !important;
 }
+
+/* ── PREMIUM PILLAR LIST & HIGHLIGHTS ── */
+.about-pillars-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.about-pillar-item {
+  position: relative;
+  padding-left: 20px;
+}
+
+.about-pillar-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.4;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.about-block:hover .about-pillar-item::before {
+  opacity: 1;
+  transform: scale(1.2);
+  box-shadow: 0 0 6px var(--accent);
+}
+
+.about-pillar-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.about-pillar-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--white-dim);
+  display: block;
+}
+
+.about-highlight {
+  position: relative;
+  color: var(--white);
+  font-weight: 500;
+  display: inline;
+}
+
+.about-highlight::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 1px;
+  background: rgba(212, 201, 168, 0.15);
+  transition: background 0.3s ease;
+}
+
+.about-block:hover .about-highlight::after {
+  background: var(--accent);
+}
+

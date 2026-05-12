@@ -501,7 +501,7 @@ export default function Home() {
           <SentientOrb />
         </div>
         <div className="hero-content" style={{ position: 'relative', zIndex: 2 }}>
-          <p className="hero-eyebrow">eOzka — Parent Holding Company</p>
+          <p className="hero-eyebrow">eOzka — Operational Holding Company</p>
           <h1 className="hero-headline">
             Where ideas
             <br />
@@ -513,12 +513,11 @@ export default function Home() {
             </em>
           </h1>
           <p className="hero-sub">
-            We believe great ideas need room to breathe. Our goal is to{' '}
-            <strong>
-              support a family of independent companies across tech, health, and farming
-            </strong>
-            , giving them the resources to grow on their own terms while{' '}
-            <strong>staying true to a shared set of values.</strong>
+            An operational holding company engaged in the development, management, and provision of{' '}
+            <strong>technology solutions</strong>, <strong>software infrastructure</strong>,{' '}
+            <strong>digital platforms</strong>, and <strong>consulting services</strong>. We run{' '}
+            <strong>community‑driven programs</strong> with the objective of supporting individuals, startups,{' '}
+            and enterprises across diverse sectors.
           </p>
           <div className="hero-ctas">
             <a
@@ -586,7 +585,7 @@ export default function Home() {
               set out to bridge this gap, starting with software and expanding across high-growth,
               real-world fields.
             </p>
-            <p>We are a structured holding company, not a club.</p>
+            <p>We are a structured operational holding company, not a club.</p>
             <p>
               The name eOzka is a phonetic evolution of OSKA, a term coined by the Founder to
               encapsulate the spirit of the organisation. Every product shipped, every governance
@@ -647,25 +646,34 @@ export default function Home() {
           <div className="about-block reveal">
             <h3>The Mission</h3>
             <p>
-              Our mission is to build entities that solve real-world problems across a range of
-              industries. We began with technology and have since expanded into{' '}
-              <strong>Education</strong>, and furthermore we will expand into{' '}
-              <strong>healthcare and agricultural technology</strong>.
-              <br />
-              eOzka at the parent level holds equity, sets enterprise-wide standards, and provides
-              the structural backing that enables subsidiaries to operate with both autonomy and
-              accountability.
+              Our mission is to build entities that solve real-world problems across a range of industries. We began by developing robust{' '}
+              <span className="about-highlight">technology solutions</span> and <span className="about-highlight">software infrastructure</span>, and have since grown into{' '}
+              <span className="about-highlight">Education</span> and <span className="about-highlight">consulting services</span>. Our vision extends further, actively charting expansion into{' '}
+              <span className="about-highlight">healthcare</span> and <span className="about-highlight">agricultural technology</span> to directly impact lives.
+            </p>
+            <p style={{ marginTop: '16px' }}>
+              At the parent level, eOzka provides the structural backing, equity governance, and technical advisory that empowers our specialized subsidiaries to operate with absolute autonomy while maintaining a shared commitment to accountability.
             </p>
           </div>
           <div className="about-block reveal">
-            <h3>The Philosophy</h3>
+            <h3>The Philosophy & Pillars</h3>
             <p>
-              We believe the best builders are underestimated early. We are proving that conviction
-              one product at a time — with the governance, structure, and discipline of a company
-              built to last for the long term. Technology is the first chapter that will be integrated
-              in upcoming chapters as well. Healthcare and agri-tech are the next two domains where
-              we've identified both meaningful need and a realistic pathway to execution.
+              We believe the best builders are underestimated early. We are proving that conviction one product at a time — with the governance, structure, and discipline of an enterprise built to stand the test of time. Our framework coordinates three key operational pillars to translate ambitious ideas into reality:
             </p>
+            <ul className="about-pillars-list">
+              <li className="about-pillar-item">
+                <span className="about-pillar-num">I. Software Infrastructure & Solutions</span>
+                <span className="about-pillar-text">Engineering resilient security utilities, database systems, and utility platforms built on solid architecture.</span>
+              </li>
+              <li className="about-pillar-item">
+                <span className="about-pillar-num">II. Specialized Consulting Services</span>
+                <span className="about-pillar-text">Guiding startups and enterprises with high-fidelity system analysis, technical advisory, and specialized code audits.</span>
+              </li>
+              <li className="about-pillar-item">
+                <span className="about-pillar-num">III. Community-Driven Programs</span>
+                <span className="about-pillar-text">Fostering open education, developer-centric initiatives, and local outreach programs to empower the builders of tomorrow.</span>
+              </li>
+            </ul>
           </div>
         </div>
       </section>
@@ -836,12 +844,23 @@ export default function Home() {
             <div className="product-card">
               <div className="product-card-top">
                 <span className="product-num">06</span>
-                <span className="product-tag tag-research">In Research</span>
+                <span className="product-tag tag-live">Live</span>
               </div>
-              <div className="product-name">Management System</div>
-              <p className="product-desc">Under Development...</p>
+              <div className="product-name">Management-Systems</div>
+              <p className="product-desc">
+                Enterprise-grade custom administration platforms designed to unify organizational workflows,
+                human resource operations, secure data pipelines, and real-time internal metrics
+                tailored specifically for modern, decentralized holdings.
+              </p>
               <div className="product-links">
-                <span className="product-link-dim">Coming Soon →</span>
+                <a
+                  href="https://github.com/eOzkull"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="product-link"
+                >
+                  Request Integration →
+                </a>
               </div>
             </div>
           </div>
@@ -1099,8 +1118,9 @@ export default function Home() {
               <span className="venture-num">Subsidiary I</span>
               <span className="venture-name">MOCE</span>
               <p className="venture-desc">
-                The technology arm of eOzka. Home to Stress-Calculator, entab-D, and the engineering
-                team building what comes next. Focused on software that extends human capability.
+                Operating as the specialized technology and consulting arm of eOzka. Home to AIris-Security,
+                Stress-Calculator, and custom management systems, MOCE delivers high-performance software
+                solutions, software infrastructure, and technical advisory to startups and enterprises.
               </p>
               <span className="venture-cta">Explore MOCE</span>
             </Link>
@@ -1108,11 +1128,12 @@ export default function Home() {
               <span className="venture-num">Subsidiary II</span>
               <span className="venture-name">MOCK</span>
               <p className="venture-desc">
-                The research and experimentation arm. Currently laying groundwork for eOzka's
-                expansion into healthcare and agri-tech. Operational framework in development.
+                Laying the groundwork for eOzka's expansion into multi-sector programs, healthcare integration,
+                and agricultural technology. Focused on localized community-driven programs, open-source education
+                advocacy, and sustainable research frameworks.
               </p>
-              <span className="venture-cta">Coming Soon</span>
-            </div>
+              <span className="venture-cta">Research Phase</span>
+            </div >
           </div>
         </div>
       </section>
