@@ -28,6 +28,8 @@ export const metadata: Metadata = {
     title: 'MOCE — Technical Subsidiary of eOzka',
     description:
       'MOCE is the technical subsidiary of eOzka, focused on engineering, AI augmentation, and sentient system building.',
+    creator: '@weareeozka',
+    site: '@weareeozka',
     images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],
   },
 };

@@ -45,7 +45,7 @@ export const ORBITAL_TRACKS: Track[] = [
 ];
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [nowPlaying, setNowPlaying] = useState<{
     name: string;
     artist: string;
@@ -61,6 +61,17 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   // High-fidelity sound effects refs
   const metallicClickRef = useRef<HTMLAudioElement | null>(null);
   const cassetteHoverRef = useRef<HTMLAudioElement | null>(null);
+
+  // Load initial mute state from localStorage on client-side mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const saved = localStorage.getItem('eOzka_audio_muted');
+    if (saved !== null) {
+      setIsMuted(saved === 'true');
+    } else {
+      setIsMuted(true); // default to true if never saved
+    }
+  }, []);
 
   // Preload sound effects on client-side mount
   useEffect(() => {
@@ -117,7 +128,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   };
 
   // 3. Silent no-op hover for standard clickables (revolver sound removed)
-  const playHoverClickable = () => {};
+  const playHoverClickable = () => { };
 
   // 4. Futuristic Soft Chime (For navbar clicks under 150ms)
   const playNavClickSound = () => {
@@ -191,7 +202,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       if (bgMusicRef.current) {
         bgMusicRef.current.src = ORBITAL_TRACKS[currentRadioIndex.current].url;
         if (!isMuted) {
-          bgMusicRef.current.play().catch(() => {});
+          bgMusicRef.current.play().catch(() => { });
           const track = ORBITAL_TRACKS[currentRadioIndex.current];
           setNowPlaying({ name: track.name, artist: track.artist, img: track.img || '' });
         }
@@ -294,13 +305,16 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     if (globalUnlocked.current) return;
     globalUnlocked.current = true;
     if (!isMuted && bgMusicRef.current) {
-      bgMusicRef.current.play().catch(() => {});
+      bgMusicRef.current.play().catch(() => { });
     }
   };
 
   const toggleMute = () => {
     const newMuted = !isMuted;
     setIsMuted(newMuted);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('eOzka_audio_muted', String(newMuted));
+    }
 
     if (!globalUnlocked.current) {
       globalUnlocked.current = true;
@@ -312,7 +326,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       } else {
         const isPreviewing = previewPlayerRef.current && !previewPlayerRef.current.paused;
         bgMusicRef.current.volume = isPreviewing ? 0.05 : 0.25;
-        bgMusicRef.current.play().catch(() => {});
+        bgMusicRef.current.play().catch(() => { });
 
         if (isPreviewing && activePreviewUrl) {
           const track = ORBITAL_TRACKS.find((t) => t.url === activePreviewUrl);
@@ -335,7 +349,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       previewPlayerRef.current.pause();
     } else {
       previewPlayerRef.current.src = track.url;
-      previewPlayerRef.current.play().catch(() => {});
+      previewPlayerRef.current.play().catch(() => { });
       setActivePreviewUrl(track.url);
       setNowPlaying({ name: track.name, artist: track.artist, img: track.img || '' });
     }

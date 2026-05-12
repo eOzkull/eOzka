@@ -52,13 +52,20 @@ export default function SocialClient() {
             '@context': 'https://schema.org',
             '@type': 'ProfilePage',
             '@id': 'https://eozka.com/social/#profile',
-            url: 'https://eozka.com/social/',
-            name: 'eOzka Official Social Channels',
-            description:
+            'url': 'https://eozka.com/social/',
+            'name': 'eOzka Official Social Channels',
+            'description':
               'Connect with the eOzka venture ecosystem on GitHub, LinkedIn, Instagram, and X.',
-            about: {
+            'mainEntity': {
               '@type': 'Organization',
-              name: 'eOzka',
+              'name': 'eOzka',
+              'url': 'https://eozka.com',
+              'sameAs': [
+                'https://github.com/eOzkull',
+                'https://linkedin.com/company/eozka',
+                'https://instagram.com/weareeozka',
+                'https://x.com/weareeozka',
+              ],
             },
           }),
         }}

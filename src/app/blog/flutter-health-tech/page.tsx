@@ -53,30 +53,60 @@ export default function FlutterHealthBlog() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'BlogPosting',
-            '@id': 'https://eozka.com/blog/flutter-health-tech/#post',
-            url: 'https://eozka.com/blog/flutter-health-tech/',
-            headline: 'Why We Chose Flutter for Health-Tech',
-            description:
-              'Analyzing the performance trade-offs of using cross-platform frameworks to process continuous biometric telemetry natively on mobile devices.',
-            datePublished: '2026-05-02T00:00:00Z',
-            dateModified: '2026-05-02T00:00:00Z',
-            author: {
-              '@type': 'Person',
-              name: 'Pratham Sharma',
-            },
-            publisher: {
-              '@type': 'Organization',
-              name: 'eOzka',
-              logo: {
-                '@type': 'ImageObject',
-                url: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
+            '@graph': [
+              {
+                '@type': 'BlogPosting',
+                '@id': 'https://eozka.com/blog/flutter-health-tech/#post',
+                'url': 'https://eozka.com/blog/flutter-health-tech/',
+                'headline': 'Why We Chose Flutter for Health-Tech',
+                'description':
+                  'Analyzing the performance trade-offs of using cross-platform frameworks to process continuous biometric telemetry natively on mobile devices.',
+                'image': 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
+                'keywords': 'Flutter, Health-Tech, Biometrics, Cross-Platform, Mobile Performance',
+                'datePublished': '2026-05-02T00:00:00Z',
+                'dateModified': '2026-05-02T00:00:00Z',
+                'author': {
+                  '@type': 'Person',
+                  'name': 'Pratham Sharma',
+                },
+                'publisher': {
+                  '@type': 'Organization',
+                  'name': 'eOzka',
+                  'logo': {
+                    '@type': 'ImageObject',
+                    'url': 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
+                  },
+                },
+                'mainEntityOfPage': {
+                  '@type': 'WebPage',
+                  '@id': 'https://eozka.com/blog/flutter-health-tech/',
+                },
               },
-            },
-            mainEntityOfPage: {
-              '@type': 'WebPage',
-              '@id': 'https://eozka.com/blog/flutter-health-tech/',
-            },
+              {
+                '@type': 'BreadcrumbList',
+                '@id': 'https://eozka.com/blog/flutter-health-tech/#breadcrumb',
+                'itemListElement': [
+                  {
+                    '@type': 'ListItem',
+                    'position': 1,
+                    'name': 'Home',
+                    'item': 'https://eozka.com/',
+                  },
+                  {
+                    '@type': 'ListItem',
+                    'position': 2,
+                    'name': 'Blog',
+                    'item': 'https://eozka.com/blog',
+                  },
+                  {
+                    '@type': 'ListItem',
+                    'position': 3,
+                    'name': 'Why We Chose Flutter for Health-Tech',
+                    'item': 'https://eozka.com/blog/flutter-health-tech',
+                  },
+                ],
+              },
+            ],
           }),
         }}
       />

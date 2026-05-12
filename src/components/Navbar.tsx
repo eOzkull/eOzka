@@ -157,7 +157,9 @@ export default function Navbar() {
           <img
             className="nav-svg-monogram"
             src="/assets/eOzka-essentials/eOzka_Logo_Package_V1/SVG/eozka-venture-studio-logo.svg"
-            alt="eOzka Technology Holding Company Logo Monogram"
+            alt="eOzka Operational Holding Company Logo Monogram"
+            width={40}
+            height={40}
           />
         </div>
         <span className="nav-tagline">Augmenting-Sentient</span>
@@ -220,7 +222,7 @@ export default function Navbar() {
           id="sound-toggle"
           className={`theme-btn ${isMuted ? 'muted' : 'active'}`}
           onClick={toggleMute}
-          title="Toggle Ambience"
+          title={isMuted ? 'Unmute Ambience' : 'Mute Ambience'}
         >
           <svg
             className="theme-icon"
@@ -228,8 +230,22 @@ export default function Navbar() {
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            <path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            {isMuted ? (
+              <>
+                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                <line x1="22" y1="9" x2="16" y2="15"></line>
+                <line x1="16" y1="9" x2="22" y2="15"></line>
+              </>
+            ) : (
+              <>
+                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </>
+            )}
           </svg>
         </button>
         <button
