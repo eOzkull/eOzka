@@ -63,9 +63,9 @@ export default function Navbar() {
     if (!navMenu || !underline) return;
 
     const activeLink = navMenu.querySelector(
-      `a[href$="#${activeSection}"]`
-    ) as HTMLAnchorElement | null;
-    if (activeLink && pathname === '/') {
+      `.nav-active`
+    ) as HTMLElement | null;
+    if (activeLink) {
       underline.classList.add('active');
       underline.style.width = `${activeLink.offsetWidth}px`;
       underline.style.left = `${activeLink.offsetLeft}px`;
@@ -132,23 +132,17 @@ export default function Navbar() {
     }
   };
 
-  const navItem = (label: string, id: string) => {
-    const isHomePage = pathname === '/';
-    const href = isHomePage ? `#${id}` : `/#${id}`;
-    const isActive = isHomePage && activeSection === id;
-
-    return (
-      <li>
-        <Link
-          href={href}
-          className={isActive ? 'nav-active' : ''}
-          onClick={(e) => isHomePage && handleLinkClick(e, id)}
-        >
-          {label}
-        </Link>
-      </li>
-    );
-  };
+  const isProductsActive = pathname === '/products' || (pathname === '/' && activeSection === 'products');
+  
+  const isEcosystemActive = 
+    pathname === '/community' || 
+    pathname === '/blog' || 
+    pathname === '/social' || 
+    (pathname === '/' && activeSection === 'ventures');
+    
+  const isCompanyActive = 
+    pathname === '/members' || 
+    (pathname === '/' && ['about', 'story', 'team', 'contact'].includes(activeSection));
 
   return (
     <nav id="main-nav" className={`${scrolled ? 'scrolled' : ''} ${mobileActive ? 'active' : ''}`}>
@@ -166,30 +160,114 @@ export default function Navbar() {
       </Link>
 
       <ul className={`nav-links ${mobileActive ? 'active' : ''}`} id="nav-menu" ref={navMenuRef}>
-        {navItem('Story', 'story')}
-        {navItem('About', 'about')}
-        {navItem('Products', 'products')}
-        {navItem('Team', 'team')}
-        {navItem('Contact', 'contact')}
-        {navItem('Ventures', 'ventures')}
+        {/* Products Link */}
+        <li>
+          <Link
+            href={pathname === '/' ? '#products' : '/#products'}
+            className={isProductsActive ? 'nav-active' : ''}
+            onClick={(e) => pathname === '/' && handleLinkClick(e, 'products')}
+          >
+            Products
+          </Link>
+        </li>
+
+        {/* Ecosystem Dropdown */}
         <li className="nav-dropdown">
-          <span style={{ cursor: 'pointer' }} tabIndex={0}>
-            More ▾
+          <span
+            style={{ cursor: 'pointer' }}
+            className={isEcosystemActive ? 'nav-active' : ''}
+            tabIndex={0}
+          >
+            Ecosystem ▾
           </span>
           <ul className="dropdown-content">
             <li>
-              <Link href="/members" onClick={() => setMobileActive(false)}>
+              <Link
+                href="/community"
+                className={pathname === '/community' ? 'dropdown-active' : ''}
+                onClick={() => setMobileActive(false)}
+              >
+                Community
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={pathname === '/' ? '#ventures' : '/#ventures'}
+                onClick={(e) => pathname === '/' && handleLinkClick(e, 'ventures')}
+              >
+                Ventures
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/blog"
+                className={pathname === '/blog' ? 'dropdown-active' : ''}
+                onClick={() => setMobileActive(false)}
+              >
+                Blog
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/social"
+                className={pathname === '/social' ? 'dropdown-active' : ''}
+                onClick={() => setMobileActive(false)}
+              >
+                Social Portal
+              </Link>
+            </li>
+          </ul>
+        </li>
+
+        {/* Company Dropdown */}
+        <li className="nav-dropdown">
+          <span
+            style={{ cursor: 'pointer' }}
+            className={isCompanyActive ? 'nav-active' : ''}
+            tabIndex={0}
+          >
+            Company ▾
+          </span>
+          <ul className="dropdown-content">
+            <li>
+              <Link
+                href={pathname === '/' ? '#about' : '/#about'}
+                onClick={(e) => pathname === '/' && handleLinkClick(e, 'about')}
+              >
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={pathname === '/' ? '#story' : '/#story'}
+                onClick={(e) => pathname === '/' && handleLinkClick(e, 'story')}
+              >
+                Our Story
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={pathname === '/' ? '#team' : '/#team'}
+                onClick={(e) => pathname === '/' && handleLinkClick(e, 'team')}
+              >
+                Leadership
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/members"
+                className={pathname === '/members' ? 'dropdown-active' : ''}
+                onClick={() => setMobileActive(false)}
+              >
                 Members
               </Link>
             </li>
             <li>
-              <Link href="/social" onClick={() => setMobileActive(false)}>
-                Social
-              </Link>
-            </li>
-            <li>
-              <Link href="/blog" onClick={() => setMobileActive(false)}>
-                Blog
+              <Link
+                href={pathname === '/' ? '#contact' : '/#contact'}
+                onClick={(e) => pathname === '/' && handleLinkClick(e, 'contact')}
+              >
+                Contact
               </Link>
             </li>
           </ul>

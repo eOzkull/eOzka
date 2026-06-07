@@ -15,13 +15,13 @@ interface TeamMember {
 
 const membersList: TeamMember[] = [
   {
-    name: 'Rishita',
+    name: '',
     role: 'Documentation Officer',
     category: 'leads',
     badge: 'Docs',
     desc: 'Maintains institutional memory across eOzka. Ensures every decision, process, and standard is documented with precision and long-term clarity.',
-    github: 'https://github.com/RishitaVerma25',
-    linkedin: 'https://www.linkedin.com/in/rishita-verma-7064b0305/',
+    github: 'https://github.com/',
+    linkedin: 'https://www.linkedin.com/in/',
   },
   {
     name: 'Mahin',
@@ -67,15 +67,6 @@ const membersList: TeamMember[] = [
     desc: 'Translates complex ideas into efficient code, ensuring every system within the eOzka ecosystem is built for speed, scalability, and long-term impact.',
     github: 'https://github.com/stillnwater',
     linkedin: 'https://www.linkedin.com/in/manas-bhasker/',
-  },
-  {
-    name: 'Trijal Garg',
-    role: 'Software Development Engineer',
-    category: 'sde',
-    badge: 'SDE',
-    desc: 'Bridging the gap between conceptual architecture and live software, focusing on seamless integration and engineering excellence.',
-    github: 'https://github.com/trijalgarg2006',
-    linkedin: 'https://www.linkedin.com/in/trijal-garg/',
   },
 ];
 
