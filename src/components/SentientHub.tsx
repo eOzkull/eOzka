@@ -111,9 +111,11 @@ export default function SentientHub() {
         const opacity = 0.05 + depth * 0.9;
         const size = this.baseSize * (0.3 + depth * 0.9) * scale;
 
+        const currentTheme = typeof document !== 'undefined' ? (document.documentElement.getAttribute('data-theme') || 'dark') : 'dark';
+
         ctx.beginPath();
         ctx.arc(px, py, Math.max(0.3, size), 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = currentTheme === 'light' ? '#785b19' : '#ffffff';
         ctx.globalAlpha = Math.min(1, opacity);
         ctx.fill();
       }
@@ -207,98 +209,98 @@ export default function SentientHub() {
     }
 
     if (/\b(founder|harsh|harsh dev|prime architect|who built|who started|who created)\b/.test(q)) {
-      return 'Harsh Dev Jha is the founder, Chairperson, and prime architect of eOzka. He founded this holding venture to construct enterprise-grade systems and drive real-world technological impact.';
+      return 'Harsh Dev Jha is the Founder and Chairperson of eOzka. He founded this operational holding company to construct enterprise-grade systems, govern operations, and drive real-world technological impact.';
     }
 
     if (/\b(ceo|krishyangi|chief executive)\b/.test(q)) {
-      return 'Krishyangi Dixit is our CEO. She drives day-to-day operations and ensures every eOzka subsidiary moves with institutional discipline, operational clarity, and high execution velocity.';
+      return 'Krishyangi Dixit is the Group CEO of eOzka. She directs day-to-day operations and strategic execution across all subsidiaries, ensuring institutional discipline and operational clarity.';
     }
 
-    if (/\b(cso|mrinal|strategy officer|chief strategy)\b/.test(q)) {
-      return "Mrinal Prakash is our CSO — he defines the multi-sector expansion roadmap and aligns stakeholders around eOzka's long-term market positioning.";
+    if (/\b(co\-founder|vice chair|md|mrinal|prakash|managing director)\b/.test(q)) {
+      return 'Mrinal Prakash is the Co-Founder, Vice Chair & Managing Director of eOzka. He defines the multi-sector roadmap, long-term positioning, and drives stakeholder alignment.';
     }
 
     if (/\b(coo|aman|chapadiya|operations officer|chief operations)\b/.test(q)) {
-      return 'Aman Chapadiya is our COO — he keeps the physical and digital machinery running by synchronising teams, timelines, and operations across the holding structure.';
+      return 'Aman Chapadiya is our COO. He manages operational synchronization, coordinates project timelines, and ensures smooth functioning across our holding structures.';
     }
 
     if (/\b(cto|pratham|sharma|technology officer|chief technology)\b/.test(q)) {
-      return 'Pratham Sharma is our CTO — spearheading product engineering across the eOzka ecosystem with systems designed for high scalability, responsiveness, and zero-defect deployment.';
+      return 'Pratham Sharma is our CTO. He leads product engineering across the eOzka ecosystem, architecting scalable, resilient, and highly secure software infrastructure.';
     }
 
-    if (/\b(cpo|mahin|product officer|chief product)\b/.test(q)) {
-      return "Mahin is our CPO — translating complex user needs into beautiful, premium, and highly functional digital solutions that uphold eOzka's standards.";
+    if (/\b(cgo|aditya|bhatia|growth officer|chief growth)\b/.test(q)) {
+      return "Aditya Bhatia is our CGO. He leads eOzka's brand presence, distribution strategy, and sustainable growth coordinates across all subsidiary verticals.";
     }
 
-    if (/\b(cdo|rishita|documentation|chief documentation)\b/.test(q)) {
-      return 'Rishita is our CDO — maintaining institutional memory across eOzka, ensuring every single decision, architectural standard, and project schema is documented with precision.';
-    }
-
-    if (/\b(team|members|who is eozka|founding team|people)\b/.test(q)) {
-      return 'Our 10-person founding team: Harsh (Founder & Chairperson), Krishyangi (CEO), Mrinal (CSO), Aman (COO), Pratham (CTO), Mahin (CPO), Aditya (CGO), Rishita (CDO), and our high-performance SDE core — Kushagra, Ishan, Saurabh, Manas, and Trijal.';
-    }
-
-    if (/\b(stress|stress.calc|biometric|heart rate|blood pressure|health|flutter)\b/.test(q)) {
-      return 'Stress-Calculator is a premium, cross-platform biometric mobile application developed in Flutter and Dart. It parses real-time heart rate and blood pressure data using proprietary algorithms to deliver actionable psychological and physical stress assessments for modern professionals.';
+    if (/\b(team|members|who is eozka|board|directors|people)\b/.test(q)) {
+      return 'eOzka is led by our Governing Board and Directorate: Harsh Dev Jha (Founder & Chair), Mrinal Prakash (Co-Founder & MD), Krishyangi Dixit (Group CEO), Aman Chapadiya (COO), Pratham Sharma (CTO), and Aditya Bhatia (CGO).';
     }
 
     if (/\b(entab|tab|browser extension|chrome|chromium|grouping)\b/.test(q)) {
-      return 'Entab-D is our flagship browser extension for Google Chrome/Chromium. It automatically parses active browser states to sort, group, and label tabs by domain category and workspace context in real-time, instantly resolving tab clutter for users with 20+ tabs open.';
+      return 'Entab-D is our browser extension for Chrome/Chromium. It automatically organizes browser tabs by domain and title in real-time. Designed for developers and power users managing 20+ tabs open simultaneously.';
     }
 
     if (/\b(airis|alris|security|vulnerability|scanner|scanning|cve|threat)\b/.test(q)) {
-      return 'AIris-Security is an open-source, automated threat intelligence and vulnerability scanner. Designed by eOzka engineering, it executes security scanning, highlights common CVEs, configuration leaks, and provides deep-dive reports to protect codebase integrity.';
+      return 'AIris-Security is our AI-powered vulnerability scanner. It scans web applications for configuration flaws, security vulnerabilities (like SQLi or XSS), and compiles detailed triage reports to safeguard codebase integrity.';
     }
 
-    if (/\b(paradigm|paradigm.shift|strategic|orchestration|status|systems)\b/.test(q)) {
-      return 'Paradigm-Shift is a centralized strategic software system designed to coordinate and synchronize decentralized APIs across the entire eOzka ecosystem. It ensures absolute uptime, reliability, and security telemetry across all holding components.';
+    if (/\b(paradigm|shift|hrms|resource|management|payroll|performance)\b/.test(q)) {
+      return 'Paradigm-Shift is a production-grade HRMS (Human Resource Management System) designed for modern organizations to manage people, performance, internal processes, and operations in real-time.';
+    }
+
+    if (/\b(mindspace|companion|wellness|mental|stress|meditation|mood)\b/.test(q)) {
+      return 'MindSpace is an AI-powered mental health companion app. It supports daily emotional well-being through guided meditation, mood tracking, secure user reflection logs, and empathetic AI insights.';
+    }
+
+    if (/\b(management|systems|admin|platform|internal|governance|compliance)\b/.test(q)) {
+      return 'Management-Systems represents our custom enterprise administration platforms. These systems unify organizational workflows, human resource records, secure data pipelines, and internal metrics for decentralized holdings.';
     }
 
     if (/\b(product|what do you make|what do you build|software|app|live)\b/.test(q)) {
-      return 'We have four major live products: Stress-Calculator (biometric health tracking), Entab-D (AI tab grouping browser extension), AIris-Security (automated codebase vulnerability scanning), and Paradigm-Shift (strategic network orchestration). All products are fully open-source and Apache 2.0 licensed.';
+      return 'We have five active products: AIris-Security (AI vulnerability scanner), Paradigm-Shift (production-grade HRMS), Entab-D (Chrome tab organizer extension), MindSpace (AI mental wellness companion), and Management-Systems (custom enterprise administration platforms). All completed tools are open-source under Apache 2.0.';
     }
 
     if (/\b(mission|goal|purpose|conviction|vision)\b/.test(q)) {
-      return 'Our mission is to build software that extends human capability, starting with technology and expanding into high-growth sectors like healthcare solutions and agriculture-tech.';
+      return 'Our mission is to build technology solutions, software infrastructure, and digital platforms that solve real problems. Guided by institutional discipline, we support individuals, startups, and enterprises across tech, education, health, and agriculture.';
     }
 
-    if (/\b(moce|development house|ventures|development core)\b/.test(q)) {
-      return 'MOCE (Mind of Core Engineering) is our primary software development subsidiary. It drives engineering excellence, constructs enterprise-ready solutions, and houses software like Entab-D and Stress-Calculator.';
+    if (/\b(moce|development house|ventures|development core|subsidiary i)\b/.test(q)) {
+      return 'MOCE (Mind of Core Engineering) is eOzka\'s specialized technology and consulting subsidiary. It acts as our primary software development hub, housing products like AIris-Security, MindSpace, and custom enterprise tools.';
     }
 
-    if (/\b(mock|research arm|experimental|experimental arm)\b/.test(q)) {
-      return 'MOCK is the specialized research, exploration, and bio-engineering arm of eOzka. It handles high-risk experimentation and builds technical architecture for our forthcoming expansions into automated health and agricultural robotics.';
+    if (/\b(mock|research arm|experimental|subsidiary ii)\b/.test(q)) {
+      return 'MOCK is eOzka\'s specialized research and exploration arm. It focuses on localized community-driven programs, open education advocacy, and lays the groundwork for expansions into automated health and agricultural robotics.';
     }
 
-    if (/\b(tech stack|technology|react|next|typescript|css|html|python|dart)\b/.test(q)) {
-      return 'Our ecosystem leverages a high-performance, modern tech stack: React, Next.js, and TypeScript for premium web experiences; Dart & Flutter for cross-platform mobile apps; Python for security heuristics; and pure, elegant CSS/Canvas for fluid, immersive visual motion.';
+    if (/\b(tech stack|technology|react|next|typescript|css|html|python|dart|flutter)\b/.test(q)) {
+      return 'We build with high-performance modern technologies: React, Next.js, and TypeScript for web applications; Vanilla CSS for rich styling; Flutter/Dart for mobile applications; and Python for machine learning heuristics.';
     }
 
     if (/\b(careers|join|hire|hiring|job|recruit|work with us|apply|collaborate)\b/.test(q)) {
-      return 'We are always looking for ambitious engineers, builders, designers, and thinkers who challenge standard bounds. To collaborate, join, or present ideas to eOzka, use the "Connect" contact form on our landing page or email us at eozka.hq@gmail.com!';
+      return 'We look for ambitious engineers, designers, and systems thinkers. If you believe in what we are building, you can submit your details using the Connect form on our landing page or email us directly at eozka.hq@gmail.com.';
     }
 
-    if (/\b(name|origin|eozka mean|why eozka|etymology)\b/.test(q)) {
-      return 'The name "eOzka" reflects digital discovery ("e-") combined with physical architectural framework. It is our ultimate design mark, representing the convergence of digital logic and raw structural impact.';
+    if (/\b(name|origin|eozka mean|why eozka|etymology|oska)\b/.test(q)) {
+      return 'The name "eOzka" is a phonetic evolution of OSKA, a term coined by our Founder to encapsulate the spirit of the organization, representing digital innovation joined with raw structural impact.';
     }
 
     if (/\b(github|code|open.source|apache|license)\b/.test(q)) {
-      return 'All eOzka products are fully open-source and available on GitHub (github.com/eOzkull) under the Apache 2.0 license. We believe in building in public and contributing to open-source software.';
+      return 'All our core software releases are open-source under the Apache 2.0 license and available on GitHub at github.com/eOzkull. We are committed to building in public and contributing back to the community.';
     }
 
-    if (/\b(instagram|linkedin|twitter|social|contact|email)\b/.test(q)) {
-      return 'Connect with us: Instagram & X/Twitter (@weareeozka), LinkedIn (linkedin.com/company/eozka), or via direct email at eozka.hq@gmail.com. You can also send us a message using our on-page contact form!';
+    if (/\b(instagram|linkedin|twitter|social|contact|email|address)\b/.test(q)) {
+      return 'Reach out to us via email at eozka.hq@gmail.com, connect on LinkedIn (linkedin.com/company/eozka), or follow us on X/Twitter (@weareeozka). You can also send us messages directly using our landing page form.';
     }
 
-    if (/\b(where|location|college|india|university)\b/.test(q)) {
-      return 'eOzka is a decentralized, research-led operational holding company operating across the digital landscape, born with the conviction to build software that extends human capability.';
+    if (/\b(where|location|headquarters|office|studio)\b/.test(q)) {
+      return 'eOzka operates as a decentralized, digital-first holding and software advisory company, coordinating operations across virtual workspaces and local regional hubs.';
     }
 
     if (/\b(help|what can you do|command|options|ask)\b/.test(q)) {
-      return "I can answer questions on: our **founder & executives** (Harsh, Krishyangi, Mrinal, Aman, Pratham, Mahin, Rishita), our **products** (*Stress-Calculator*, *Entab-D*, *AIris-Security*, *Paradigm-Shift*), our subsidiaries (**MOCE** & **MOCK**), our **tech stack**, **careers/joining**, or our **etymology & name**. Just type what you're curious about!";
+      return 'I can answer queries about: our **Governing Board** (Harsh, Mrinal, Krishyangi, Aman, Pratham, Aditya), our **Five Products** (AIris-Security, Paradigm-Shift, Entab-D, MindSpace, Management-Systems), our **Subsidiaries** (MOCE & MOCK), our **Tech Stack**, or **Careers/Collaborations**. What would you like to explore?';
     }
 
-    return "I've processed your query, but my data resonance is low on that specific topic. Try asking about eOzka's mission, our founders, or products like Stress-Calculator and Entab-D.";
+    return 'This topic falls outside my current operational scope. For specialized inquiries, strategic alignments, or technical partnerships, please contact our directorate directly at eozka.hq@gmail.com, or use the connect form on the landing page.';
   };
 
   const handleSendChat = () => {

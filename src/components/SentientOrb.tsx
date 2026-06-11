@@ -16,6 +16,7 @@ export default function SentientOrb() {
     let h = (canvas.height = canvas.offsetHeight);
     let orbits: OrbitNode[] = [];
     let isMobile = window.innerWidth <= 900;
+    let lastTheme: string | null = null;
 
     class OrbitNode {
       orbitRadius: number;
@@ -33,7 +34,7 @@ export default function SentientOrb() {
         this.speed = speed;
         this.size = size;
         this.color = color;
-        this.baseOpacity = Math.random() * 0.4 + 0.3;
+        this.baseOpacity = Math.random() * 0.3 + 0.55;
       }
 
       update(mx: number, my: number) {
@@ -54,17 +55,30 @@ export default function SentientOrb() {
         }
       }
 
-      draw() {
+      draw(isLight: boolean) {
         if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color.replace('1)', `${this.baseOpacity})`);
-        ctx.fill();
 
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = this.color;
+        ctx.save();
+        ctx.globalAlpha = this.baseOpacity;
+        ctx.fillStyle = this.color;
+
+        if (isLight) {
+          const isGolden = this.color.includes('179') || this.color.includes('120') || this.color.includes('194');
+          if (isGolden) {
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = 'rgba(179, 138, 43, 0.5)';
+          } else {
+            ctx.shadowBlur = 0;
+          }
+        } else {
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = this.color;
+        }
+
         ctx.fill();
-        ctx.shadowBlur = 0;
+        ctx.restore();
       }
     }
 
@@ -75,13 +89,23 @@ export default function SentientOrb() {
       isMobile = window.innerWidth <= 900;
       orbits = [];
 
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const isLight = currentTheme === 'light';
+
       const orbitCount = isMobile ? 3 : 7;
-      const colors = [
-        'rgba(212, 201, 168, 1)', // Gold accent
-        'rgba(161, 161, 170, 1)', // Zinc 400
-        'rgba(255, 255, 255, 1)', // White
-        'rgba(113, 113, 122, 1)', // Zinc 500
-      ];
+      const colors = isLight
+        ? [
+            'rgba(179, 138, 43, 1)',  // Gold
+            'rgba(15, 20, 35, 1)',    // Slate-charcoal
+            'rgba(120, 91, 25, 1)',   // Slate-gold/bronze
+            'rgba(80, 80, 90, 1)',    // Muted grey-charcoal
+          ]
+        : [
+            'rgba(212, 201, 168, 1)', // Gold accent
+            'rgba(184, 184, 192, 1)', // Zinc 400
+            'rgba(255, 255, 255, 1)', // White
+            'rgba(144, 144, 154, 1)', // Zinc 500
+          ];
 
       for (let i = 0; i < orbitCount; i++) {
         const radius = (i + 1) * (isMobile ? 45 : 65);
@@ -115,24 +139,40 @@ export default function SentientOrb() {
 
     const animateSystem = () => {
       if (!ctx) return;
+
+      // Handle dynamic canvas sizing to solve offset resolution bugs on initial render
+      if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+        w = canvas.width = canvas.clientWidth || 600;
+        h = canvas.height = canvas.clientHeight || 600;
+        initSystem();
+      }
+
       ctx.clearRect(0, 0, w, h);
 
-      // Central glowing core
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-      const coreColor = isLight ? 'rgba(139, 125, 87, 0.5)' : 'rgba(212, 201, 168, 0.5)';
+      // Track theme state transitions dynamically in the render loop
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      if (currentTheme !== lastTheme) {
+        lastTheme = currentTheme;
+        initSystem();
+      }
 
+      const isLight = currentTheme === 'light';
+
+      const coreColor = isLight ? 'rgba(179, 138, 43, 0.95)' : 'rgba(212, 201, 168, 0.85)';
+
+      // Central glowing core
       ctx.beginPath();
-      ctx.arc(w / 2, h / 2, isMobile ? 8 : 12, 0, Math.PI * 2);
+      ctx.arc(w / 2, h / 2, isMobile ? 10 : 14, 0, Math.PI * 2);
       ctx.fillStyle = coreColor;
-      ctx.shadowBlur = 25;
+      ctx.shadowBlur = 30;
       ctx.shadowColor = coreColor;
       ctx.fill();
       ctx.shadowBlur = 0;
 
       // Concentric circles represent orbits (laptop only)
       if (!isMobile) {
-        ctx.strokeStyle = isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.06)';
-        ctx.lineWidth = 0.8;
+        ctx.strokeStyle = isLight ? 'rgba(179, 138, 43, 0.15)' : 'rgba(255, 255, 255, 0.08)';
+        ctx.lineWidth = 1;
         for (let i = 1; i <= 7; i++) {
           ctx.beginPath();
           ctx.arc(w / 2, h / 2, i * 65, 0, Math.PI * 2);
@@ -142,7 +182,7 @@ export default function SentientOrb() {
 
       orbits.forEach((node) => {
         node.update(smX, smY);
-        node.draw();
+        node.draw(isLight);
       });
 
       animationId = requestAnimationFrame(animateSystem);

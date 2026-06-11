@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import SentientOrb from '@/components/SentientOrb';
 import { useAudio } from '@/contexts/AudioContext';
+
 interface TeamMember {
   name: string;
   role: string;
@@ -71,8 +72,349 @@ const teamMembers: TeamMember[] = [
   },
 ];
 
+interface InteractiveProduct {
+  name: string;
+  tagline: string;
+  badge: string;
+  status: 'Live' | 'In Progress';
+  description: string;
+  github?: string;
+  deployment?: string;
+  slug: string;
+  metrics: { label: string; value: string }[];
+}
+
+const interactiveProducts: InteractiveProduct[] = [
+  {
+    name: 'AIris Security',
+    tagline: 'AI vulnerability scanner for web applications',
+    badge: 'Security Platform',
+    status: 'Live',
+    description: 'Detects, classifies, and prioritizes security flaws before they ship. Built for fast triage and practical protection, achieving high-accuracy detection without reliance on cloud-based APIs.',
+    github: 'https://github.com/Kush05Bhardwaj/AIris-Security_AI-Powered-Vulnerability-Scanner',
+    deployment: 'https://airis-security1.vercel.app/',
+    slug: '/products/airis-security',
+    metrics: [
+      { label: 'Focus', value: 'Web Apps' },
+      { label: 'Latency', value: '<3.8ms' },
+      { label: 'F1 Score', value: '94.2%' },
+    ]
+  },
+  {
+    name: 'Paradigm-Shift',
+    tagline: 'Unified HRMS for modern organizations',
+    badge: 'HRMS Suite',
+    status: 'Live',
+    description: 'A structured human-resource management system that acts as a real-time operational source of truth for people, performance, and cross-team workflows.',
+    github: 'https://github.com/MRINALPRAKASHFSD/MINI_PROJECT_PARADIGM_SHIFT',
+    deployment: 'https://mini-project-paradigm-shift-5y6i.vercel.app/',
+    slug: '/products/paradigm-shift',
+    metrics: [
+      { label: 'Scope', value: 'HRMS' },
+      { label: 'Engine', value: 'Real-time' },
+      { label: 'Workflows', value: 'Active' },
+    ]
+  },
+  {
+    name: 'Entab-D',
+    tagline: 'Chrome tab organizer for heavy workflows',
+    badge: 'Browser Utility',
+    status: 'Live',
+    description: 'A browser extension that automatically organizes browser tabs by domain and page title, solving window clutter for research-heavy workflows.',
+    github: 'https://github.com/eOzkull/entab-D',
+    slug: '/products/entab-d',
+    metrics: [
+      { label: 'Grouping', value: 'Automatic' },
+      { label: 'Config', value: 'Zero' },
+      { label: 'Installs', value: '100+' },
+    ]
+  },
+  {
+    name: 'MindSpace',
+    tagline: 'Empathetic AI mental wellness companion',
+    badge: 'Mental Wellness',
+    status: 'Live',
+    description: 'An AI companion for stress support, mood tracking, and guided reflection, designed to provide supportive and human-like interactions.',
+    github: 'https://github.com/eOzkull/MindSpace',
+    slug: '/products/mindspace',
+    metrics: [
+      { label: 'Type', value: 'Companion' },
+      { label: 'Mood Logs', value: 'Secure' },
+      { label: 'Tone', value: 'Organic' },
+    ]
+  },
+  {
+    name: 'Management-Systems',
+    tagline: 'Holding-company operations and compliance layer',
+    badge: 'Internal Platform',
+    status: 'In Progress',
+    description: 'Internal governance and reporting system under active development, tailored for modern, decentralized holding structures.',
+    github: 'https://github.com/eOzkull',
+    slug: '/products/management-systems',
+    metrics: [
+      { label: 'Scope', value: 'Governance' },
+      { label: 'Replication', value: 'Active' },
+      { label: 'Access', value: 'Audited' },
+    ]
+  }
+];
+
+const ProductCarousel = ({ product }: { product: any }) => {
+  const [slide, setSlide] = useState(0);
+
+  const getSlides = () => {
+    const slide1 = {
+      type: 'image',
+      content: (
+        <div style={{
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(135deg, rgba(179, 138, 43, 0.02) 0%, rgba(179, 138, 43, 0.06) 100%)',
+          border: '1px dashed var(--accent-dim)',
+          borderRadius: '8px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '12px',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          {/* Subtle glowing core */}
+          <div style={{
+            position: 'absolute',
+            width: '180px',
+            height: '180px',
+            borderRadius: '50%',
+            background: 'var(--accent)',
+            opacity: 0.04,
+            filter: 'blur(50px)',
+            pointerEvents: 'none'
+          }} />
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-dim)" strokeWidth="1.5">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <circle cx="9" cy="9" r="2" />
+            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+          </svg>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
+            color: 'var(--white-dimmer)',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase'
+          }}>
+            [ {product.name} — Viewport Main ]
+          </span>
+        </div>
+      )
+    };
+
+    const slide2 = {
+      type: 'image',
+      content: (
+        <div style={{
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(135deg, rgba(179, 138, 43, 0.01) 0%, rgba(179, 138, 43, 0.04) 100%)',
+          border: '1px dashed var(--accent-dim)',
+          borderRadius: '8px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '12px',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          <div style={{
+            position: 'absolute',
+            width: '180px',
+            height: '180px',
+            borderRadius: '50%',
+            background: 'var(--accent)',
+            opacity: 0.02,
+            filter: 'blur(50px)',
+            pointerEvents: 'none'
+          }} />
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-dim)" strokeWidth="1.5">
+            <path d="M3 3h18v18H3zM21 9H3M21 15H3M12 3v18" />
+          </svg>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
+            color: 'var(--white-dimmer)',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase'
+          }}>
+            [ {product.name} — Metrics Wireframe ]
+          </span>
+        </div>
+      )
+    };
+
+    const slide3 = {
+      type: 'image',
+      content: (
+        <div style={{
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(135deg, rgba(179, 138, 43, 0.02) 0%, rgba(179, 138, 43, 0.04) 100%)',
+          border: '1px dashed var(--accent-dim)',
+          borderRadius: '8px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '12px',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          <div style={{
+            position: 'absolute',
+            width: '180px',
+            height: '180px',
+            borderRadius: '50%',
+            background: 'var(--accent)',
+            opacity: 0.03,
+            filter: 'blur(50px)',
+            pointerEvents: 'none'
+          }} />
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-dim)" strokeWidth="1.5">
+            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7" />
+          </svg>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
+            color: 'var(--white-dimmer)',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase'
+          }}>
+            [ {product.name} — Telemetry Out ]
+          </span>
+        </div>
+      )
+    };
+
+    return [slide1, slide2, slide3];
+  };
+
+  const slides = getSlides();
+
+  useEffect(() => {
+    setSlide(0);
+  }, [product.name]);
+
+  const nextSlide = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  return (
+    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '260px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1, position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
+        {slides.map((s, idx) => (
+          <div
+            key={idx}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              opacity: slide === idx ? 1 : 0,
+              transform: slide === idx ? 'translateX(0%)' : `translateX(${(idx - slide) * 100}%)`,
+              transition: 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              pointerEvents: slide === idx ? 'all' : 'none',
+              height: '100%',
+              width: '100%'
+            }}
+          >
+            {s.content}
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={prevSlide}
+        type="button"
+        style={{
+          position: 'absolute',
+          left: '12px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          width: '28px',
+          height: '28px',
+          borderRadius: '50%',
+          background: 'rgba(0, 0, 0, 0.5)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          color: '#ffffff',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '14px',
+          zIndex: 10,
+          transition: 'all 0.2s',
+          outline: 'none'
+        }}
+      >
+        ‹
+      </button>
+      <button
+        onClick={nextSlide}
+        type="button"
+        style={{
+          position: 'absolute',
+          right: '12px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          width: '28px',
+          height: '28px',
+          borderRadius: '50%',
+          background: 'rgba(0, 0, 0, 0.5)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          color: '#ffffff',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '14px',
+          zIndex: 10,
+          transition: 'all 0.2s',
+          outline: 'none'
+        }}
+      >
+        ›
+      </button>
+
+      <div style={{ position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px', zIndex: 10 }}>
+        {slides.map((_, idx) => (
+          <button
+            key={idx}
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setSlide(idx); }}
+            style={{
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: slide === idx ? 'var(--accent)' : 'rgba(255, 255, 255, 0.3)',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              transition: 'background 0.3s ease, transform 0.3s ease',
+              transform: slide === idx ? 'scale(1.2)' : 'scale(1.0)',
+              outline: 'none'
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 function renderTeamCard(member: TeamMember, index: number) {
-  // Generate a beautiful, initials-based avatar indicator automatically
   const initials = member.name
     .split(' ')
     .map((n) => n[0])
@@ -135,18 +477,22 @@ function renderTeamCard(member: TeamMember, index: number) {
 
 export default function Home() {
   const [headlineText, setHeadlineText] = useState('become Impact.');
-  const { playHoverWhoosh, stopHoverWhoosh } = useAudio();
+  const { playHoverWhoosh, stopHoverWhoosh, playClickSound } = useAudio();
 
   // Contact Form States
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formErrorMessage, setFormErrorMessage] = useState('');
 
+  // Interactive Product Selector States
+  const [selectedProductIndex, setSelectedProductIndex] = useState(0);
+  const [expandedSection, setExpandedSection] = useState<'problem' | 'opportunity' | null>('problem');
+
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus('submitting');
     setFormErrorMessage('');
-    playHoverWhoosh(); // Mechanical tape start-stop sound for message sending/transmission feedback
+    playHoverWhoosh();
 
     const startTime = Date.now();
 
@@ -159,14 +505,13 @@ export default function Home() {
 
       const data = await res.json();
 
-      // Enforce physical minimum delay to match the cassette sound's mechanical playback duration (2.8 seconds)
       const elapsedTime = Date.now() - startTime;
       const minDuration = 2800;
       if (elapsedTime < minDuration) {
         await new Promise((resolve) => setTimeout(resolve, minDuration - elapsedTime));
       }
 
-      stopHoverWhoosh(); // Stop physical tape whirr as transmission completes
+      stopHoverWhoosh();
 
       if (res.ok && data.success) {
         setFormStatus('success');
@@ -178,20 +523,18 @@ export default function Home() {
     } catch (err: any) {
       console.error('Submission failure:', err);
 
-      // Enforce physical minimum delay even in case of failure
       const elapsedTime = Date.now() - startTime;
       const minDuration = 2800;
       if (elapsedTime < minDuration) {
         await new Promise((resolve) => setTimeout(resolve, minDuration - elapsedTime));
       }
 
-      stopHoverWhoosh(); // Stop physical tape whirr as transmission terminates in error
+      stopHoverWhoosh();
 
       setFormStatus('error');
       setFormErrorMessage('Network error. Please check your internet connection and try again.');
     }
   };
-
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -249,7 +592,7 @@ export default function Home() {
       revealObserver.observe(el);
     });
 
-    // ── COUNTER ANIMATION (Cubical easing count-up stats) ──
+    // ── COUNTER ANIMATION ──
     const counters = document.querySelectorAll('.stat-num[data-target]');
     const counterObs = new IntersectionObserver(
       (entries) => {
@@ -406,7 +749,6 @@ export default function Home() {
 
     const destroyMobileAutoscroll = () => {
       const targets = [
-        '.products-track',
         '.ventures-track',
         '.team-core-track',
         '.team-directorate-track'
@@ -423,7 +765,6 @@ export default function Home() {
     const initMobileAutoscroll = () => {
       if (typeof window === 'undefined') return;
 
-      // Clean up and return early if resized to desktop widths
       if (window.innerWidth > 900) {
         if (autoscrollInitialized) destroyMobileAutoscroll();
         return;
@@ -433,7 +774,6 @@ export default function Home() {
       autoscrollInitialized = true;
 
       const targets = [
-        '.products-track',
         '.ventures-track',
         '.team-core-track',
         '.team-directorate-track'
@@ -443,10 +783,8 @@ export default function Home() {
         const container = document.querySelector(selector) as HTMLElement | null;
         if (!container) return;
 
-        // Clean up any marquee clones from previous hot-reloads to avoid duplication
         container.querySelectorAll('.marquee-clone').forEach((clone) => clone.remove());
 
-        // Clone children once for infinite wrapping
         const children = Array.from(container.children);
         if (children.length === 0) return;
 
@@ -458,7 +796,98 @@ export default function Home() {
       });
     };
 
-    // Attach resize listeners to handle dynamic toggles in DevTools or device rotations
+    const setupAutoscroll = () => {
+      const scrollContainers = [
+        { selector: '.products-console-sidebar' },
+        { selector: '.ventures-grid' },
+        { selector: '.team-cards-grid.core' },
+        { selector: '.team-cards-grid.directorate' }
+      ];
+
+      const speed = 0.8; // Smooth visible pace
+      const activeScrollers: {
+        container: HTMLElement;
+        paused: boolean;
+        scrollPos: number;
+        resumeTimeout?: NodeJS.Timeout;
+      }[] = [];
+
+      scrollContainers.forEach(({ selector }) => {
+        const container = document.querySelector(selector) as HTMLElement | null;
+        if (!container) return;
+
+        const scrollerState = {
+          container,
+          paused: false,
+          scrollPos: container.scrollLeft,
+          resumeTimeout: undefined as any
+        };
+
+        const handleStart = () => {
+          scrollerState.paused = true;
+          if (scrollerState.resumeTimeout) clearTimeout(scrollerState.resumeTimeout);
+        };
+
+        const handleEnd = () => {
+          if (scrollerState.resumeTimeout) clearTimeout(scrollerState.resumeTimeout);
+          scrollerState.resumeTimeout = setTimeout(() => {
+            // Re-sync float position with final user scroll before resuming
+            scrollerState.scrollPos = container.scrollLeft;
+            scrollerState.paused = false;
+          }, 2000);
+        };
+
+        container.addEventListener('touchstart', handleStart, { passive: true });
+        container.addEventListener('touchend', handleEnd, { passive: true });
+        container.addEventListener('touchcancel', handleEnd, { passive: true });
+        container.addEventListener('mousedown', handleStart, { passive: true });
+        container.addEventListener('mouseup', handleEnd, { passive: true });
+        container.addEventListener('mouseleave', handleEnd, { passive: true });
+
+        cleanups.push(() => {
+          container.removeEventListener('touchstart', handleStart);
+          container.removeEventListener('touchend', handleEnd);
+          container.removeEventListener('touchcancel', handleEnd);
+          container.removeEventListener('mousedown', handleStart);
+          container.removeEventListener('mouseup', handleEnd);
+          container.removeEventListener('mouseleave', handleEnd);
+          if (scrollerState.resumeTimeout) clearTimeout(scrollerState.resumeTimeout);
+        });
+
+        activeScrollers.push(scrollerState);
+      });
+
+      let animationFrameId: number;
+      const scrollLoop = () => {
+        if (window.innerWidth <= 900) {
+          activeScrollers.forEach((scroller) => {
+            const { container, paused } = scroller;
+            if (paused) return;
+
+            // Sync scrollPos if user swiped/scrolled manually without triggering handleStart
+            const currentScroll = container.scrollLeft;
+            if (Math.abs(currentScroll - Math.round(scroller.scrollPos)) > 2) {
+              scroller.scrollPos = currentScroll;
+            }
+
+            scroller.scrollPos += speed;
+
+            const maxScroll = container.scrollWidth / 2;
+            if (scroller.scrollPos >= maxScroll) {
+              scroller.scrollPos -= maxScroll;
+            }
+
+            container.scrollLeft = Math.round(scroller.scrollPos);
+          });
+        }
+        animationFrameId = requestAnimationFrame(scrollLoop);
+      };
+
+      animationFrameId = requestAnimationFrame(scrollLoop);
+      cleanups.push(() => cancelAnimationFrame(animationFrameId));
+    };
+
+
     const handleAutoscrollResize = () => {
       initMobileAutoscroll();
     };
@@ -468,9 +897,12 @@ export default function Home() {
       destroyMobileAutoscroll();
     });
 
-    // Initialize after a tiny delay so the DOM is fully layout-calculated
-    const autoscrollStartTimeout = setTimeout(initMobileAutoscroll, 800);
+    const autoscrollStartTimeout = setTimeout(() => {
+      initMobileAutoscroll();
+      setupAutoscroll();
+    }, 800);
     cleanups.push(() => clearTimeout(autoscrollStartTimeout));
+
 
     return () => {
       clearTimeout(startTimeout);
@@ -566,8 +998,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-
 
       {/* ── STORY SECTION ── */}
       <section id="story">
@@ -682,187 +1112,265 @@ export default function Home() {
       <section id="products">
         <div className="section-label">03 — Products</div>
         <h2 className="section-headline reveal">
-          Five products. Live.
+          Technical Pipeline.
           <br />
-          <em>In active use.</em>
+          <em>Our builds and releases.</em>
         </h2>
         <p className="products-intro reveal">
-          Products are open-source under Apache 2.0 and available on GitHub. Built and maintained by
-          the eOzka engineering team.
+          Click on any product to examine its core architecture, problem statements, and real-world deployment details.
         </p>
-        <div className="products-grid reveal">
-          <div className="products-track">
-            <div className="product-card">
-              <div className="product-card-top">
-                <span className="product-num">01</span>
-                <span className="product-tag tag-live">Live</span>
+        
+        {/* Compact Console Shell Layout */}
+        <div className="products-console-container reveal">
+          
+          {/* Left: Product Cards Stack */}
+          <div className="products-console-sidebar">
+            {interactiveProducts.map((product, idx) => {
+              const isActive = selectedProductIndex === idx;
+              return (
+                <div
+                  key={product.name}
+                  className={`product-card product-console-card ${isActive ? 'active' : ''}`}
+                  onClick={() => {
+                    setSelectedProductIndex(idx);
+                    playClickSound();
+                  }}
+                  style={{ 
+                    cursor: 'pointer',
+                    minHeight: '90px'
+                  }}
+                >
+                  <div className="product-card-top">
+                    <span className="product-num">0{idx + 1}</span>
+                    <span className={`product-tag ${product.status === 'Live' ? 'tag-live' : 'tag-research'}`}>
+                      {product.status}
+                    </span>
+                  </div>
+                  <h3 
+                    className="product-name" 
+                    style={{ 
+                      fontSize: isActive ? '24px' : '14px', 
+                      margin: isActive ? '8px 0 6px 0' : '4px 0 2px 0',
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    {product.name}
+                  </h3>
+                  <p 
+                    className="product-summary" 
+                    style={{ 
+                      margin: 0, 
+                      fontSize: isActive ? '13px' : '11px', 
+                      color: 'var(--white-dim)', 
+                      textOverflow: isActive ? 'clip' : 'ellipsis', 
+                      overflow: isActive ? 'visible' : 'hidden', 
+                      whiteSpace: isActive ? 'normal' : 'nowrap',
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    {product.tagline}
+                  </p>
+
+                  {/* Smooth Expandable Description Accordion */}
+                  <div 
+                    className="product-card-expanded-content"
+                    style={{
+                      maxHeight: isActive ? '400px' : '0px',
+                      opacity: isActive ? 1 : 0,
+                      overflow: 'hidden',
+                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      marginTop: isActive ? '14px' : '0px'
+                    }}
+                  >
+                    <p className="product-desc" style={{ margin: 0, fontSize: '13.5px', lineHeight: '1.6', color: 'var(--white-dim)' }}>
+                      {product.description}
+                    </p>
+                    <div style={{ display: 'flex', gap: '16px', marginTop: '16px', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
+                      <Link 
+                        href={product.slug} 
+                        className="product-link" 
+                        onClick={(e) => e.stopPropagation()}
+                        style={{ borderBottom: '1.5px solid var(--accent)', paddingBottom: '3px', fontWeight: 'bold' }}
+                      >
+                        Learn More →
+                      </Link>
+                      {product.github && (
+                        <a 
+                          href={product.github} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="product-link-dim"
+                          onClick={(e) => e.stopPropagation()}
+                          style={{ borderBottom: '1.5px solid var(--white-dimmer)', paddingBottom: '3px', fontWeight: 'bold' }}
+                        >
+                          GitHub
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+              );
+            })}
+
+            {/* Clones for mobile marquee scroll */}
+            {interactiveProducts.map((product, idx) => {
+              const isCloneActive = selectedProductIndex === idx;
+              return (
+                <div
+                  key={`${product.name}-clone`}
+                  className={`product-card product-console-card marquee-clone ${isCloneActive ? 'active' : ''}`}
+                  onClick={() => {
+                    setSelectedProductIndex(idx);
+                    playClickSound();
+                  }}
+                  style={{ 
+                    cursor: 'pointer',
+                    minHeight: '90px'
+                  }}
+                >
+                  <div className="product-card-top">
+                    <span className="product-num">0{idx + 1}</span>
+                    <span className={`product-tag ${product.status === 'Live' ? 'tag-live' : 'tag-research'}`}>
+                      {product.status}
+                    </span>
+                  </div>
+                  <h3 
+                    className="product-name" 
+                    style={{ 
+                      fontSize: isCloneActive ? '24px' : '14px', 
+                      margin: isCloneActive ? '8px 0 6px 0' : '4px 0 2px 0',
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    {product.name}
+                  </h3>
+                  <p 
+                    className="product-summary" 
+                    style={{ 
+                      margin: 0, 
+                      fontSize: isCloneActive ? '13px' : '11px', 
+                      color: 'var(--white-dim)', 
+                      textOverflow: isCloneActive ? 'clip' : 'ellipsis', 
+                      overflow: isCloneActive ? 'visible' : 'hidden', 
+                      whiteSpace: isCloneActive ? 'normal' : 'nowrap',
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    {product.tagline}
+                  </p>
+
+                  <div 
+                    className="product-card-expanded-content"
+                    style={{
+                      maxHeight: isCloneActive ? '400px' : '0px',
+                      opacity: isCloneActive ? 1 : 0,
+                      overflow: 'hidden',
+                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      marginTop: isCloneActive ? '14px' : '0px'
+                    }}
+                  >
+                    <p className="product-desc" style={{ margin: 0, fontSize: '13.5px', lineHeight: '1.6', color: 'var(--white-dim)' }}>
+                      {product.description}
+                    </p>
+                    <div style={{ display: 'flex', gap: '16px', marginTop: '16px', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
+                      <Link 
+                        href={product.slug} 
+                        className="product-link" 
+                        onClick={(e) => e.stopPropagation()}
+                        style={{ borderBottom: '1.5px solid var(--accent)', paddingBottom: '3px', fontWeight: 'bold' }}
+                      >
+                        Learn More →
+                      </Link>
+                      {product.github && (
+                        <a 
+                          href={product.github} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="product-link-dim"
+                          onClick={(e) => e.stopPropagation()}
+                          style={{ borderBottom: '1.5px solid var(--white-dimmer)', paddingBottom: '3px', fontWeight: 'bold' }}
+                        >
+                          GitHub
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Right: Product Showcase Panel */}
+          <div className="product-showcase-panel">
+            
+            {/* Top Area: Description and Link */}
+            <div>
+              <span className="showcase-header-tag">
+                Pipeline Product // {interactiveProducts[selectedProductIndex].badge}
+              </span>
+              <div className="showcase-title-row" style={{ marginTop: '4px' }}>
+                <h3 className="showcase-title" style={{ fontSize: '1.6rem', color: 'var(--white)', fontWeight: 'bold' }}>
+                  {interactiveProducts[selectedProductIndex].name}
+                </h3>
+                <Link
+                  href={interactiveProducts[selectedProductIndex].slug}
+                  className="theme-btn"
+                  style={{ 
+                    padding: '6px 14px', 
+                    fontSize: '10px', 
+                    textTransform: 'uppercase', 
+                    textDecoration: 'none', 
+                    display: 'inline-flex', 
+                    alignItems: 'center', 
+                    gap: '4px', 
+                    fontWeight: 'bold',
+                    border: '1px solid var(--border)',
+                    borderRadius: '6px'
+                  }}
+                >
+                  Explore Details →
+                </Link>
               </div>
-              <div className="product-name">Alris-Security</div>
-              <p className="product-desc">
-                AIris Security is a cutting-edge vulnerability scanner designed to safeguard web
-                applications. It leverages advanced AI and machine learning algorithms to detect and
-                classify security flaws with unparalleled accuracy. From SQL injection to XSS attacks,
-                AIris provides comprehensive protection for your digital assets.
+              <p className="showcase-desc" style={{ fontSize: '13px', color: 'var(--white-dim)', marginTop: '8px', lineHeight: '1.6' }}>
+                {interactiveProducts[selectedProductIndex].description}
               </p>
-              <div className="product-links">
+            </div>
+
+            {/* Middle Area: Interactive Product Preview Screen */}
+            <div className="showcase-mockup-frame" style={{ cursor: 'default' }}>
+              <ProductCarousel product={interactiveProducts[selectedProductIndex]} />
+            </div>
+
+            {/* Bottom Area: Github & Deployment */}
+            <div className="showcase-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border)', paddingTop: '16px', fontSize: '12px' }}>
+              {interactiveProducts[selectedProductIndex].github ? (
                 <a
-                  href="https://github.com/Kush05Bhardwaj/AIris-Security_AI-Powered-Vulnerability-Scanner"
+                  href={interactiveProducts[selectedProductIndex].github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="product-link"
+                  className="showcase-footer-link"
                 >
                   View on GitHub →
                 </a>
+              ) : (
+                <span />
+              )}
+              {interactiveProducts[selectedProductIndex].deployment ? (
                 <a
-                  href="https://airis-security1.vercel.app/"
+                  href={interactiveProducts[selectedProductIndex].deployment}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="product-link-dim"
+                  className="showcase-footer-link dim"
                 >
                   Visit Deployment
                 </a>
-              </div>
+              ) : (
+                <span className="showcase-footer-tag">Internal System Node</span>
+              )}
             </div>
 
-            <div className="product-card">
-              <div className="product-card-top">
-                <span className="product-num">02</span>
-                <span className="product-tag tag-live">Live</span>
-              </div>
-              <div className="product-name">Paradigm-Shift</div>
-              <p className="product-desc">
-                ParadigmShift is a production-grade HRMS (Human Resource Management System) designed
-                for modern organizations that need a unified, real-time platform to manage people,
-                performance, and processes.
-              </p>
-              <div className="product-links">
-                <a
-                  href="https://github.com/MRINALPRAKASHFSD/MINI_PROJECT_PARADIGM_SHIFT"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="product-link"
-                >
-                  View on GitHub →
-                </a>
-                <a
-                  href="https://mini-project-paradigm-shift-5y6i.vercel.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="product-link-dim"
-                >
-                  Visit Deployment
-                </a>
-              </div>
-            </div>
-
-            <div className="product-card">
-              <div className="product-card-top">
-                <span className="product-num">03</span>
-                <span className="product-tag tag-live">Live</span>
-              </div>
-              <div className="product-name">Stress-Calculator</div>
-              <p className="product-desc">
-                A Flutter app that assesses stress risk using biometric data — heart rate and blood
-                pressure. Built for real users. Processes physiological inputs to generate meaningful,
-                actionable stress assessments.
-              </p>
-              <div className="product-links">
-                <a
-                  href="https://github.com/eOzkull/stress-calculator"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="product-link"
-                >
-                  View on GitHub →
-                </a>
-                <a
-                  href="https://github.com/eOzkull/Stress-Calculator/releases"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="product-link-dim"
-                >
-                  Download App
-                </a>
-              </div>
-            </div>
-
-            <div className="product-card">
-              <div className="product-card-top">
-                <span className="product-num">04</span>
-                <span className="product-tag tag-live">Live</span>
-              </div>
-              <div className="product-name">Entab-D</div>
-              <p className="product-desc">
-                A Chrome extension that auto-organises browser tabs by domain and title. Solves tab
-                chaos for anyone working with 20+ tabs open. One-click install. Zero configuration
-                needed.
-              </p>
-              <div className="product-links">
-                <a
-                  href="https://github.com/eOzkull/entab-D"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="product-link"
-                >
-                  View on GitHub →
-                </a>
-                <a
-                  href="https://github.com/eOzkull"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="product-link-dim"
-                >
-                  Install Extension
-                </a>
-              </div>
-            </div>
-
-            <div className="product-card">
-              <div className="product-card-top">
-                <span className="product-num">05</span>
-                <span className="product-tag tag-live">Live</span>
-              </div>
-              <div className="product-name">MindSpace</div>
-              <p className="product-desc">
-                MindSpace is an AI-powered mental health companion app designed to support users in
-                managing stress, anxiety, and daily emotional well-being. Through guided meditation,
-                mood tracking, and AI-driven insights, MindSpace provides personalized tools to foster
-                mental clarity and resilience.
-              </p>
-              <div className="product-links">
-                <a
-                  href="https://github.com/eOzkull/MindSpace"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="product-link"
-                >
-                  View on GitHub →
-                </a>
-              </div>
-            </div>
-
-            <div className="product-card">
-              <div className="product-card-top">
-                <span className="product-num">06</span>
-                <span className="product-tag tag-live">Live</span>
-              </div>
-              <div className="product-name">Management-Systems</div>
-              <p className="product-desc">
-                Enterprise-grade custom administration platforms designed to unify organizational workflows,
-                human resource operations, secure data pipelines, and real-time internal metrics
-                tailored specifically for modern, decentralized holdings.
-              </p>
-              <div className="product-links">
-                <a
-                  href="https://github.com/eOzkull"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="product-link"
-                >
-                  Request Integration →
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </section>

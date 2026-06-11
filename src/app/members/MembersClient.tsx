@@ -15,7 +15,7 @@ interface TeamMember {
 
 const membersList: TeamMember[] = [
   {
-    name: '',
+    name: 'Rishita',
     role: 'Documentation Officer',
     category: 'leads',
     badge: 'Docs',
