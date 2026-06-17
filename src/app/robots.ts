@@ -6,6 +6,12 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: [
         '/',
+        '/products',
+        '/products/airis-security',
+        '/products/paradigm-shift',
+        '/products/entab-d',
+        '/products/mindspace',
+        '/products/management-systems',
         '/members',
         '/social',
         '/blog',

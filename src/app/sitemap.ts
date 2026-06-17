@@ -24,6 +24,43 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
+      url: `${baseUrl}/products`,
+      lastModified: getPageLastModified('src/app/products/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/products/mindspace`,
+      lastModified: getPageLastModified('src/app/products/mindspace/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/products/management-systems`,
+      lastModified: getPageLastModified('src/app/products/management-systems/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/products/airis-security`,
+      lastModified: getPageLastModified('src/app/products/airis-security/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/products/paradigm-shift`,
+      lastModified: getPageLastModified('src/app/products/paradigm-shift/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/products/entab-d`,
+      lastModified: getPageLastModified('src/app/products/entab-d/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/members`,
       lastModified: getPageLastModified('src/app/members/page.tsx'),
       changeFrequency: 'monthly',

@@ -427,14 +427,7 @@ export default function MoceClient() {
               </p>
               <div className="project-link">Source →</div>
             </a>
-            <a href="#" className="project-card reveal">
-              <div className="project-name">Stress-Calc</div>
-              <p className="project-desc">
-                Neural feedback analysis engine providing real-time physiological insights for
-                system alignment.
-              </p>
-              <div className="project-link">Source →</div>
-            </a>
+
           </div>
         </div>
       </section>

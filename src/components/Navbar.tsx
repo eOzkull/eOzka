@@ -14,7 +14,6 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState('hero');
 
   const navMenuRef = useRef<HTMLUListElement>(null);
-  const underlineRef = useRef<HTMLDivElement>(null);
 
   // Theme logic
   useEffect(() => {
@@ -54,25 +53,6 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Update navbar active underline positioning
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const navMenu = navMenuRef.current;
-    const underline = underlineRef.current;
-    if (!navMenu || !underline) return;
-
-    const activeLink = navMenu.querySelector(
-      `.nav-active`
-    ) as HTMLElement | null;
-    if (activeLink) {
-      underline.classList.add('active');
-      underline.style.width = `${activeLink.offsetWidth}px`;
-      underline.style.left = `${activeLink.offsetLeft}px`;
-    } else {
-      underline.classList.remove('active');
-    }
-  }, [activeSection, pathname]);
 
   // Scrollspy observer for headings
   useEffect(() => {
@@ -132,7 +112,8 @@ export default function Navbar() {
     }
   };
 
-  const isProductsActive = pathname === '/products' || (pathname === '/' && activeSection === 'products');
+  const isProductsActive = pathname.startsWith('/products');
+  const isShowcaseActive = pathname === '/' && activeSection === 'products';
   
   const isEcosystemActive = 
     pathname === '/community' || 
@@ -160,15 +141,56 @@ export default function Navbar() {
       </Link>
 
       <ul className={`nav-links ${mobileActive ? 'active' : ''}`} id="nav-menu" ref={navMenuRef}>
-        {/* Products Link */}
+        {/* Showcase Link (smooth scrolls to homepage #products) */}
         <li>
           <Link
             href={pathname === '/' ? '#products' : '/#products'}
-            className={isProductsActive ? 'nav-active' : ''}
+            className={isShowcaseActive ? 'nav-active' : ''}
             onClick={(e) => pathname === '/' && handleLinkClick(e, 'products')}
           >
-            Products
+            Showcase
           </Link>
+        </li>
+
+        {/* Products Link */}
+        <li className="nav-dropdown">
+          <Link
+            href="/products"
+            className={isProductsActive ? 'nav-active' : ''}
+            onClick={() => setMobileActive(false)}
+          >
+            Products ▾
+          </Link>
+          <ul className="dropdown-content products-dropdown">
+            <li>
+              <Link href="/products" onClick={() => setMobileActive(false)}>All Products</Link>
+            </li>
+            <li>
+              <Link href="/products/airis-security" onClick={() => setMobileActive(false)}>
+                AIris Security
+              </Link>
+            </li>
+            <li>
+              <Link href="/products/paradigm-shift" onClick={() => setMobileActive(false)}>
+                Paradigm-Shift
+              </Link>
+            </li>
+            <li>
+              <Link href="/products/entab-d" onClick={() => setMobileActive(false)}>
+                Entab-D
+              </Link>
+            </li>
+            <li>
+              <Link href="/products/mindspace" onClick={() => setMobileActive(false)}>
+                MindSpace
+              </Link>
+            </li>
+            <li>
+              <Link href="/products/management-systems" onClick={() => setMobileActive(false)}>
+                Management-Systems
+              </Link>
+            </li>
+          </ul>
         </li>
 
         {/* Ecosystem Dropdown */}
@@ -272,7 +294,6 @@ export default function Navbar() {
             </li>
           </ul>
         </li>
-        <div className="nav-underline" id="nav-underline" ref={underlineRef}></div>
       </ul>
 
       <div className="nav-actions">
