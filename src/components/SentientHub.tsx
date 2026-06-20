@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useAudio, ORBITAL_TRACKS, Track } from '@/contexts/AudioContext';
+import { useAudio } from '@/contexts/AudioContext';
 
 interface Message {
   text: string;
@@ -9,10 +9,9 @@ interface Message {
 }
 
 export default function SentientHub() {
-  const { isMuted, nowPlaying, playPreview, activePreviewUrl, unlockAudio } = useAudio();
+  const { unlockAudio } = useAudio();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'ai' | 'music' | 'mood'>('ai');
   const [chatInput, setChatInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -21,8 +20,6 @@ export default function SentientHub() {
     },
   ]);
   const [isTyping, setIsTyping] = useState(false);
-  const [musicQuery, setMusicQuery] = useState('');
-  const [activeMood, setActiveMood] = useState('default');
 
   const sphereRef = useRef<HTMLCanvasElement>(null);
   const chatStreamRef = useRef<HTMLDivElement>(null);
@@ -111,7 +108,10 @@ export default function SentientHub() {
         const opacity = 0.05 + depth * 0.9;
         const size = this.baseSize * (0.3 + depth * 0.9) * scale;
 
-        const currentTheme = typeof document !== 'undefined' ? (document.documentElement.getAttribute('data-theme') || 'dark') : 'dark';
+        const currentTheme =
+          typeof document !== 'undefined'
+            ? document.documentElement.getAttribute('data-theme') || 'dark'
+            : 'dark';
 
         ctx.beginPath();
         ctx.arc(px, py, Math.max(0.3, size), 0, Math.PI * 2);
@@ -248,7 +248,7 @@ export default function SentientHub() {
       return 'Paradigm-Shift is a production-grade HRMS (Human Resource Management System) designed for modern organizations to manage people, performance, internal processes, and operations in real-time.';
     }
 
-    if (/\b(mindspace|companion|wellness|mental|stress|meditation|mood)\b/.test(q)) {
+    if (/\b(mindspace|companion|wellness|mental|meditation|mood)\b/.test(q)) {
       return 'MindSpace is an AI-powered mental health companion app. It supports daily emotional well-being through guided meditation, mood tracking, secure user reflection logs, and empathetic AI insights.';
     }
 
@@ -264,12 +264,16 @@ export default function SentientHub() {
       return 'Our mission is to build technology solutions, software infrastructure, and digital platforms that solve real problems. Guided by institutional discipline, we support individuals, startups, and enterprises across tech, education, health, and agriculture.';
     }
 
-    if (/\b(moce|development house|ventures|development core|subsidiary i)\b/.test(q)) {
-      return 'MOCE (Mind of Core Engineering) is eOzka\'s specialized technology and consulting subsidiary. It acts as our primary software development hub, housing products like AIris-Security, MindSpace, and custom enterprise tools.';
+    if (/\b(nolin|nolin\.in|commerce|canteen|food|subsidiary i)\b/.test(q)) {
+      return "nolin.in is eOzka's specialized campus commerce subsidiary. It reimagines campus life by letting students order canteen food from their seats, track preparation times with live ETAs, and collect securely with pickup codes.";
     }
 
-    if (/\b(mock|research arm|experimental|subsidiary ii)\b/.test(q)) {
-      return 'MOCK is eOzka\'s specialized research and exploration arm. It focuses on localized community-driven programs, open education advocacy, and lays the groundwork for expansions into automated health and agricultural robotics.';
+    if (/\b(mock|subsidiary ii)\b/.test(q)) {
+      return "Mock is eOzka's second venture, currently in its research and planning phase, focusing on multi-sector programs, healthcare integration, and agricultural technology.";
+    }
+
+    if (/\b(ventures|subsidiaries|subsidiary)\b/.test(q)) {
+      return 'eOzka currently coordinates Nolin.in (our campus commerce subsidiary) and Mock (a multi-sector research venture in its planning phase).';
     }
 
     if (/\b(tech stack|technology|react|next|typescript|css|html|python|dart|flutter)\b/.test(q)) {
@@ -297,7 +301,7 @@ export default function SentientHub() {
     }
 
     if (/\b(help|what can you do|command|options|ask)\b/.test(q)) {
-      return 'I can answer queries about: our **Governing Board** (Harsh, Mrinal, Krishyangi, Aman, Pratham, Aditya), our **Five Products** (AIris-Security, Paradigm-Shift, Entab-D, MindSpace, Management-Systems), our **Subsidiaries** (MOCE & MOCK), our **Tech Stack**, or **Careers/Collaborations**. What would you like to explore?';
+      return 'I can answer queries about: our **Governing Board** (Harsh, Mrinal, Krishyangi, Aman, Pratham, Aditya), our **Five Products** (AIris-Security, Paradigm-Shift, Entab-D, MindSpace, Management-Systems), our **Ventures** (nolin.in & Mock), our **Tech Stack**, or **Careers/Collaborations**. What would you like to explore?';
     }
 
     return 'This topic falls outside my current operational scope. For specialized inquiries, strategic alignments, or technical partnerships, please contact our directorate directly at eozka.hq@gmail.com, or use the connect form on the landing page.';
@@ -306,6 +310,26 @@ export default function SentientHub() {
   const handleSendChat = () => {
     const text = chatInput.trim();
     if (!text) return;
+
+    // Anti-cuss Safety check
+    const cussWords =
+      /\b(fuck|shit|ass|bitch|cunt|bastard|dick|pussy|asshole|whore|slut|crap|piss|cock|fag|motherfucker|campshit)\b/i;
+    if (cussWords.test(text)) {
+      setMessages((prev) => [...prev, { text, sender: 'user' }]);
+      setChatInput('');
+      setIsTyping(true);
+      setTimeout(() => {
+        setIsTyping(false);
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: 'I detected inappropriate language in your input. Please keep our dialogue professional and aligned with standard guidelines.',
+            sender: 'ai',
+          },
+        ]);
+      }, 700);
+      return;
+    }
 
     setMessages((prev) => [...prev, { text, sender: 'user' }]);
     setChatInput('');
@@ -322,59 +346,6 @@ export default function SentientHub() {
       );
     }, 280);
   };
-
-  // 4. Atmosphere Calibration Vibe Logic
-  const handleVibeChange = (mood: string) => {
-    const root = document.documentElement;
-    const moods: Record<string, Record<string, string>> = {
-      default: {
-        '--accent': '#d4c9a8',
-        '--accent-dim': '#615b49',
-        '--accent-glow': 'rgba(212,201,168,0.2)',
-        '--black': '#0c0c0c',
-      },
-      zen: {
-        '--accent': '#a8c9d4',
-        '--accent-dim': '#395d65',
-        '--accent-glow': 'rgba(168,201,212,0.2)',
-        '--black': '#030d0f',
-      },
-      hyper: {
-        '--accent': '#ff4d4d',
-        '--accent-dim': '#4d0000',
-        '--accent-glow': 'rgba(255,77,77,0.2)',
-        '--black': '#0c0202',
-      },
-      cosmic: {
-        '--accent': '#c9a8d4',
-        '--accent-dim': '#62526b',
-        '--accent-glow': 'rgba(201,168,212,0.2)',
-        '--black': '#0e0c12',
-      },
-    };
-
-    const config = moods[mood] || moods['default'];
-    setActiveMood(mood);
-
-    Object.entries(config).forEach(([k, v]) => {
-      root.style.setProperty(k, v);
-    });
-
-    const panel = panelRef.current;
-    if (panel) {
-      panel.style.boxShadow = `0 0 50px ${config['--accent-glow']}`;
-      setTimeout(() => {
-        if (panel) panel.style.boxShadow = '';
-      }, 1000);
-    }
-  };
-
-  // 5. Audio Search Filter
-  const filteredTracks = ORBITAL_TRACKS.filter(
-    (t) =>
-      t.name.toLowerCase().includes(musicQuery.toLowerCase()) ||
-      t.artist.toLowerCase().includes(musicQuery.toLowerCase())
-  );
 
   return (
     <>
@@ -402,7 +373,7 @@ export default function SentientHub() {
         </div>
       </div>
 
-      {/* ── SENTIENT HUB DRAWER PANEL ── */}
+      {/* ── SENTIENT HUB DRAWER PANEL (SIMPLIFIED CHAT ONLY) ── */}
       <div
         className={`eoz-hub-panel ${isOpen ? 'active' : ''}`}
         id="hub-panel"
@@ -421,178 +392,54 @@ export default function SentientHub() {
           </div>
         </div>
 
-        <div className="hub-tabs">
-          <button
-            className={`hub-tab ${activeTab === 'ai' ? 'active' : ''}`}
-            onClick={() => setActiveTab('ai')}
+        <div className="hub-content" style={{ height: 'calc(100% - 60px)' }}>
+          <div
+            className="hub-pane active"
+            id="pane-ai"
+            style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
           >
-            Chat
-          </button>
-          <button
-            className={`hub-tab ${activeTab === 'music' ? 'active' : ''}`}
-            onClick={() => setActiveTab('music')}
-          >
-            Music
-          </button>
-          <button
-            className={`hub-tab ${activeTab === 'mood' ? 'active' : ''}`}
-            onClick={() => setActiveTab('mood')}
-          >
-            Vibe
-          </button>
-        </div>
-
-        <div className="hub-content">
-          {/* AI CHAT PANE */}
-          {activeTab === 'ai' && (
-            <div className="hub-pane active" id="pane-ai">
-              <div className="chat-messages" id="chat-stream" ref={chatStreamRef}>
-                {messages.map((m, idx) => (
-                  <div key={idx} className={`message ${m.sender}`}>
-                    {m.text}
-                  </div>
-                ))}
-                {isTyping && (
-                  <div className="typing" id="ai-typing">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                )}
-              </div>
-              <div className="chat-input-area">
-                <input
-                  type="text"
-                  className="chat-input"
-                  placeholder="Type a message..."
-                  value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSendChat()}
-                />
-                <button className="chat-send" onClick={handleSendChat}>
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* MUSIC RADIO PANE */}
-          {activeTab === 'music' && (
-            <div className="hub-pane active" id="pane-music">
-              <div className="music-search-bar">
-                <input
-                  type="text"
-                  className="chat-input"
-                  placeholder="Search track or artist..."
-                  value={musicQuery}
-                  onChange={(e) => setMusicQuery(e.target.value)}
-                />
-                <button className="chat-send" style={{ pointerEvents: 'none' }}>
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  </svg>
-                </button>
-              </div>
-
-              <div id="music-results">
-                {filteredTracks.length === 0 ? (
-                  <p style={{ opacity: 0.4, fontSize: '12px' }}>No tracks found.</p>
-                ) : (
-                  filteredTracks.map((track) => {
-                    const isCurrent = activePreviewUrl === track.url;
-                    return (
-                      <div className="music-result-row" key={track.url}>
-                        <div className="music-result-info">
-                          <span className="music-result-name">{track.name}</span>
-                          <span className="music-result-artist">{track.artist}</span>
-                        </div>
-                        <button
-                          className={`preview-btn ${isCurrent ? 'playing' : ''}`}
-                          onClick={() => playPreview(track)}
-                        >
-                          {isCurrent ? '⏸' : '▶'}
-                        </button>
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-
-              {/* PERSISTENT NOW PLAYING UI */}
-              {nowPlaying && (
-                <div id="now-playing-container" className="now-playing">
-                  <img id="np-img" src={nowPlaying.img} className="song-img" alt="cover" />
-                  <div className="song-info">
-                    <div id="np-name" className="song-name">
-                      {nowPlaying.name}
-                    </div>
-                    <div id="np-artist" className="song-artist">
-                      {nowPlaying.artist}
-                    </div>
-                  </div>
-                  <div className="np-controls">
-                    <div className="hub-status-dot"></div>
-                  </div>
+            <div
+              className="chat-messages"
+              id="chat-stream"
+              ref={chatStreamRef}
+              style={{ flex: 1, overflowY: 'auto' }}
+            >
+              {messages.map((m, idx) => (
+                <div key={idx} className={`message ${m.sender}`}>
+                  {m.text}
+                </div>
+              ))}
+              {isTyping && (
+                <div className="typing" id="ai-typing">
+                  <span></span>
+                  <span></span>
+                  <span></span>
                 </div>
               )}
             </div>
-          )}
-
-          {/* VIBE MODE PANE */}
-          {activeTab === 'mood' && (
-            <div className="hub-pane active" id="pane-mood">
-              <div style={{ marginBottom: '20px', fontSize: '12px', opacity: 0.7 }}>
-                Calibrate site-wide atmosphere:
-              </div>
-              <div className="atmosphere-grid">
-                <button
-                  className={`mood-btn ${activeMood === 'default' ? 'active' : ''}`}
-                  onClick={() => handleVibeChange('default')}
+            <div className="chat-input-area">
+              <input
+                type="text"
+                className="chat-input"
+                placeholder="Type a message..."
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendChat()}
+              />
+              <button className="chat-send" onClick={handleSendChat}>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
                 >
-                  <span className="mood-icon">✺</span>
-                  <span className="mood-label">Original</span>
-                </button>
-                <button
-                  className={`mood-btn ${activeMood === 'zen' ? 'active' : ''}`}
-                  onClick={() => handleVibeChange('zen')}
-                >
-                  <span className="mood-icon">⌔</span>
-                  <span className="mood-label">Zen</span>
-                </button>
-                <button
-                  className={`mood-btn ${activeMood === 'hyper' ? 'active' : ''}`}
-                  onClick={() => handleVibeChange('hyper')}
-                >
-                  <span className="mood-icon">⚡</span>
-                  <span className="mood-label">Hyper</span>
-                </button>
-                <button
-                  className={`mood-btn ${activeMood === 'cosmic' ? 'active' : ''}`}
-                  onClick={() => handleVibeChange('cosmic')}
-                >
-                  <span className="mood-icon">🌊</span>
-                  <span className="mood-label">Cosmic</span>
-                </button>
-              </div>
+                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
+                </svg>
+              </button>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </>

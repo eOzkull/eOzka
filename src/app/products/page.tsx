@@ -3,7 +3,8 @@ import ProductsClient from './ProductsClient';
 
 export const metadata: Metadata = {
   title: 'Showcase Products & Pipeline | eOzka',
-  description: 'Explore the full open-source product pipeline, enterprise administration platforms, EdTech nodes, and AgriTech sensors built by the eOzka engineering team.',
+  description:
+    'Explore the full open-source product pipeline, enterprise administration platforms, EdTech nodes, and AgriTech sensors built by the eOzka engineering team.',
   alternates: {
     canonical: '/products',
   },
@@ -11,7 +12,8 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://eozka.com/products',
     title: 'Showcase Products & Pipeline | eOzka',
-    description: 'Explore the full open-source product pipeline, enterprise administration platforms, EdTech nodes, and AgriTech sensors built by the eOzka engineering team.',
+    description:
+      'Explore the full open-source product pipeline, enterprise administration platforms, EdTech nodes, and AgriTech sensors built by the eOzka engineering team.',
     images: [
       {
         url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
@@ -24,7 +26,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Showcase Products & Pipeline | eOzka',
-    description: 'Explore the full open-source product pipeline, enterprise administration platforms, EdTech nodes, and AgriTech sensors built by the eOzka engineering team.',
+    description:
+      'Explore the full open-source product pipeline, enterprise administration platforms, EdTech nodes, and AgriTech sensors built by the eOzka engineering team.',
     creator: '@weareeozka',
     site: '@weareeozka',
     images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],
@@ -44,18 +47,18 @@ export default function ProductsPage() {
               {
                 '@type': 'BreadcrumbList',
                 '@id': 'https://eozka.com/products/#breadcrumb',
-                'itemListElement': [
+                itemListElement: [
                   {
                     '@type': 'ListItem',
-                    'position': 1,
-                    'name': 'Home',
-                    'item': 'https://eozka.com/',
+                    position: 1,
+                    name: 'Home',
+                    item: 'https://eozka.com/',
                   },
                   {
                     '@type': 'ListItem',
-                    'position': 2,
-                    'name': 'Products',
-                    'item': 'https://eozka.com/products',
+                    position: 2,
+                    name: 'Products',
+                    item: 'https://eozka.com/products',
                   },
                 ],
               },

@@ -39,7 +39,7 @@ export default function Footer() {
       });
 
       const data = await res.json();
-      
+
       const elapsedTime = Date.now() - startTime;
       const minDuration = 1600; // soft delay for audio effect sync
       if (elapsedTime < minDuration) {
@@ -55,7 +55,7 @@ export default function Footer() {
         setStatus('error');
         setErrorMessage(data.error || 'Subscription failed. Please try again.');
       }
-    } catch (err) {
+    } catch {
       const elapsedTime = Date.now() - startTime;
       const minDuration = 1600;
       if (elapsedTime < minDuration) {
@@ -72,6 +72,7 @@ export default function Footer() {
       <footer>
         <div className="footer-brand">
           {/* eOzka Full Logo */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="footer-svg-logo"
             src="/assets/eOzka-essentials/eOzka_Logo_Package_V1/SVG/eozka-technology-holding-company-logo.svg"
@@ -80,8 +81,9 @@ export default function Footer() {
             height={45}
           />
           <p className="footer-desc">
-            An operational holding company engaged in the development, management, and provision of technology solutions, 
-            software infrastructure, digital platforms, consulting services, and community‑driven programs.
+            An operational holding company engaged in the development, management, and provision of
+            technology solutions, software infrastructure, digital platforms, consulting services,
+            and community‑driven programs.
           </p>
         </div>
         <div className="footer-cols-mobile">
@@ -94,8 +96,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/#products" onClick={(e) => handleLinkClick(e, 'products')}>
-                  Products
+                <Link href="/#showcase" onClick={(e) => handleLinkClick(e, 'showcase')}>
+                  Showcase
                 </Link>
               </li>
               <li>
@@ -104,9 +106,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/ventures/moce">
-                  MOCE subsidiary
-                </Link>
+                <Link href="/request-meeting">Request a meeting</Link>
               </li>
             </ul>
           </div>
@@ -151,15 +151,33 @@ export default function Footer() {
         {/* Newsletter Signup Column */}
         <div className="footer-col footer-newsletter">
           <h4>Newsletter</h4>
-          <p className="footer-newsletter-desc" style={{ fontSize: '13px', color: '#999', margin: '8px 0 16px 0', lineHeight: '1.5' }}>
-            Subscribe for technical updates, security disclosures, and project launches from our studio.
+          <p
+            className="footer-newsletter-desc"
+            style={{ fontSize: '13px', color: '#999', margin: '8px 0 16px 0', lineHeight: '1.5' }}
+          >
+            Subscribe for technical updates, security disclosures, and project launches from our
+            studio.
           </p>
           {status === 'success' ? (
-            <div style={{ color: 'var(--accent)', fontSize: '13px', fontFamily: "'DM Mono', monospace", border: '1px solid var(--accent-dim)', padding: '12px', background: 'rgba(212, 201, 168, 0.05)', borderRadius: '4px' }}>
+            <div
+              style={{
+                color: 'var(--accent)',
+                fontSize: '13px',
+                fontFamily: "'DM Mono', monospace",
+                border: '1px solid var(--accent-dim)',
+                padding: '12px',
+                background: 'rgba(212, 201, 168, 0.05)',
+                borderRadius: '4px',
+              }}
+            >
               ✓ Registered. Telemetry active.
             </div>
           ) : (
-            <form onSubmit={handleSubscribe} className="newsletter-form" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <form
+              onSubmit={handleSubscribe}
+              className="newsletter-form"
+              style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+            >
               <div style={{ display: 'flex', gap: '6px' }}>
                 <input
                   type="email"
@@ -200,7 +218,9 @@ export default function Footer() {
                 </button>
               </div>
               {status === 'error' && (
-                <div style={{ color: '#fca5a5', fontSize: '11px', fontFamily: "'DM Mono', monospace" }}>
+                <div
+                  style={{ color: '#fca5a5', fontSize: '11px', fontFamily: "'DM Mono', monospace" }}
+                >
                   ⚠️ {errorMessage}
                 </div>
               )}
@@ -210,10 +230,12 @@ export default function Footer() {
       </footer>
 
       <div className="footer-bottom">
-        <span className="footer-copy">© 2026 eOzka. All rights reserved.</span>
+        <span className="footer-copy">
+          © {new Date().getFullYear()} eOzka. Source code released under the Apache 2.0 License.
+        </span>
         <div className="footer-status">
           <span className="status-dot"></span>
-          <span>All systems operational</span>
+          <span>System telemetry online // All nodes operational</span>
         </div>
       </div>
     </>

@@ -47,18 +47,18 @@ export default function SocialPage() {
               {
                 '@type': 'BreadcrumbList',
                 '@id': 'https://eozka.com/social/#breadcrumb',
-                'itemListElement': [
+                itemListElement: [
                   {
                     '@type': 'ListItem',
-                    'position': 1,
-                    'name': 'Home',
-                    'item': 'https://eozka.com/',
+                    position: 1,
+                    name: 'Home',
+                    item: 'https://eozka.com/',
                   },
                   {
                     '@type': 'ListItem',
-                    'position': 2,
-                    'name': 'Social',
-                    'item': 'https://eozka.com/social',
+                    position: 2,
+                    name: 'Social',
+                    item: 'https://eozka.com/social',
                   },
                 ],
               },

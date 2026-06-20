@@ -82,7 +82,8 @@ export default function Error({
             fontWeight: 400,
           }}
         >
-          A client-side runtime exception occurred during rendering. This is normally a temporary connection interruption.
+          A client-side runtime exception occurred during rendering. This is normally a temporary
+          connection interruption.
         </p>
 
         {error.digest && (

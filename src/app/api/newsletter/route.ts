@@ -86,10 +86,11 @@ export async function POST(request: Request) {
       success: true,
       message: 'Transmission success: Handshake registered. You are subscribed.',
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ Server error handling newsletter subscription:', error);
+    const errorDetails = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: 'Internal system fault during newsletter routing process.', details: error.message },
+      { error: 'Internal system fault during newsletter routing process.', details: errorDetails },
       { status: 500 }
     );
   }

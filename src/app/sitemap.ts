@@ -5,7 +5,7 @@ import path from 'path';
 // Helper function to read the actual modification time of page files
 function getPageLastModified(relativeFilePath: string): Date {
   try {
-    const absolutePath = path.join(process.cwd(), relativeFilePath);
+    const absolutePath = path.join(/*turbopackIgnore: true*/ process.cwd(), relativeFilePath);
     const stats = fs.statSync(absolutePath);
     return stats.mtime; // Returns the exact file edit time
   } catch {
@@ -67,6 +67,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/community`,
+      lastModified: getPageLastModified('src/app/community/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/templates`,
+      lastModified: getPageLastModified('src/app/templates/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/request-meeting`,
+      lastModified: getPageLastModified('src/app/request-meeting/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/community/ca`,
+      lastModified: getPageLastModified('src/app/community/ca/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/social`,
       lastModified: getPageLastModified('src/app/social/page.tsx'),
       changeFrequency: 'yearly',
@@ -90,9 +114,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    // {
+    //   url: `${baseUrl}/ventures/nolin`,
+    //   lastModified: getPageLastModified('src/app/ventures/nolin/page.tsx'),
+    //   changeFrequency: 'monthly',
+    //   priority: 0.8,
+    // },
     {
-      url: `${baseUrl}/ventures/moce`,
-      lastModified: getPageLastModified('src/app/ventures/moce/page.tsx'),
+      url: `${baseUrl}/community/achievements`,
+      lastModified: getPageLastModified('src/app/community/achievements/page.tsx'),
       changeFrequency: 'monthly',
       priority: 0.8,
     },

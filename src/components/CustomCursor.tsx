@@ -10,9 +10,7 @@ export default function CustomCursor() {
   const [isTouch, setIsTouch] = useState(true); // Default to true so we don't flash on mobile
 
   useEffect(() => {
-    // Check if on mobile or touch device to disable custom cursor
-    if (typeof window === 'undefined') return;
-
+    // Check if on mobile or touch device to disable custom cursor on mount
     const checkTouch = () => {
       return (
         'ontouchstart' in window ||
@@ -20,13 +18,13 @@ export default function CustomCursor() {
         (window.matchMedia && window.matchMedia('(max-width: 900px)').matches)
       );
     };
+    setTimeout(() => {
+      setIsTouch(checkTouch());
+    }, 0);
+  }, []);
 
-    const touchDevice = checkTouch();
-    setIsTouch(touchDevice);
-
-    if (touchDevice) {
-      return;
-    }
+  useEffect(() => {
+    if (isTouch) return;
 
     let mx = 0;
     let my = 0;
@@ -76,7 +74,7 @@ export default function CustomCursor() {
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [visible]);
+  }, [isTouch, visible]);
 
   if (isTouch || !visible) return null;
 

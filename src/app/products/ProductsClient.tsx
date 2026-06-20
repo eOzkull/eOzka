@@ -95,7 +95,11 @@ const products: ProductCard[] = [
   },
 ];
 
-function ProductPreview({ icon: Icon, status, note }: Pick<ProductCard, 'icon' | 'status' | 'note'>) {
+function ProductPreview({
+  icon: Icon,
+  status,
+  note,
+}: Pick<ProductCard, 'icon' | 'status' | 'note'>) {
   return (
     <div className="product-preview-shell">
       <div className="product-preview-glow" />
@@ -130,20 +134,49 @@ export default function ProductsClient() {
   }, []);
 
   return (
-    <main className="subpage-wrapper products-page" style={{ minHeight: '100vh', background: 'var(--black)', color: 'var(--white)' }}>
-      <section className="products-hero" style={{ padding: '160px 24px 40px 24px', maxWidth: '1250px', margin: '0 auto' }}>
+    <main
+      className="subpage-wrapper products-page"
+      style={{ minHeight: '100vh', background: 'var(--black)', color: 'var(--white)' }}
+    >
+      <section
+        className="products-hero"
+        style={{ padding: '160px 24px 40px 24px', maxWidth: '1250px', margin: '0 auto' }}
+      >
         <div className="section-label">Showcase — Actual Products</div>
-        <h1 className="section-headline" style={{ marginTop: '16px', fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', lineHeight: '1.05' }}>
+        <h1
+          className="section-headline"
+          style={{ marginTop: '16px', fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', lineHeight: '1.05' }}
+        >
           Products built on the website.
           <br />
-          <em style={{ fontStyle: 'italic', fontFamily: 'var(--serif)' }}>No filler, no detours.</em>
+          <em style={{ fontStyle: 'italic', fontFamily: 'var(--serif)' }}>
+            No filler, no detours.
+          </em>
         </h1>
-        <p className="team-intro" style={{ marginTop: '24px', maxWidth: '760px', fontSize: '1.05rem', color: 'var(--white-dim)', lineHeight: '1.7' }}>
-          Five product areas are currently shown here. The grid is spaced out to allow clean structural comparison, highlights, and direct source code access.
+        <p
+          className="team-intro"
+          style={{
+            marginTop: '24px',
+            maxWidth: '760px',
+            fontSize: '1.05rem',
+            color: 'var(--white-dim)',
+            lineHeight: '1.7',
+          }}
+        >
+          Five product areas are currently shown here. The grid is spaced out to allow clean
+          structural comparison, highlights, and direct source code access.
         </p>
       </section>
 
-      <section className="products-grids-section" style={{ maxWidth: '1250px', margin: '0 auto', padding: '0 24px 100px 24px', border: 'none' }}>
+      <section
+        className="products-grids-section"
+        style={{
+          maxWidth: '1250px',
+          margin: '0 auto',
+          padding: '0 24px 100px 24px',
+          border: 'none',
+        }}
+      >
         <div className="products-grid products-grid-reworked">
           {products.map((product, idx) => {
             const Icon = product.icon;
@@ -178,7 +211,12 @@ export default function ProductsClient() {
                     Learn More <ArrowUpRight size={14} />
                   </Link>
                   {product.github && (
-                    <a href={product.github} target="_blank" rel="noopener noreferrer" className="product-link-dim">
+                    <a
+                      href={product.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="product-link-dim"
+                    >
                       View on GitHub
                     </a>
                   )}
@@ -189,7 +227,11 @@ export default function ProductsClient() {
         </div>
 
         <div style={{ marginTop: '80px', textAlign: 'center' }}>
-          <Link href="/" className="theme-btn" style={{ padding: '16px 32px', display: 'inline-block', textDecoration: 'none' }}>
+          <Link
+            href="/"
+            className="theme-btn"
+            style={{ padding: '16px 32px', display: 'inline-block', textDecoration: 'none' }}
+          >
             ← Back to Main Studio
           </Link>
         </div>
