@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import SentientOrb from '@/components/SentientOrb';
+import Products3DCarousel from '@/components/Products3DCarousel';
 import { useAudio } from '@/contexts/AudioContext';
 
 interface TeamMember {
