@@ -125,6 +125,17 @@ export default function MindSpacePage() {
         ]}
         githubLink="https://github.com/eOzkull/MindSpace"
         websiteLink="https://mindspace-sepia.vercel.app/"
+        galleryImages={[
+          { url: '/assets/Products-Showcase/Mindspace/mindspace-screenshot-1.png', caption: 'MindSpace Main Dashboard - Mental Wellness Telemetry' },
+          { url: '/assets/Products-Showcase/Mindspace/mindspace-screenshot-2.png', caption: 'Empathy AI Conversation Interface' },
+          { url: '/assets/Products-Showcase/Mindspace/mindspace-screenshot-3.png', caption: 'Secure RAG-based Context Retrieval Logs' },
+          { url: '/assets/Products-Showcase/Mindspace/mindspace-screenshot-4.png', caption: 'Custom Mood Tracker & Dial Configuration' },
+          { url: '/assets/Products-Showcase/Mindspace/mindspace-screenshot-5.png', caption: 'Interactive Stress Level Evaluation Matrix' },
+          { url: '/assets/Products-Showcase/Mindspace/mindspace-screenshot-6.png', caption: 'Daily Wellness Journals & Reflection Log' },
+          { url: '/assets/Products-Showcase/Mindspace/mindspace-screenshot-7.png', caption: 'System Integration & Data Encryption Settings' },
+          { url: '/assets/Products-Showcase/Mindspace/mindspace-ipad-1.png', caption: 'Tablet View - MindSpace Executive Board (White Theme)' },
+          { url: '/assets/Products-Showcase/Mindspace/mindspace-ipad-2.png', caption: 'Tablet View - MindSpace Executive Board (Dark Theme)' }
+        ]}
       >
         <MindSpaceVisual />
       </ProductLanding>

@@ -125,6 +125,7 @@ export default function ManagementSystemsPage() {
         ]}
         githubLink="https://github.com/eOzkull"
         integrationLink="https://eozka.com"
+
       >
         <ManagementSystemsVisual />
       </ProductLanding>

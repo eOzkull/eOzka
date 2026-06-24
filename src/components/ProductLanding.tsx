@@ -1,7 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
+import { Play, Image, Terminal, ChevronLeft, ChevronRight, X } from 'lucide-react';
+
+interface GalleryItem {
+  url: string;
+  caption?: string;
+}
 
 interface ProductLandingProps {
   productName: string;
@@ -18,6 +24,8 @@ interface ProductLandingProps {
   integrationLink?: string;
   websiteLink?: string;
   children?: ReactNode;
+  galleryImages?: GalleryItem[];
+  demoVideo?: string;
 }
 
 export default function ProductLanding({
@@ -35,7 +43,90 @@ export default function ProductLanding({
   integrationLink,
   websiteLink,
   children,
+  galleryImages,
+  demoVideo,
 }: ProductLandingProps) {
+  const [activeTab, setActiveTab] = useState<'simulation' | 'video' | 'screenshots'>(() => {
+    if (children) return 'simulation';
+    if (demoVideo) return 'video';
+    return 'screenshots';
+  });
+
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [lightboxOpen, setLightboxOpen] = useState<boolean>(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number>(0);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isZoomed, setIsZoomed] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    setIsMobile(window.innerWidth < 900);
+    const handleResize = () => setIsMobile(window.innerWidth < 900);
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const nextSlide = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (galleryImages && galleryImages.length > 0) {
+      setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
+    }
+  };
+
+  const prevSlide = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (galleryImages && galleryImages.length > 0) {
+      setCurrentSlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+    }
+  };
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    setIsZoomed(false);
+  };
+
+  const nextLightboxImage = () => {
+    if (galleryImages && galleryImages.length > 0) {
+      setLightboxIndex((prev) => (prev + 1) % galleryImages.length);
+      setIsZoomed(false);
+    }
+  };
+
+  const prevLightboxImage = () => {
+    if (galleryImages && galleryImages.length > 0) {
+      setLightboxIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+      setIsZoomed(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      } else if (e.key === 'ArrowRight') {
+        nextLightboxImage();
+      } else if (e.key === 'ArrowLeft') {
+        prevLightboxImage();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [lightboxOpen, lightboxIndex]);
   const statusStyles: Record<string, { border: string; color: string; bg: string }> = {
     live: { border: '#2a4a2a', color: '#6aba6a', bg: 'rgba(10, 24, 10, 0.4)' },
     pipeline: { border: '#3a3020', color: '#9a8050', bg: 'rgba(20, 16, 10, 0.4)' },
@@ -107,7 +198,7 @@ export default function ProductLanding({
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1.15fr) minmax(320px, 0.85fr)',
+            gridTemplateColumns: isMobile ? '1fr' : 'minmax(0, 1.15fr) minmax(320px, 0.85fr)',
             gap: '24px',
             alignItems: 'stretch',
           }}
@@ -147,6 +238,7 @@ export default function ProductLanding({
           </div>
 
           <div
+            className="showcase-mockup-frame"
             style={{
               border: '1px solid var(--border)',
               borderRadius: '12px',
@@ -154,54 +246,348 @@ export default function ProductLanding({
                 'radial-gradient(circle at top, rgba(212, 201, 168, 0.14), transparent 55%), var(--off-black)',
               padding: '20px',
               display: 'flex',
-              minHeight: '240px',
+              flexDirection: 'column',
+              height: '600px',
+              position: 'relative',
             }}
           >
-            {children ?? (
-              <div style={{ width: '100%', display: 'grid', gap: '12px' }}>
-                <div
-                  style={{
-                    height: '54px',
-                    borderRadius: '10px',
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.06)',
-                  }}
-                />
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                    gap: '12px',
-                    flex: 1,
-                  }}
-                >
-                  <div
+            {/* Tab Switcher */}
+            {(children || demoVideo || (galleryImages && galleryImages.length > 0)) && (
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '8px',
+                  borderBottom: '1px solid var(--border)',
+                  paddingBottom: '12px',
+                  marginBottom: '16px',
+                  overflowX: 'auto',
+                }}
+              >
+                {children && (
+                  <button
+                    onClick={() => setActiveTab('simulation')}
                     style={{
-                      minHeight: '130px',
-                      borderRadius: '10px',
-                      background: 'rgba(255,255,255,0.03)',
-                      border: '1px dashed rgba(212, 201, 168, 0.22)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 12px',
+                      borderRadius: '20px',
+                      border: '1px solid',
+                      borderColor: activeTab === 'simulation' ? 'var(--accent)' : 'transparent',
+                      background: activeTab === 'simulation' ? 'rgba(212, 201, 168, 0.1)' : 'transparent',
+                      color: activeTab === 'simulation' ? 'var(--white)' : 'var(--white-dimmer)',
+                      fontSize: '11px',
+                      fontFamily: 'var(--font-mono)',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
                     }}
-                  />
-                  <div
+                  >
+                    <Terminal size={12} /> Interactive Demo
+                  </button>
+                )}
+                {demoVideo && (
+                  <button
+                    onClick={() => setActiveTab('video')}
                     style={{
-                      minHeight: '130px',
-                      borderRadius: '10px',
-                      background: 'rgba(255,255,255,0.03)',
-                      border: '1px dashed rgba(212, 201, 168, 0.22)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 12px',
+                      borderRadius: '20px',
+                      border: '1px solid',
+                      borderColor: activeTab === 'video' ? 'var(--accent)' : 'transparent',
+                      background: activeTab === 'video' ? 'rgba(212, 201, 168, 0.1)' : 'transparent',
+                      color: activeTab === 'video' ? 'var(--white)' : 'var(--white-dimmer)',
+                      fontSize: '11px',
+                      fontFamily: 'var(--font-mono)',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
                     }}
-                  />
-                </div>
-                <div
-                  style={{
-                    height: '28px',
-                    width: '72%',
-                    borderRadius: '999px',
-                    background: 'rgba(212, 201, 168, 0.12)',
-                  }}
-                />
+                  >
+                    <Play size={12} /> Video Walkthrough
+                  </button>
+                )}
+                {galleryImages && galleryImages.length > 0 && (
+                  <button
+                    onClick={() => setActiveTab('screenshots')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 12px',
+                      borderRadius: '20px',
+                      border: '1px solid',
+                      borderColor: activeTab === 'screenshots' ? 'var(--accent)' : 'transparent',
+                      background: activeTab === 'screenshots' ? 'rgba(212, 201, 168, 0.1)' : 'transparent',
+                      color: activeTab === 'screenshots' ? 'var(--white)' : 'var(--white-dimmer)',
+                      fontSize: '11px',
+                      fontFamily: 'var(--font-mono)',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <Image size={12} /> Screenshots
+                  </button>
+                )}
               </div>
             )}
+
+            {/* Tab Contents */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              {activeTab === 'simulation' && children}
+
+              {activeTab === 'video' && demoVideo && (
+                <div 
+                  style={{ 
+                    flex: 1, 
+                    display: 'flex', 
+                    flexDirection: 'column',
+                    position: 'relative', 
+                    overflow: 'hidden', 
+                    borderRadius: '12px', 
+                    border: '1px solid var(--border)', 
+                    background: 'var(--black)',
+                    minHeight: '260px',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+                  }}
+                >
+                  {/* Browser Header Bar */}
+                  <div 
+                    style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '8px', 
+                      background: 'var(--off-black)', 
+                      padding: '10px 16px', 
+                      borderBottom: '1px solid var(--border)',
+                      height: '38px',
+                    }}
+                  >
+                    <div style={{ display: 'flex', gap: '6px' }}>
+                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
+                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
+                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
+                    </div>
+                    <div 
+                      style={{ 
+                        flex: 1, 
+                        margin: '0 24px', 
+                        background: 'var(--black)', 
+                        border: '1px solid var(--border)', 
+                        borderRadius: '6px', 
+                        padding: '3px 12px', 
+                        fontSize: '10px', 
+                        color: 'var(--white-dim)', 
+                        fontFamily: 'var(--font-mono)',
+                        textAlign: 'center',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      eozka.dev/{productName.toLowerCase().replace(' ', '-')}/video-tour
+                    </div>
+                  </div>
+
+                  {/* Video Container with premium background */}
+                  <div 
+                    style={{ 
+                      flex: 1, 
+                      position: 'relative', 
+                      overflow: 'hidden', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      padding: '24px',
+                      background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 80%), repeating-radial-gradient(circle, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 20px)',
+                      backgroundSize: '20px 20px',
+                    }}
+                  >
+                    <video
+                      src={demoVideo}
+                      controls
+                      playsInline
+                      style={{ 
+                        maxWidth: '100%', 
+                        maxHeight: '480px', 
+                        objectFit: 'contain',
+                        borderRadius: '6px',
+                        boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border)'
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'screenshots' && galleryImages && galleryImages.length > 0 && (
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+                  {/* Browser Mockup Window */}
+                  <div 
+                    style={{ 
+                      flex: 1, 
+                      display: 'flex', 
+                      flexDirection: 'column',
+                      position: 'relative', 
+                      overflow: 'hidden', 
+                      borderRadius: '12px', 
+                      border: '1px solid var(--border)', 
+                      background: 'var(--black)',
+                      minHeight: '260px',
+                      boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+                    }}
+                  >
+                    {/* Browser Header Bar */}
+                    <div 
+                      style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '8px', 
+                        background: 'var(--off-black)', 
+                        padding: '10px 16px', 
+                        borderBottom: '1px solid var(--border)',
+                        height: '38px',
+                      }}
+                    >
+                      {/* Windows/Mac style window controls */}
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
+                      </div>
+                      
+                      {/* Address Bar */}
+                      <div 
+                        style={{ 
+                          flex: 1, 
+                          margin: '0 24px', 
+                          background: 'var(--black)', 
+                          border: '1px solid var(--border)', 
+                          borderRadius: '6px', 
+                          padding: '3px 12px', 
+                          fontSize: '10px', 
+                          color: 'var(--white-dim)', 
+                          fontFamily: 'var(--font-mono)',
+                          textAlign: 'center',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        eozka.dev/{productName.toLowerCase().replace(' ', '-')}/dashboard
+                      </div>
+                    </div>
+
+                    {/* Screenshot Container with premium background */}
+                    <div 
+                      style={{ 
+                        flex: 1, 
+                        position: 'relative', 
+                        overflow: 'hidden', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center', 
+                        padding: '24px',
+                        background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 80%), repeating-radial-gradient(circle, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 20px)',
+                        backgroundSize: '20px 20px',
+                      }}
+                    >
+                      <img
+                        src={galleryImages[currentSlide].url}
+                        alt={galleryImages[currentSlide].caption || 'Screenshot'}
+                        onClick={() => openLightbox(currentSlide)}
+                        style={{ 
+                          maxWidth: '100%', 
+                          maxHeight: '480px', 
+                          objectFit: 'contain', 
+                          borderRadius: '6px',
+                          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border)',
+                          transition: 'opacity 0.3s ease',
+                          cursor: 'zoom-in'
+                        }}
+                      />
+                      {galleryImages.length > 1 && (
+                        <>
+                          <button
+                            onClick={prevSlide}
+                            style={{
+                              position: 'absolute',
+                              left: '12px',
+                              background: 'var(--off-black)',
+                              border: '1px solid var(--border)',
+                              color: 'var(--white)',
+                              width: '32px',
+                              height: '32px',
+                              borderRadius: '50%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              zIndex: 2,
+                              boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                              transition: 'all 0.2s',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.borderColor = 'var(--accent)';
+                              e.currentTarget.style.color = 'var(--accent)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.borderColor = 'var(--border)';
+                              e.currentTarget.style.color = 'var(--white)';
+                            }}
+                          >
+                            <ChevronLeft size={18} />
+                          </button>
+                          <button
+                            onClick={nextSlide}
+                            style={{
+                              position: 'absolute',
+                              right: '12px',
+                              background: 'var(--off-black)',
+                              border: '1px solid var(--border)',
+                              color: 'var(--white)',
+                              width: '32px',
+                              height: '32px',
+                              borderRadius: '50%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              zIndex: 2,
+                              boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                              transition: 'all 0.2s',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.borderColor = 'var(--accent)';
+                              e.currentTarget.style.color = 'var(--accent)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.borderColor = 'var(--border)';
+                              e.currentTarget.style.color = 'var(--white)';
+                            }}
+                          >
+                            <ChevronRight size={18} />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {galleryImages[currentSlide].caption && (
+                    <div
+                      style={{
+                        marginTop: '8px',
+                        fontSize: '11px',
+                        color: 'var(--white-dim)',
+                        textAlign: 'center',
+                        fontFamily: 'var(--font-mono)',
+                      }}
+                    >
+                      {galleryImages[currentSlide].caption}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -214,8 +600,8 @@ export default function ProductLanding({
           margin: '0 auto',
           padding: '60px 24px',
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '60px',
+          gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+          gap: isMobile ? '30px' : '60px',
           alignItems: 'start',
         }}
       >
@@ -688,6 +1074,256 @@ export default function ProductLanding({
           </section>
         );
       })()}
+
+      {/* Gallery Section */}
+      {galleryImages && galleryImages.length > 0 && (
+        <section
+          className="product-gallery"
+          style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '60px 24px',
+            borderTop: '1px solid var(--border)',
+          }}
+        >
+          <h2
+            style={{
+              fontSize: '2rem',
+              marginBottom: '40px',
+              fontFamily: 'var(--serif)',
+              textAlign: 'center',
+            }}
+          >
+            Interface & Dashboard Showcase
+          </h2>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '24px',
+            }}
+          >
+            {galleryImages.map((image, idx) => (
+              <div
+                key={idx}
+                onClick={() => openLightbox(idx)}
+                style={{
+                  background: 'var(--off-black)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  transition: 'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
+                  position: 'relative',
+                  aspectRatio: '16/10',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.borderColor = 'var(--accent)';
+                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(212, 201, 168, 0.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = 'var(--border)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <div style={{ flex: 1, position: 'relative', overflow: 'hidden', background: '#080808' }}>
+                  <img
+                    src={image.url}
+                    alt={image.caption || 'Interface Screenshot'}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      transition: 'transform 0.5s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.03)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                    }}
+                  />
+                </div>
+                {image.caption && (
+                  <div
+                    style={{
+                      padding: '12px 16px',
+                      borderTop: '1px solid var(--border)',
+                      background: 'rgba(255, 255, 255, 0.01)',
+                      fontSize: '12px',
+                      color: 'var(--white-dim)',
+                      fontFamily: 'var(--font-mono)',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {image.caption}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Lightbox Modal */}
+      {lightboxOpen && galleryImages && galleryImages.length > 0 && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(5, 5, 5, 0.92)',
+            backdropFilter: 'blur(10px)',
+            zIndex: 9999,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '24px',
+          }}
+          onClick={closeLightbox}
+        >
+          {/* Close button */}
+          <button
+            onClick={closeLightbox}
+            style={{
+              position: 'absolute',
+              top: '24px',
+              right: '24px',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid var(--border)',
+              color: 'var(--white)',
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              zIndex: 10000,
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
+          >
+            <X size={20} />
+          </button>
+
+          {/* Navigation Controls */}
+          {galleryImages.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevLightboxImage();
+                }}
+                style={{
+                  position: 'absolute',
+                  left: '24px',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--white)',
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  zIndex: 10000,
+                  transition: 'background 0.2s',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextLightboxImage();
+                }}
+                style={{
+                  position: 'absolute',
+                  right: '24px',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--white)',
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  zIndex: 10000,
+                  transition: 'background 0.2s',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
+              >
+                <ChevronRight size={24} />
+              </button>
+            </>
+          )}
+
+          {/* Main Image Container */}
+          <div
+            style={{
+              position: 'relative',
+              maxWidth: isZoomed ? '96vw' : '85vw',
+              maxHeight: isZoomed ? '90vh' : '75vh',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: isZoomed ? 'auto' : 'hidden',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={galleryImages[lightboxIndex].url}
+              alt={galleryImages[lightboxIndex].caption || 'Screenshot'}
+              style={{
+                maxWidth: isZoomed ? 'none' : '100%',
+                maxHeight: isZoomed ? 'none' : '100%',
+                objectFit: 'contain',
+                borderRadius: '8px',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+                cursor: isZoomed ? 'zoom-out' : 'zoom-in',
+                transition: isZoomed ? 'none' : 'transform 0.3s ease',
+              }}
+              onClick={() => setIsZoomed(!isZoomed)}
+            />
+          </div>
+
+          {/* Caption & Counter */}
+          <div
+            style={{
+              marginTop: '24px',
+              textAlign: 'center',
+              fontFamily: 'var(--font-mono)',
+              zIndex: 10000,
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {galleryImages[lightboxIndex].caption && (
+              <p style={{ color: 'var(--white)', fontSize: '15px', margin: '0 0 8px 0', fontWeight: 'bold' }}>
+                {galleryImages[lightboxIndex].caption}
+              </p>
+            )}
+            <p style={{ color: 'var(--accent)', fontSize: '12px', margin: 0 }}>
+              {lightboxIndex + 1} of {galleryImages.length}
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Back Link */}
       <section

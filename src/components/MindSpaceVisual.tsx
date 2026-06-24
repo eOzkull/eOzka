@@ -64,7 +64,7 @@ export default function MindSpaceVisual() {
           padding: '12px 14px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(255,255,255,0.02)',
+          background: 'var(--simulator-card-bg)',
         }}
       >
         <span
@@ -95,7 +95,7 @@ export default function MindSpaceVisual() {
             padding: '12px',
             border: '1px solid var(--border)',
             borderRadius: '12px',
-            background: 'rgba(0,0,0,0.15)',
+            background: 'var(--simulator-log-bg)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
@@ -200,7 +200,7 @@ export default function MindSpaceVisual() {
             padding: '12px',
             border: '1px solid var(--border)',
             borderRadius: '12px',
-            background: 'rgba(0,0,0,0.15)',
+            background: 'var(--simulator-log-bg)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -289,7 +289,7 @@ export default function MindSpaceVisual() {
           padding: '12px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(212,201,168,0.03)',
+          background: 'var(--simulator-card-bg)',
           display: 'grid',
           gap: '8px',
         }}
@@ -318,7 +318,7 @@ export default function MindSpaceVisual() {
           padding: '12px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(0,0,0,0.2)',
+          background: 'var(--simulator-controls-bg)',
         }}
       >
         <div style={{ display: 'flex', gap: '6px' }}>

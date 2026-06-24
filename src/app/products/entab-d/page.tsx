@@ -108,6 +108,10 @@ export default function EntabDPage() {
         ]}
         githubLink="https://github.com/eOzkull/entab-D"
         websiteLink="https://github.com/eOzkull"
+        galleryImages={[
+          { url: '/assets/Products-Showcase/Entab-D/entab-screenshot-1.jpg', caption: 'Chrome Tab Manager - Grouped Tabs View' },
+          { url: '/assets/Products-Showcase/Entab-D/entab-screenshot-2.jpg', caption: 'Chrome Tab Manager - Tab Sorting Analytics' }
+        ]}
       >
         <div
           style={{ display: 'grid', gap: '14px', width: '100%', fontFamily: 'var(--font-sans)' }}

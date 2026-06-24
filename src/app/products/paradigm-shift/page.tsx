@@ -113,6 +113,11 @@ export default function ParadigmShiftPage() {
         ]}
         githubLink="https://github.com/MRINALPRAKASHFSD/MINI_PROJECT_PARADIGM_SHIFT"
         websiteLink="https://mini-project-paradigm-shift-5y6i.vercel.app/"
+        galleryImages={[
+          { url: '/assets/Products-Showcase/Paradigm/paradigm-screenshot-1.jpg', caption: 'HRMS Operations Console - Recruitment Pipeline' },
+          { url: '/assets/Products-Showcase/Paradigm/paradigm-screenshot-2.jpg', caption: 'Employee Directory & Real-time Profile Status' },
+          { url: '/assets/Products-Showcase/Paradigm/paradigm-screenshot-3.jpg', caption: 'Compliance Reviews & Performance Audit Logs' }
+        ]}
       >
         <div
           style={{ display: 'grid', gap: '14px', width: '100%', fontFamily: 'var(--font-sans)' }}

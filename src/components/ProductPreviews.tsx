@@ -111,7 +111,7 @@ export function AIrisSecurityPreview() {
           padding: '10px 14px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(255,255,255,0.02)',
+          background: 'var(--simulator-card-bg)',
         }}
       >
         <span
@@ -153,7 +153,7 @@ export function AIrisSecurityPreview() {
           padding: '12px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(0,0,0,0.3)',
+          background: 'var(--simulator-terminal-bg)',
           display: 'flex',
           flexDirection: 'column',
           gap: '8px',
@@ -229,7 +229,7 @@ export function AIrisSecurityPreview() {
           padding: '12px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(0,0,0,0.15)',
+          background: 'var(--simulator-log-bg)',
           display: 'flex',
           flexDirection: 'column',
           gap: '6px',
@@ -333,7 +333,7 @@ export function ParadigmShiftPreview() {
           padding: '10px 14px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(255,255,255,0.02)',
+          background: 'var(--simulator-card-bg)',
         }}
       >
         <span
@@ -397,7 +397,7 @@ export function ParadigmShiftPreview() {
           padding: '12px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(0,0,0,0.15)',
+          background: 'var(--simulator-log-bg)',
           display: 'flex',
           flexDirection: 'column',
           gap: '8px',
@@ -412,7 +412,7 @@ export function ParadigmShiftPreview() {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  background: 'rgba(255,255,255,0.02)',
+                  background: 'var(--simulator-item-bg)',
                   padding: '6px 10px',
                   borderRadius: '6px',
                   border: '1px solid var(--border)',
@@ -590,7 +590,7 @@ export function MindSpacePreview() {
           padding: '10px 14px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(255,255,255,0.02)',
+          background: 'var(--simulator-card-bg)',
         }}
       >
         <span
@@ -634,7 +634,7 @@ export function MindSpacePreview() {
             padding: '12px',
             border: '1px solid var(--border)',
             borderRadius: '12px',
-            background: 'rgba(0,0,0,0.15)',
+            background: 'var(--simulator-log-bg)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -686,7 +686,7 @@ export function MindSpacePreview() {
             padding: '12px',
             border: '1px solid var(--border)',
             borderRadius: '12px',
-            background: 'rgba(0,0,0,0.15)',
+            background: 'var(--simulator-log-bg)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
@@ -728,7 +728,7 @@ export function MindSpacePreview() {
           padding: '12px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(0,0,0,0.2)',
+          background: 'var(--simulator-controls-bg)',
           display: 'grid',
           gap: '8px',
         }}
@@ -859,7 +859,7 @@ export function EntabDPreview() {
           padding: '10px 14px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(255,255,255,0.02)',
+          background: 'var(--simulator-card-bg)',
         }}
       >
         <span
@@ -924,7 +924,7 @@ export function EntabDPreview() {
           padding: '12px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(0,0,0,0.15)',
+          background: 'var(--simulator-log-bg)',
           minHeight: '145px',
           display: 'flex',
           flexDirection: 'column',
@@ -969,7 +969,7 @@ export function EntabDPreview() {
                   key={idx}
                   style={{
                     padding: '6px 8px',
-                    background: 'rgba(255,255,255,0.02)',
+                    background: 'var(--simulator-item-bg)',
                     border: '1px solid var(--border)',
                     borderLeft: `2.5px solid ${tab.color}`,
                     borderRadius: '4px',
@@ -1017,7 +1017,7 @@ export function EntabDPreview() {
                   key={idx}
                   style={{
                     padding: '6px 10px',
-                    background: 'rgba(255, 255, 255, 0.03)',
+                    background: 'var(--simulator-item-bg)',
                     border: '1px solid var(--border)',
                     borderRadius: '6px',
                     display: 'flex',
@@ -1043,7 +1043,7 @@ export function EntabDPreview() {
                       fontSize: '8px',
                       color: 'var(--accent)',
                       border: '1px solid var(--border)',
-                      background: 'rgba(0,0,0,0.2)',
+                      background: 'var(--simulator-controls-bg)',
                       padding: '1px 5px',
                       borderRadius: '4px',
                       fontFamily: 'var(--font-mono)',

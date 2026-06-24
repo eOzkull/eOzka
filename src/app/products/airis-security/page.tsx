@@ -113,6 +113,8 @@ export default function AirisSecurityPage() {
         ]}
         githubLink="https://github.com/Kush05Bhardwaj/AIris-Security_AI-Powered-Vulnerability-Scanner"
         websiteLink="https://airis-security1.vercel.app/"
+        demoVideo="/assets/Products-Showcase/Alris-Security/Airis-V2-Demo.mp4"
+
       >
         <div
           style={{ display: 'grid', gap: '14px', width: '100%', fontFamily: 'var(--font-mono)' }}

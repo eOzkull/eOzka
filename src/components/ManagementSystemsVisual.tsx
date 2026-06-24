@@ -81,7 +81,7 @@ export default function ManagementSystemsVisual() {
           padding: '12px 14px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(255,255,255,0.02)',
+          background: 'var(--simulator-card-bg)',
         }}
       >
         <span
@@ -141,7 +141,7 @@ export default function ManagementSystemsVisual() {
                 border: '1px solid',
                 borderColor: isActive ? 'var(--accent)' : 'var(--border)',
                 borderRadius: '8px',
-                background: isActive ? 'rgba(212,201,168,0.06)' : 'rgba(0,0,0,0.15)',
+                background: isActive ? 'var(--accent-glow)' : 'var(--simulator-log-bg)',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
               }}
@@ -192,7 +192,7 @@ export default function ManagementSystemsVisual() {
           padding: '12px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(0,0,0,0.2)',
+          background: 'var(--simulator-controls-bg)',
         }}
       >
         <div>
@@ -218,7 +218,7 @@ export default function ManagementSystemsVisual() {
           padding: '12px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'rgba(0,0,0,0.35)',
+          background: 'var(--simulator-terminal-bg)',
           fontSize: '9px',
           minHeight: '82px',
           justifyContent: 'flex-start',
