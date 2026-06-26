@@ -114,12 +114,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
-    // {
-    //   url: `${baseUrl}/ventures/nolin`,
-    //   lastModified: getPageLastModified('src/app/ventures/nolin/page.tsx'),
-    //   changeFrequency: 'monthly',
-    //   priority: 0.8,
-    // },
+    {
+      url: `${baseUrl}/ventures/nolin`,
+      lastModified: getPageLastModified('src/app/ventures/nolin/page.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     {
       url: `${baseUrl}/community/achievements`,
       lastModified: getPageLastModified('src/app/community/achievements/page.tsx'),

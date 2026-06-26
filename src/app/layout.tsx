@@ -5,6 +5,7 @@ import './style.css';
 import './extras.css';
 import { AudioProvider } from '@/contexts/AudioContext';
 import CustomCursor from '@/components/CustomCursor';
+import SmoothScroll from '@/components/SmoothScroll';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -191,13 +192,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     { '@id': 'https://eozka.com/#person-saurabh' },
                     { '@id': 'https://eozka.com/#person-manas' },
                   ],
-                  // subOrganization: [
-                  //   {
-                  //     '@type': 'Organization',
-                  //     name: 'Nolin',
-                  //     url: 'https://eozka.com/ventures/nolin',
-                  //   },
-                  // ],
+                  subOrganization: [
+                    {
+                      '@type': 'Organization',
+                      name: 'Nolin',
+                      url: 'https://eozka.com/ventures/nolin',
+                    },
+                  ],
                 },
                 {
                   '@type': 'WebSite',
@@ -381,6 +382,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           {/* Custom cursor following pointer */}
           <CustomCursor />
+
+          {/* Smooth scrolling inertia engine */}
+          <SmoothScroll />
 
           {/* Scroll progress loading bar */}
           <ScrollProgressBar />
