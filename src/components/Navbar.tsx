@@ -18,7 +18,12 @@ export default function Navbar() {
   // Theme logic
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const saved = localStorage.getItem('eOzka_theme');
+    let saved = null;
+    try {
+      saved = localStorage.getItem('eOzka_theme');
+    } catch (e) {
+      console.warn('localStorage is not available:', e);
+    }
     const htmlEl = document.documentElement;
     if (saved === 'light') {
       htmlEl.setAttribute('data-theme', 'light');
@@ -33,11 +38,19 @@ export default function Navbar() {
     const htmlEl = document.documentElement;
     if (theme === 'light') {
       htmlEl.removeAttribute('data-theme');
-      localStorage.setItem('eOzka_theme', 'dark');
+      try {
+        localStorage.setItem('eOzka_theme', 'dark');
+      } catch (e) {
+        console.warn('localStorage is not available:', e);
+      }
       setTheme('dark');
     } else {
       htmlEl.setAttribute('data-theme', 'light');
-      localStorage.setItem('eOzka_theme', 'light');
+      try {
+        localStorage.setItem('eOzka_theme', 'light');
+      } catch (e) {
+        console.warn('localStorage is not available:', e);
+      }
       setTheme('light');
     }
   };

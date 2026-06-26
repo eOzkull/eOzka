@@ -4,7 +4,7 @@ import ProductsClient from './ProductsClient';
 export const metadata: Metadata = {
   title: 'Showcase Products & Pipeline | eOzka',
   description:
-    'Explore the full open-source product pipeline, enterprise administration platforms, EdTech nodes, and AgriTech sensors built by the eOzka engineering team.',
+    'Explore the software products, enterprise administration platforms, and technology solutions built by the eOzka engineering team.',
   alternates: {
     canonical: '/products',
   },
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: 'https://eozka.com/products',
     title: 'Showcase Products & Pipeline | eOzka',
     description:
-      'Explore the full open-source product pipeline, enterprise administration platforms, EdTech nodes, and AgriTech sensors built by the eOzka engineering team.',
+      'Explore the software products, enterprise administration platforms, and technology solutions built by the eOzka engineering team.',
     images: [
       {
         url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Showcase Products & Pipeline | eOzka',
     description:
-      'Explore the full open-source product pipeline, enterprise administration platforms, EdTech nodes, and AgriTech sensors built by the eOzka engineering team.',
+      'Explore the software products, enterprise administration platforms, and technology solutions built by the eOzka engineering team.',
     creator: '@weareeozka',
     site: '@weareeozka',
     images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],

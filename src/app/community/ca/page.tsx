@@ -4,7 +4,7 @@ import CAClient from './CAClient';
 export const metadata: Metadata = {
   title: 'Apply | Campus Ambassador Program',
   description:
-    'Apply for the eOzka Campus Ambassador Program cohort to advocate for open-source engineering standards at your university.',
+    'Apply for the eOzka Campus Ambassador Program to lead technical workshops, build developer communities, and collaborate on software initiatives.',
   alternates: {
     canonical: '/community/ca',
   },
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: 'https://eozka.com/community/ca',
     title: 'Apply | Campus Ambassador Program',
     description:
-      'Apply for the eOzka Campus Ambassador Program cohort to advocate for open-source engineering standards at your university.',
+      'Apply for the eOzka Campus Ambassador Program to lead technical workshops, build developer communities, and collaborate on software initiatives.',
     images: [
       {
         url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Apply | Campus Ambassador Program',
     description:
-      'Apply for the eOzka Campus Ambassador Program cohort to advocate for open-source engineering standards at your university.',
+      'Apply for the eOzka Campus Ambassador Program to lead technical workshops, build developer communities, and collaborate on software initiatives.',
     images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],
   },
 };

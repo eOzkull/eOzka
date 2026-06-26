@@ -73,7 +73,12 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   // Load initial mute state from localStorage on client-side mount
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const saved = localStorage.getItem('eOzka_audio_muted');
+    let saved = null;
+    try {
+      saved = localStorage.getItem('eOzka_audio_muted');
+    } catch (e) {
+      console.warn('localStorage is not available:', e);
+    }
     if (saved !== null) {
       const parsedMuted = saved === 'true';
       if (parsedMuted !== true) {
@@ -84,13 +89,21 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   // Preload sound effects on client-side mount
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || typeof Audio === 'undefined') return;
 
-    metallicClickRef.current = new Audio('/assets/audio/metallic_click.mp3');
-    metallicClickRef.current.preload = 'auto';
+    try {
+      metallicClickRef.current = new Audio('/assets/audio/metallic_click.mp3');
+      metallicClickRef.current.preload = 'auto';
+    } catch (e) {
+      console.warn('Failed to initialize metallic click audio:', e);
+    }
 
-    cassetteHoverRef.current = new Audio('/assets/audio/cassette_hover.mp3');
-    cassetteHoverRef.current.preload = 'auto';
+    try {
+      cassetteHoverRef.current = new Audio('/assets/audio/cassette_hover.mp3');
+      cassetteHoverRef.current.preload = 'auto';
+    } catch (e) {
+      console.warn('Failed to initialize cassette hover audio:', e);
+    }
   }, []);
 
   // Helper to play a cloned audio instance supporting rapid, polyphonic overlapping plays
@@ -200,16 +213,24 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   // ── BACKGROUND MUSIC ENGINE EFFECTS ──
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || typeof Audio === 'undefined') return;
 
     // Instantiate elements
-    bgMusicRef.current = new Audio();
-    bgMusicRef.current.loop = false;
-    bgMusicRef.current.volume = 0.25;
-    bgMusicRef.current.src = ORBITAL_TRACKS[0].url;
+    try {
+      bgMusicRef.current = new Audio();
+      bgMusicRef.current.loop = false;
+      bgMusicRef.current.volume = 0.25;
+      bgMusicRef.current.src = ORBITAL_TRACKS[0].url;
+    } catch (e) {
+      console.warn('Failed to initialize background music audio:', e);
+    }
 
-    previewPlayerRef.current = new Audio();
-    previewPlayerRef.current.volume = 1.0;
+    try {
+      previewPlayerRef.current = new Audio();
+      previewPlayerRef.current.volume = 1.0;
+    } catch (e) {
+      console.warn('Failed to initialize preview player audio:', e);
+    }
 
     const handleBgEnded = () => {
       currentRadioIndex.current = (currentRadioIndex.current + 1) % ORBITAL_TRACKS.length;
@@ -223,7 +244,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
-    bgMusicRef.current.addEventListener('ended', handleBgEnded);
+    if (bgMusicRef.current) {
+      bgMusicRef.current.addEventListener('ended', handleBgEnded);
+    }
 
     const handlePreviewPlay = () => {
       if (bgMusicRef.current) {
@@ -243,9 +266,11 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       setActivePreviewUrl(null);
     };
 
-    previewPlayerRef.current.addEventListener('play', handlePreviewPlay);
-    previewPlayerRef.current.addEventListener('pause', handlePreviewPauseOrEnd);
-    previewPlayerRef.current.addEventListener('ended', handlePreviewPauseOrEnd);
+    if (previewPlayerRef.current) {
+      previewPlayerRef.current.addEventListener('play', handlePreviewPlay);
+      previewPlayerRef.current.addEventListener('pause', handlePreviewPauseOrEnd);
+      previewPlayerRef.current.addEventListener('ended', handlePreviewPauseOrEnd);
+    }
 
     return () => {
       if (bgMusicRef.current) {
@@ -338,7 +363,11 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const newMuted = !isMuted;
     setIsMuted(newMuted);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('eOzka_audio_muted', String(newMuted));
+      try {
+        localStorage.setItem('eOzka_audio_muted', String(newMuted));
+      } catch (e) {
+        console.warn('localStorage is not available:', e);
+      }
     }
 
     if (!globalUnlocked.current) {

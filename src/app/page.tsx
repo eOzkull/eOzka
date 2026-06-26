@@ -5,6 +5,12 @@ import Link from 'next/link';
 import SentientOrb from '@/components/SentientOrb';
 import Products3DCarousel from '@/components/Products3DCarousel';
 import { useAudio } from '@/contexts/AudioContext';
+import {
+  AIrisSecurityPreview,
+  ParadigmShiftPreview,
+  EntabDPreview,
+  MindSpacePreview,
+} from '@/components/ProductPreviews';
 
 interface TeamMember {
   name: string;
@@ -152,202 +158,348 @@ const interactiveProducts: InteractiveProduct[] = [
       { label: 'Tone', value: 'Organic' },
     ],
   },
-  {
-    name: 'Management-Systems',
-    tagline: 'Holding-company operations and compliance layer',
-    badge: 'Internal Platform',
-    status: 'In Progress',
-    description:
-      'Internal governance and reporting system under active development, tailored for modern, decentralized holding structures.',
-    github: 'https://github.com/eOzkull',
-    slug: '/products/management-systems',
-    metrics: [
-      { label: 'Scope', value: 'Governance' },
-      { label: 'Replication', value: 'Active' },
-      { label: 'Access', value: 'Audited' },
-    ],
-  },
+
 ];
+
+const ClickToPlayVideo = ({ src }: { src: string }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  const togglePlay = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play().catch(err => console.log("Video play interrupted:", err));
+      setIsPlaying(true);
+    }
+  };
+
+  return (
+    <div
+      onClick={togglePlay}
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        cursor: 'pointer',
+        background: '#050505',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        preload="none"
+        playsInline
+        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+      />
+      {!isPlaying && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(0, 0, 0, 0.4)',
+            transition: 'background 0.3s ease',
+          }}
+        >
+          <div
+            className="play-button-trigger"
+            style={{
+              width: '56px',
+              height: '56px',
+              borderRadius: '50%',
+              background: 'var(--accent)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 0 20px var(--accent-glow)',
+              transition: 'transform 0.2s ease',
+            }}
+          >
+            <div className="play-triangle" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const ProductCarousel = ({ product }: { product: InteractiveProduct }) => {
   const [slide, setSlide] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxUrl, setLightboxUrl] = useState('');
+  const [lightboxCaption, setLightboxCaption] = useState('');
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  useEffect(() => {
+    setIsZoomed(false);
+  }, [slide, lightboxOpen]);
+
+  const createMediaSlide = (
+    mediaNode: React.ReactNode,
+    title: string,
+    subPath: string,
+    slideNum: number,
+    totalSlides: number,
+    isVideo = false
+  ) => {
+    return {
+      type: 'media',
+      content: (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            overflow: 'hidden',
+            background: 'var(--black)',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          {/* Browser Header Bar */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'var(--off-black)',
+              padding: '8px 14px',
+              borderBottom: '1px solid var(--border)',
+              height: '34px',
+            }}
+          >
+            <div style={{ display: 'flex', gap: '5px' }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#ff5f56' }} />
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#ffbd2e' }} />
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#27c93f' }} />
+            </div>
+            <div
+              style={{
+                flex: 1,
+                margin: '0 20px',
+                background: 'var(--black)',
+                border: '1px solid var(--border)',
+                borderRadius: '5px',
+                padding: '2px 10px',
+                fontSize: '9px',
+                color: 'var(--white-dim)',
+                fontFamily: 'var(--font-mono)',
+                textAlign: 'center',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              eozka.com{product.slug}
+            </div>
+          </div>
+
+          {/* Media Container with dots grid and glow */}
+          <div
+            style={{
+              flex: 1,
+              position: 'relative',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '16px 20px 28px 20px',
+              background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 75%), repeating-radial-gradient(circle, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 18px)',
+              backgroundSize: '18px 18px',
+              height: 'calc(100% - 34px)',
+            }}
+          >
+            <div style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              maxHeight: '480px',
+            }}>
+              {isVideo ? (
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '4px',
+                  overflow: 'hidden',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border)'
+                }}>
+                  {mediaNode}
+                </div>
+              ) : (
+                React.cloneElement(mediaNode as React.ReactElement<any>, {
+                  style: {
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    objectFit: 'contain',
+                    borderRadius: '4px',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border)',
+                    cursor: 'zoom-in'
+                  },
+                  onClick: () => {
+                    setLightboxUrl((mediaNode as React.ReactElement<any>).props.src);
+                    setLightboxCaption(title);
+                    setLightboxOpen(true);
+                  }
+                })
+              )}
+            </div>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: 'rgba(5, 5, 5, 0.75)',
+                backdropFilter: 'blur(8px)',
+                borderTop: '1px solid var(--border)',
+                padding: '6px 12px',
+                fontSize: '9.5px',
+                fontFamily: 'var(--font-mono)',
+                color: 'var(--white-dim)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                zIndex: 15
+              }}
+            >
+              <span>{title}</span>
+              <span style={{ color: 'var(--accent)' }}>{slideNum} / {totalSlides}</span>
+            </div>
+          </div>
+        </div>
+      )
+    };
+  };
+
+  const createSimulationSlide = (
+    component: React.ReactNode,
+    slideNum: number,
+    totalSlides: number
+  ) => {
+    return {
+      type: 'simulation',
+      content: (
+        <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', background: 'var(--off-black)', padding: '14px 14px 28px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          {component}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              background: 'rgba(5, 5, 5, 0.75)',
+              backdropFilter: 'blur(8px)',
+              borderTop: '1px solid var(--border)',
+              padding: '4px 12px',
+              fontSize: '9px',
+              fontFamily: 'var(--font-mono)',
+              color: 'var(--white-dim)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              zIndex: 10
+            }}
+          >
+            <span>Interactive Simulator</span>
+            <span style={{ color: 'var(--accent)' }}>{slideNum} / {totalSlides}</span>
+          </div>
+        </div>
+      )
+    };
+  };
 
   const getSlides = () => {
-    const slide1 = {
-      type: 'image',
-      content: (
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            background:
-              'linear-gradient(135deg, rgba(179, 138, 43, 0.02) 0%, rgba(179, 138, 43, 0.06) 100%)',
-            border: '1px dashed var(--accent-dim)',
-            borderRadius: '8px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '12px',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          {/* Subtle glowing core */}
-          <div
-            style={{
-              position: 'absolute',
-              width: '180px',
-              height: '180px',
-              borderRadius: '50%',
-              background: 'var(--accent)',
-              opacity: 0.04,
-              filter: 'blur(50px)',
-              pointerEvents: 'none',
-            }}
-          />
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--accent-dim)"
-            strokeWidth="1.5"
-          >
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-            <circle cx="9" cy="9" r="2" />
-            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-          </svg>
-          <span
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '10px',
-              color: 'var(--white-dimmer)',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-            }}
-          >
-            [ {product.name} — Viewport Main ]
-          </span>
-        </div>
-      ),
-    };
+    const list: any[] = [];
+    let total = 0;
 
-    const slide2 = {
-      type: 'image',
-      content: (
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            background:
-              'linear-gradient(135deg, rgba(179, 138, 43, 0.01) 0%, rgba(179, 138, 43, 0.04) 100%)',
-            border: '1px dashed var(--accent-dim)',
-            borderRadius: '8px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '12px',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            style={{
-              position: 'absolute',
-              width: '180px',
-              height: '180px',
-              borderRadius: '50%',
-              background: 'var(--accent)',
-              opacity: 0.02,
-              filter: 'blur(50px)',
-              pointerEvents: 'none',
-            }}
-          />
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--accent-dim)"
-            strokeWidth="1.5"
-          >
-            <path d="M3 3h18v18H3zM21 9H3M21 15H3M12 3v18" />
-          </svg>
-          <span
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '10px',
-              color: 'var(--white-dimmer)',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-            }}
-          >
-            [ {product.name} — Metrics Wireframe ]
-          </span>
-        </div>
-      ),
-    };
+    if (product.name === 'AIris Security') {
+      total = 1;
+      list.push(createMediaSlide(
+        <ClickToPlayVideo src="/assets/Products-Showcase/Alris-Security/Airis-V2-Demo.mp4" />,
+        "Live Demonstration Walkthrough",
+        "video-tour",
+        1,
+        total,
+        true
+      ));
+    } else if (product.name === 'Paradigm-Shift') {
+      total = 3;
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Paradigm/paradigm-screenshot-1.jpg" alt="Paradigm-Shift Preview" />,
+        "Product Interface Preview",
+        "recruitment-pipeline",
+        1,
+        total
+      ));
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Paradigm/paradigm-screenshot-2.jpg" alt="Paradigm-Shift Interface" />,
+        "Employee Management Panel",
+        "directory",
+        2,
+        total
+      ));
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Paradigm/paradigm-screenshot-3.jpg" alt="Paradigm-Shift Analytics" />,
+        "Analytics Dashboard",
+        "analytics",
+        3,
+        total
+      ));
+    } else if (product.name === 'Entab-D') {
+      total = 2;
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Entab-D/entab-screenshot-1.jpg" alt="Entab-D Preview" />,
+        "Tab Grouping Engine Interface",
+        "active-tabs",
+        1,
+        total
+      ));
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Entab-D/entab-screenshot-2.jpg" alt="Entab-D Sorting Analysis" />,
+        "Tab Sorting Analytics Console",
+        "analytics",
+        2,
+        total
+      ));
+    } else if (product.name === 'MindSpace') {
+      total = 3;
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Mindspace/mindspace-screenshot-1.png" alt="MindSpace Preview" />,
+        "MindSpace Companion Dashboard",
+        "wellness-dashboard",
+        1,
+        total
+      ));
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Mindspace/mindspace-screenshot-2.png" alt="MindSpace Chat interface" />,
+        "Compassionate AI Conversation Session",
+        "chat",
+        2,
+        total
+      ));
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Mindspace/mindspace-ipad-2.png" alt="MindSpace iPad interface" />,
+        "Mobile Interface",
+        "mobile",
+        3,
+        total
+      ));
+    }
 
-    const slide3 = {
-      type: 'image',
-      content: (
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            background:
-              'linear-gradient(135deg, rgba(179, 138, 43, 0.02) 0%, rgba(179, 138, 43, 0.04) 100%)',
-            border: '1px dashed var(--accent-dim)',
-            borderRadius: '8px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '12px',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            style={{
-              position: 'absolute',
-              width: '180px',
-              height: '180px',
-              borderRadius: '50%',
-              background: 'var(--accent)',
-              opacity: 0.03,
-              filter: 'blur(50px)',
-              pointerEvents: 'none',
-            }}
-          />
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--accent-dim)"
-            strokeWidth="1.5"
-          >
-            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7" />
-          </svg>
-          <span
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '10px',
-              color: 'var(--white-dimmer)',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-            }}
-          >
-            [ {product.name} — Telemetry Out ]
-          </span>
-        </div>
-      ),
-    };
-
-    return [slide1, slide2, slide3];
+    return list;
   };
 
   const slides = getSlides();
@@ -396,93 +548,194 @@ const ProductCarousel = ({ product }: { product: InteractiveProduct }) => {
         ))}
       </div>
 
-      <button
-        onClick={prevSlide}
-        type="button"
-        style={{
-          position: 'absolute',
-          left: '12px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          width: '28px',
-          height: '28px',
-          borderRadius: '50%',
-          background: 'rgba(0, 0, 0, 0.5)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          color: '#ffffff',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '14px',
-          zIndex: 10,
-          transition: 'all 0.2s',
-          outline: 'none',
-        }}
-      >
-        ‹
-      </button>
-      <button
-        onClick={nextSlide}
-        type="button"
-        style={{
-          position: 'absolute',
-          right: '12px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          width: '28px',
-          height: '28px',
-          borderRadius: '50%',
-          background: 'rgba(0, 0, 0, 0.5)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          color: '#ffffff',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '14px',
-          zIndex: 10,
-          transition: 'all 0.2s',
-          outline: 'none',
-        }}
-      >
-        ›
-      </button>
-
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '12px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          gap: '6px',
-          zIndex: 10,
-        }}
-      >
-        {slides.map((_, idx) => (
+      {slides.length > 1 && (
+        <>
           <button
-            key={idx}
+            onClick={prevSlide}
             type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setSlide(idx);
-            }}
             style={{
-              width: '6px',
-              height: '6px',
+              position: 'absolute',
+              left: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '28px',
+              height: '28px',
               borderRadius: '50%',
-              background: slide === idx ? 'var(--accent)' : 'rgba(255, 255, 255, 0.3)',
-              border: 'none',
-              padding: 0,
+              background: 'rgba(0, 0, 0, 0.5)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#ffffff',
               cursor: 'pointer',
-              transition: 'background 0.3s ease, transform 0.3s ease',
-              transform: slide === idx ? 'scale(1.2)' : 'scale(1.0)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '14px',
+              zIndex: 10,
+              transition: 'all 0.2s',
               outline: 'none',
             }}
-          />
-        ))}
-      </div>
+          >
+            ‹
+          </button>
+          <button
+            onClick={nextSlide}
+            type="button"
+            style={{
+              position: 'absolute',
+              right: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '28px',
+              height: '28px',
+              borderRadius: '50%',
+              background: 'rgba(0, 0, 0, 0.5)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#ffffff',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '14px',
+              zIndex: 10,
+              transition: 'all 0.2s',
+              outline: 'none',
+            }}
+          >
+            ›
+          </button>
+
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '12px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              gap: '6px',
+              zIndex: 10,
+            }}
+          >
+            {slides.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSlide(idx);
+                }}
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  background: slide === idx ? 'var(--accent)' : 'rgba(255, 255, 255, 0.3)',
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
+                  transition: 'background 0.3s ease, transform 0.3s ease',
+                  transform: slide === idx ? 'scale(1.2)' : 'scale(1.0)',
+                  outline: 'none',
+                }}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* Full-Screen Lightbox Modal for Homepage Showcase */}
+      {lightboxOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(5, 5, 5, 0.95)',
+            backdropFilter: 'blur(12px)',
+            zIndex: 99999,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '24px',
+          }}
+          onClick={() => setLightboxOpen(false)}
+        >
+          {/* Close Button */}
+          <button
+            onClick={() => setLightboxOpen(false)}
+            style={{
+              position: 'absolute',
+              top: '24px',
+              right: '24px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid var(--border)',
+              color: 'var(--white)',
+              width: '44px',
+              height: '44px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              zIndex: 100000,
+              fontSize: '20px',
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'}
+          >
+            ✕
+          </button>
+
+          {/* Lightbox Image Container */}
+          <div
+            style={{
+              position: 'relative',
+              maxWidth: isZoomed ? '96vw' : '85vw',
+              maxHeight: isZoomed ? '90vh' : '75vh',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: isZoomed ? 'auto' : 'hidden',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={lightboxUrl}
+              alt={lightboxCaption}
+              style={{
+                maxWidth: isZoomed ? 'none' : '100%',
+                maxHeight: isZoomed ? 'none' : '100%',
+                objectFit: 'contain',
+                borderRadius: '8px',
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.6)',
+                cursor: isZoomed ? 'zoom-out' : 'zoom-in',
+                transition: isZoomed ? 'none' : 'transform 0.3s ease',
+              }}
+              onClick={() => setIsZoomed(!isZoomed)}
+            />
+          </div>
+
+          {/* Lightbox Caption */}
+          {lightboxCaption && (
+            <div
+              style={{
+                marginTop: '24px',
+                textAlign: 'center',
+                fontFamily: 'var(--font-mono)',
+                zIndex: 100000,
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <p style={{ color: 'var(--white)', fontSize: '15px', margin: '0 0 4px 0', fontWeight: 'bold' }}>
+                {lightboxCaption}
+              </p>
+              <p style={{ color: 'var(--accent)', fontSize: '11px', margin: 0 }}>
+                Click anywhere outside the image to exit full-screen view
+              </p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
@@ -603,19 +856,19 @@ export default function Home() {
 
   const faqData = [
     {
-      question: "What is eOzka's core venture studio model?",
+      question: "What is eOzka model of Operation?",
       answer:
-        'eOzka operates as a co-building venture studio. Instead of just providing capital, we actively build, refine, and support our subsidiaries from inception to scale. We supply dedicated technical advisory, core software infrastructure, and initial governance setups, allowing each product to operate independently under a unified standards framework.',
+        'eOzka operates as a co-building operational holding company. Instead of just providing capital, we actively build, refine, and support our subsidiaries from inception to scale. We supply dedicated technical advisory, core software infrastructure, and initial governance setups, allowing each product to operate independently under a unified standards framework.',
     },
     {
-      question: 'How does the studio model differ from standard venture capital or accelerators?',
+      question: 'How does the operational model differ from standard venture capital or accelerators?',
       answer:
         'Unlike traditional venture capital firms that focus purely on financial investment, or accelerators that offer short-term mentorship, eOzka is an operational partner. We write code, build system architectures, design database frameworks, and establish initial operational systems alongside founders. We commit deep engineering bandwidth and operational leadership rather than just writing checks.',
     },
     {
       question: 'Are all eOzka products fully built and open-source?',
       answer:
-        'Our completed software tools, utility blueprints, and browser extensions are released as open-source repositories under the Apache 2.0 License to support developer communities. However, active commercial ventures and enterprise platforms within our studio ecosystem maintain proprietary codebases tailored for specific industrial and compliance standards.',
+        'Our completed software tools, utility blueprints, and browser extensions are released as open-source repositories under the Apache 2.0 License to support developer communities. However, active commercial ventures and enterprise platforms within our operational holding ecosystem maintain proprietary codebases tailored for specific industrial and compliance standards.',
     },
     {
       question: 'Who can join the Campus Ambassador Program?',
@@ -643,10 +896,15 @@ export default function Home() {
         'eOzka operates as a decentralized, digital-first holding and software advisory company, coordinating operations across virtual workspaces and local regional hubs.',
     },
     {
-      question: 'What security methodologies does the studio follow?',
+      question: 'What security methodologies does the holding company follow?',
       answer:
         'We implement institutional security standards across our platforms, including automated vulnerability scanning (AIris-Security), dependency audits, and secure communication webhooks for onboarding and contact portals.',
     },
+    {
+      question: 'Do you engage in custom development or independent projects?',
+      answer:
+        'We selectively partner on specialized engineering and architectural initiatives under our operational holding structure. For custom integrations or dedicated software requirements, you may initiate a briefing via our Request Meeting portal.',
+    }
   ];
 
   const handleContactSubmit = async (e: React.FormEvent) => {
@@ -732,7 +990,10 @@ export default function Home() {
     const startTimeout = setTimeout(typeLoop, 2500);
 
     // ── REVEAL ON SCROLL IntersectionObserver ──
-    const reveals = document.querySelectorAll('.reveal');
+    // Elements are always visible in CSS. This observer only adds .visible for any future
+    // CSS rules that might use it. No will-animate hiding is used.
+    const reveals = document.querySelectorAll<HTMLElement>('.reveal, .reveal-left');
+
     const revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -1060,7 +1321,7 @@ export default function Home() {
       clearTimeout(startTimeout);
       clearTimeout(typeTimeout);
       clearTimeout(scrollTimeout);
-      revealObserver.disconnect();
+      if (revealObserver) revealObserver.disconnect();
       counterObs.disconnect();
       tlObs.disconnect();
       spyObs.disconnect();
@@ -1254,7 +1515,7 @@ export default function Home() {
               </span>
             </div>
             <div className="stat-cell">
-              <span className="stat-num" data-target="12">
+              <span className="stat-num" data-target="6">
                 0
               </span>
               <span className="stat-label">
@@ -1361,8 +1622,8 @@ export default function Home() {
           deployment details.
         </p>
 
-        {/* Compact Console Shell Layout */}
-        <div className="products-console-container reveal">
+        {/* Compact Console Shell Layout (Desktop View) */}
+        <div className="products-console-container desktop-only reveal">
           {/* Left: Product Cards Stack */}
           <div className="products-console-sidebar">
             {interactiveProducts.map((product, idx) => {
@@ -1684,6 +1945,11 @@ export default function Home() {
               )}
             </div>
           </div>
+        </div>
+
+        {/* 3D Products Carousel (Mobile View) */}
+        <div className="mobile-only">
+          <Products3DCarousel />
         </div>
       </section>
 
@@ -2095,13 +2361,32 @@ export default function Home() {
         }}
       >
         <div className="section-label">07 — FAQ</div>
+        {/* SEO FAQ Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": faqData.map((faq) => ({
+                "@type": "Question",
+                "name": faq.question,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": faq.answer,
+                },
+              })),
+            }),
+          }}
+        />
         <h2 className="section-headline" style={{ marginBottom: '40px' }}>
           Frequently Asked <em>Questions.</em>
         </h2>
         <div className="faq-grid">
+          {/* Column 1 */}
           <div className="faq-column">
             {faqData.map((faq, idx) => {
-              if (idx % 2 !== 0) return null;
+              if (idx % 3 !== 0) return null;
               const isOpen = openFaqIndex === idx;
               return (
                 <div key={idx} className={`faq-item ${isOpen ? 'active' : ''}`}>
@@ -2140,9 +2425,54 @@ export default function Home() {
               );
             })}
           </div>
+
+          {/* Column 2 */}
           <div className="faq-column">
             {faqData.map((faq, idx) => {
-              if (idx % 2 === 0) return null;
+              if (idx % 3 !== 1) return null;
+              const isOpen = openFaqIndex === idx;
+              return (
+                <div key={idx} className={`faq-item ${isOpen ? 'active' : ''}`}>
+                  <button
+                    type="button"
+                    className="faq-header"
+                    onClick={() => toggleFaq(idx)}
+                    aria-expanded={isOpen}
+                  >
+                    <h3 className="faq-question">{faq.question}</h3>
+                    <div className="faq-icon-wrap">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{ transition: 'transform 0.3s ease' }}
+                      >
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </div>
+                  </button>
+                  <div
+                    className="faq-content-wrapper"
+                    style={{
+                      maxHeight: isOpen ? '300px' : '0px',
+                    }}
+                  >
+                    <p className="faq-answer">{faq.answer}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Column 3 */}
+          <div className="faq-column">
+            {faqData.map((faq, idx) => {
+              if (idx % 3 !== 2) return null;
               const isOpen = openFaqIndex === idx;
               return (
                 <div key={idx} className={`faq-item ${isOpen ? 'active' : ''}`}>

@@ -4,7 +4,7 @@ import AchievementsClient from './AchievementsClient';
 export const metadata: Metadata = {
   title: 'Community Impact & Achievements | eOzka',
   description:
-    "Explore the real-world open-source achievements, biometrics telemetry audits, and software adoptions coordinated by eOzka's student developer network.",
+    "Explore the real-world technical achievements, biometrics telemetry audits, and software integrations coordinated by eOzka's developer community.",
   alternates: {
     canonical: '/community/achievements',
   },
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: 'https://eozka.com/community/achievements',
     title: 'Community Impact & Achievements | eOzka',
     description:
-      "Explore the real-world open-source achievements, biometrics telemetry audits, and software adoptions coordinated by eOzka's student developer network.",
+      "Explore the real-world technical achievements, biometrics telemetry audits, and software integrations coordinated by eOzka's developer community.",
     images: [
       {
         url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Community Impact & Achievements | eOzka',
     description:
-      "Explore the real-world open-source achievements, biometrics telemetry audits, and software adoptions coordinated by eOzka's student developer network.",
+      "Explore the real-world technical achievements, biometrics telemetry audits, and software integrations coordinated by eOzka's developer community.",
     images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],
   },
 };

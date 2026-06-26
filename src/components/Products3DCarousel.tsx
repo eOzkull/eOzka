@@ -69,7 +69,7 @@ const MobileClickToPlayVideo = ({ src, productName }: { src: string; productName
                   whiteSpace: 'nowrap'
                 }}
               >
-                eozka.dev/{productName.toLowerCase().replace(' ', '-')}/demo-video
+                eozka.com/products/airis-security
               </div>
             </div>
 
@@ -92,6 +92,7 @@ const MobileClickToPlayVideo = ({ src, productName }: { src: string; productName
                 <video 
                     ref={videoRef}
                     src={src}
+                    preload="none"
                     playsInline
                     style={{ 
                         width: '100%', 

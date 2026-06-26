@@ -1,9 +1,35 @@
 import { NextResponse } from 'next/server';
 
+function escapeHTML(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function escapeMarkdown(str: string): string {
+  return str.replace(/([_*\[`])/g, '\\$1');
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { name, email, message, phone, discord } = body;
+
+    // Sanitize inputs for secure rendering in HTML emails and Markdown notifications
+    const safeName = escapeHTML(name);
+    const safeEmail = escapeHTML(email);
+    const safePhone = phone ? escapeHTML(phone) : '';
+    const safeDiscord = discord ? escapeHTML(discord) : '';
+    const safeMessage = escapeHTML(message);
+
+    const markdownName = escapeMarkdown(name);
+    const markdownEmail = escapeMarkdown(email);
+    const markdownPhone = phone ? escapeMarkdown(phone) : 'Not Provided';
+    const markdownDiscord = discord ? escapeMarkdown(discord) : 'Not Provided';
+    const markdownMessage = escapeMarkdown(message);
 
     // 1. Basic Server-Side Validation
     if (!name || !email || !message) {
@@ -77,7 +103,7 @@ export async function POST(request: Request) {
     const telegramChatId = process.env.TELEGRAM_CHAT_ID;
     if (telegramToken && telegramChatId) {
       try {
-        const text = `*📬 New Contact Submission*\n\n*Name:* ${name}\n*Email:* ${email}\n*Phone:* ${phone || 'Not Provided'}\n*Discord:* ${discord || 'Not Provided'}\n\n*Message:*\n${message}`;
+        const text = `*📬 New Contact Submission*\n\n*Name:* ${markdownName}\n*Email:* ${markdownEmail}\n*Phone:* ${markdownPhone}\n*Discord:* ${markdownDiscord}\n\n*Message:*\n${markdownMessage}`;
         const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
 
         const telegramResponse = await fetch(telegramUrl, {
@@ -118,7 +144,7 @@ export async function POST(request: Request) {
           body: JSON.stringify({
             from: 'eOzka Portal <onboarding@resend.dev>',
             to: ['eozka.hq@gmail.com'],
-            subject: `📬 Contact Submission from ${name}`,
+            subject: `📬 Contact Submission from ${safeName}`,
             html: `
               <div style="background-color: #0c0c0c; color: #f0eeea; font-family: 'Courier New', Courier, monospace; padding: 30px; border: 1px solid #d4c9a8; max-width: 600px; margin: auto; border-radius: 4px;">
                 <h2 style="color: #d4c9a8; border-bottom: 1px solid #2a2a2a; padding-bottom: 10px; margin-top: 0;">eOzka Operational Holding Company Node</h2>
@@ -127,19 +153,19 @@ export async function POST(request: Request) {
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 14px;">
                   <tr>
                     <td style="padding: 6px 0; font-weight: bold; color: #d4c9a8; width: 120px;">SENDER:</td>
-                    <td style="padding: 6px 0; color: #f0eeea;">${name}</td>
+                    <td style="padding: 6px 0; color: #f0eeea;">${safeName}</td>
                   </tr>
                   <tr>
                     <td style="padding: 6px 0; font-weight: bold; color: #d4c9a8;">EMAIL:</td>
-                    <td style="padding: 6px 0; color: #f0eeea;"><a href="mailto:${email}" style="color: #d4c9a8; text-decoration: none;">${email}</a></td>
+                    <td style="padding: 6px 0; color: #f0eeea;"><a href="mailto:${safeEmail}" style="color: #d4c9a8; text-decoration: none;">${safeEmail}</a></td>
                   </tr>
                   <tr>
                     <td style="padding: 6px 0; font-weight: bold; color: #d4c9a8;">PHONE:</td>
-                    <td style="padding: 6px 0; color: #f0eeea;">${phone || 'Not Provided'}</td>
+                    <td style="padding: 6px 0; color: #f0eeea;">${safePhone || 'Not Provided'}</td>
                   </tr>
                   <tr>
                     <td style="padding: 6px 0; font-weight: bold; color: #d4c9a8;">DISCORD:</td>
-                    <td style="padding: 6px 0; color: #f0eeea;">${discord || 'Not Provided'}</td>
+                    <td style="padding: 6px 0; color: #f0eeea;">${safeDiscord || 'Not Provided'}</td>
                   </tr>
                   <tr>
                     <td style="padding: 6px 0; font-weight: bold; color: #d4c9a8;">TIMESTAMP:</td>
@@ -149,7 +175,7 @@ export async function POST(request: Request) {
 
                 <div style="border-top: 1px solid #2a2a2a; padding-top: 20px;">
                   <h4 style="color: #d4c9a8; margin: 0 0 10px 0;">MESSAGE DECRYPTED:</h4>
-                  <p style="background-color: #141414; border: 1px solid #2a2a2a; padding: 15px; color: #f0eeea; line-height: 1.6; white-space: pre-wrap; font-size: 13px; margin: 0;">${message}</p>
+                  <p style="background-color: #141414; border: 1px solid #2a2a2a; padding: 15px; color: #f0eeea; line-height: 1.6; white-space: pre-wrap; font-size: 13px; margin: 0;">${safeMessage}</p>
                 </div>
 
                 <div style="margin-top: 30px; font-size: 10px; color: #666; text-align: center; border-top: 1px solid #2a2a2a; padding-top: 15px;">

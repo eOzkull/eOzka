@@ -2,18 +2,18 @@ import type { Metadata } from 'next';
 import BlogClient from './BlogClient';
 
 export const metadata: Metadata = {
-  title: 'Engineering Blog | Open-Source Tech & AI Security | eOzka',
+  title: 'Engineering Blog | Technology & AI Security | eOzka',
   description:
-    'Read engineering insights from eOzka. We write about building open-source AI vulnerability scanners, EdTech networks, and scaling a digital holding company.',
+    'Read engineering insights from eOzka. We write about building AI vulnerability scanners, health-tech frameworks, and scaling a digital holding company.',
   alternates: {
     canonical: '/blog',
   },
   openGraph: {
     type: 'article',
     url: 'https://eozka.com/blog',
-    title: 'Engineering Blog | Open-Source Tech & AI Security | eOzka',
+    title: 'Engineering Blog | Technology & AI Security | eOzka',
     description:
-      'Read engineering insights from eOzka. We write about building open-source AI vulnerability scanners, EdTech networks, and scaling a digital holding company.',
+      'Read engineering insights from eOzka. We write about building AI vulnerability scanners, health-tech frameworks, and scaling a digital holding company.',
     images: [
       {
         url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
@@ -25,9 +25,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Engineering Blog | Open-Source Tech & AI Security | eOzka',
+    title: 'Engineering Blog | Technology & AI Security | eOzka',
     description:
-      'Read engineering insights from eOzka. We write about building open-source AI vulnerability scanners, EdTech networks, and scaling a digital holding company.',
+      'Read engineering insights from eOzka. We write about building AI vulnerability scanners, health-tech frameworks, and scaling a digital holding company.',
     creator: '@weareeozka',
     site: '@weareeozka',
     images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],

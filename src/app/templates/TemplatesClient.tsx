@@ -22,7 +22,7 @@ const WEBSITES: ReadyWebsite[] = [
     description:
       'A premium, empathetic mental health assistant. Features custom conversational loops, mood tracking trackers, and secure journal entries wrapped in a sleek glassmorphic container.',
     tech: 'Next.js 15, TypeScript, WebAudio API, LocalStorage',
-    image: '/assets/images/mindspace_mockup.png',
+    image: '/assets/Products-Showcase/Mindspace/mindspace-screenshot-1.png',
     previewUrl: '/products/mindspace',
   },
   {
@@ -32,7 +32,7 @@ const WEBSITES: ReadyWebsite[] = [
     description:
       'A real-time vulnerability auditor and telemetry dashboard. Perfect for software security firms, showcasing sandbox audits, interactive charts, and live security logging.',
     tech: 'Next.js 15, FastAPI, Chart.js, TailwindCSS',
-    image: '/assets/images/airis_mockup.png',
+    image: '/assets/Products-Showcase/Entab-D/entab-screenshot-1.jpg',
     previewUrl: '/products/airis-security',
   },
   {
@@ -42,7 +42,7 @@ const WEBSITES: ReadyWebsite[] = [
     description:
       'A robust administrative dashboard built for holding structures and decentralized compliance. Features operations tracking, organization charts, and document validation.',
     tech: 'Next.js 15, PostgreSQL, Node.js, Vercel',
-    image: '/assets/images/paradigm_mockup.png',
+    image: '/assets/Products-Showcase/Paradigm/paradigm-screenshot-1.jpg',
     previewUrl: '/products/paradigm-shift',
   },
 ];
@@ -171,7 +171,7 @@ export default function TemplatesClient() {
               color: 'var(--white-dim)',
             }}
           >
-            ← Back to Main Studio
+            ← Back to Main Page
           </Link>
         </div>
 

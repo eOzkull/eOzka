@@ -2,18 +2,18 @@ import type { Metadata } from 'next';
 import CommunityClient from './CommunityClient';
 
 export const metadata: Metadata = {
-  title: 'Student Community & Ambassador Program | eOzka',
+  title: 'Campus Community & Ambassador Program | eOzka',
   description:
-    "Empowering the next generation of builders. Discover eOzka's Student Ambassador Program, campus workshops, open-source projects, and community achievements.",
+    "Empowering the next generation of developers and builders. Discover eOzka's Campus Ambassador Program, technical workshops, collaborative projects, and community achievements.",
   alternates: {
     canonical: '/community',
   },
   openGraph: {
     type: 'website',
     url: 'https://eozka.com/community',
-    title: 'Student Community & Ambassador Program | eOzka',
+    title: 'Campus Community & Ambassador Program | eOzka',
     description:
-      "Empowering the next generation of builders. Discover eOzka's Student Ambassador Program, campus workshops, open-source projects, and community achievements.",
+      "Empowering the next generation of developers and builders. Discover eOzka's Campus Ambassador Program, technical workshops, collaborative projects, and community achievements.",
     images: [
       {
         url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
@@ -25,9 +25,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Student Community & Ambassador Program | eOzka',
+    title: 'Campus Community & Ambassador Program | eOzka',
     description:
-      "Empowering the next generation of builders. Discover eOzka's Student Ambassador Program, campus workshops, open-source projects, and community achievements.",
+      "Empowering the next generation of developers and builders. Discover eOzka's Campus Ambassador Program, technical workshops, collaborative projects, and community achievements.",
     creator: '@weareeozka',
     site: '@weareeozka',
     images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],
