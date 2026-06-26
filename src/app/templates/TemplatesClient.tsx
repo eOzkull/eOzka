@@ -171,7 +171,7 @@ export default function TemplatesClient() {
               color: 'var(--white-dim)',
             }}
           >
-            ← Back to Main Studio
+            ← Back to Main Page
           </Link>
         </div>
 

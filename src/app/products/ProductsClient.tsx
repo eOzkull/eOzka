@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ArrowUpRight,
   BrainCircuit,
@@ -25,6 +25,8 @@ interface ProductCard {
   highlights: string[];
   github?: string;
   note: string;
+  previewImage?: string;
+  previewVideo?: string;
 }
 
 const products: ProductCard[] = [
@@ -40,6 +42,7 @@ const products: ProductCard[] = [
     highlights: ['AI-assisted detection', 'Fast triage', 'Deployment ready'],
     github: 'https://github.com/Kush05Bhardwaj/AIris-Security_AI-Powered-Vulnerability-Scanner',
     note: 'Security-first product with the strongest discoverability value.',
+    previewVideo: '/assets/Products-Showcase/Alris-Security/Airis-V2-Demo.mp4',
   },
   {
     name: 'Paradigm-Shift',
@@ -53,6 +56,7 @@ const products: ProductCard[] = [
     highlights: ['HR workflows', 'Live dashboards', 'Process control'],
     github: 'https://github.com/MRINALPRAKASHFSD/MINI_PROJECT_PARADIGM_SHIFT',
     note: 'Clean enterprise positioning with immediate product clarity.',
+    previewImage: '/assets/Products-Showcase/Paradigm/paradigm-screenshot-1.jpg',
   },
   {
     name: 'Entab-D',
@@ -66,6 +70,7 @@ const products: ProductCard[] = [
     highlights: ['Auto grouping', 'One-click cleanup', 'Zero config'],
     github: 'https://github.com/eOzkull/entab-D',
     note: 'Fast utility product with a clear everyday pain point.',
+    previewImage: '/assets/Products-Showcase/Entab-D/entab-screenshot-1.jpg',
   },
   {
     name: 'MindSpace',
@@ -79,6 +84,7 @@ const products: ProductCard[] = [
     highlights: ['Mood tracking', 'Secure support', 'Personalized guidance'],
     github: 'https://github.com/eOzkull/MindSpace',
     note: 'One of the best candidates for a richer visual showcase.',
+    previewImage: '/assets/Products-Showcase/Mindspace/mindspace-screenshot-1.png',
   },
   {
     name: 'Management-Systems',
@@ -86,12 +92,12 @@ const products: ProductCard[] = [
     status: 'In Progress',
     statusClass: 'tag-research',
     icon: Settings2,
-    tagLine: 'Holding-company operations and compliance layer',
+    tagLine: 'Enterprise Operations & Compliance Platform',
     description:
-      'Internal governance and reporting system under active development. This is the working platform, not a finished public release.',
-    highlights: ['Governance', 'Compliance', 'Internal reporting'],
+      'High-performance administration modules custom-built to unify workflows, compliance metrics, and financial reporting across decentralized subsidiaries.',
+    highlights: ['Multi-node governance', 'Audit trail automation', 'Subsidiary reporting'],
     github: 'https://github.com/eOzkull',
-    note: 'Marked clearly as under work so it does not read like a finished flagship.',
+    note: 'Active governance pipeline designed for holding company infrastructure.',
   },
 ];
 
@@ -99,30 +105,141 @@ function ProductPreview({
   icon: Icon,
   status,
   note,
-}: Pick<ProductCard, 'icon' | 'status' | 'note'>) {
+  previewImage,
+  previewVideo,
+}: Pick<ProductCard, 'icon' | 'status' | 'note' | 'previewImage' | 'previewVideo'>) {
+  const hasMedia = !!(previewImage || previewVideo);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  const togglePlay = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play().catch(err => console.log("Play interrupted:", err));
+      setIsPlaying(true);
+    }
+  };
+
   return (
     <div className="product-preview-shell">
       <div className="product-preview-glow" />
-      <div className="product-preview-window">
-        <div className="product-preview-topbar">
+      <div
+        className="product-preview-window"
+        style={hasMedia ? { padding: '0', display: 'flex', flexDirection: 'column', height: '100%', gap: '0' } : undefined}
+      >
+        <div
+          className="product-preview-topbar"
+          style={hasMedia ? { padding: '12px 14px 8px 14px', borderBottom: '1px solid var(--border)' } : undefined}
+        >
           <span />
           <span />
           <span />
         </div>
-        <div className="product-preview-body">
-          <div className="product-preview-icon-wrap">
-            <Icon size={28} strokeWidth={1.75} />
+        
+        {hasMedia ? (
+          <div 
+            onClick={previewVideo ? togglePlay : undefined}
+            style={{ 
+              flex: 1, 
+              position: 'relative', 
+              overflow: 'hidden', 
+              aspectRatio: '16/10', 
+              width: '100%', 
+              height: 'auto', 
+              background: '#050505', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              cursor: previewVideo ? 'pointer' : 'default'
+            }}
+          >
+            {previewVideo ? (
+              <>
+                <video
+                  ref={videoRef}
+                  src={previewVideo}
+                  playsInline
+                  loop
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
+                />
+                {!isPlaying && (
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.4)', pointerEvents: 'none' }}>
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '50%',
+                      background: 'var(--accent)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 0 15px var(--accent-glow)'
+                    }}>
+                      <div style={{
+                        width: 0,
+                        height: 0,
+                        borderTop: '5px solid transparent',
+                        borderBottom: '5px solid transparent',
+                        borderLeft: '8px solid var(--black)',
+                        marginLeft: '3px'
+                      }} />
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <img
+                src={previewImage}
+                alt={note}
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
+            )}
+            {/* Overlay bar */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: 'rgba(5, 5, 5, 0.75)',
+                backdropFilter: 'blur(8px)',
+                borderTop: '1px solid var(--border)',
+                padding: '8px 12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                fontSize: '9.5px',
+                fontFamily: 'var(--font-mono)',
+                zIndex: 10,
+              }}
+            >
+              <span style={{ color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <Icon size={12} /> {status}
+              </span>
+              <strong style={{ color: 'var(--white-dim)', fontWeight: 'normal' }}>{note}</strong>
+            </div>
           </div>
-          <div className="product-preview-lines">
-            <div />
-            <div />
-            <div />
+        ) : (
+          <div className="product-preview-body">
+            <div className="product-preview-icon-wrap">
+              <Icon size={28} strokeWidth={1.75} />
+            </div>
+            <div className="product-preview-lines">
+              <div />
+              <div />
+              <div />
+            </div>
+            <div className="product-preview-footer">
+              <span>{status}</span>
+              <strong>{note}</strong>
+            </div>
           </div>
-          <div className="product-preview-footer">
-            <span>{status}</span>
-            <strong>{note}</strong>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
@@ -194,7 +311,13 @@ export default function ProductsClient() {
                   </div>
                 </div>
 
-                <ProductPreview icon={Icon} status={product.status} note={product.note} />
+                <ProductPreview
+                  icon={Icon}
+                  status={product.status}
+                  note={product.note}
+                  previewImage={product.previewImage}
+                  previewVideo={product.previewVideo}
+                />
 
                 <p className="product-grid-desc">{product.description}</p>
 
@@ -232,7 +355,7 @@ export default function ProductsClient() {
             className="theme-btn"
             style={{ padding: '16px 32px', display: 'inline-block', textDecoration: 'none' }}
           >
-            ← Back to Main Studio
+            ← Back to Main Page
           </Link>
         </div>
       </section>
