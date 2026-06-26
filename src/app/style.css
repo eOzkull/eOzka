@@ -23,6 +23,11 @@
   --orbit-ring-1: rgba(212, 201, 168, 0.25);
   --orbit-ring-2: rgba(212, 201, 168, 0.2);
   --orbit-ring-3: rgba(212, 201, 168, 0.12);
+  --simulator-card-bg: rgba(255, 255, 255, 0.02);
+  --simulator-terminal-bg: rgba(0, 0, 0, 0.35);
+  --simulator-log-bg: rgba(0, 0, 0, 0.2);
+  --simulator-item-bg: rgba(255, 255, 255, 0.02);
+  --simulator-controls-bg: rgba(0, 0, 0, 0.3);
 }
 
 [data-theme='light'] {
@@ -42,6 +47,11 @@
   --orbit-ring-1: rgba(194, 150, 40, 0.32); /* Vibrant gold orbits */
   --orbit-ring-2: rgba(194, 150, 40, 0.22);
   --orbit-ring-3: rgba(194, 150, 40, 0.12);
+  --simulator-card-bg: rgba(0, 0, 0, 0.03);
+  --simulator-terminal-bg: rgba(255, 255, 255, 0.85);
+  --simulator-log-bg: rgba(255, 255, 255, 0.6);
+  --simulator-item-bg: rgba(0, 0, 0, 0.02);
+  --simulator-controls-bg: rgba(255, 255, 255, 0.7);
 }
 
 html,
@@ -52,6 +62,12 @@ body,
 
 html {
   scroll-behavior: smooth;
+}
+
+@media (min-width: 901px) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -118,7 +134,7 @@ body {
     height 0.2s ease,
     background 0.2s,
     opacity 0.3s ease;
-  will-change: left, top;
+  will-change: transform;
 }
 
 #cursor-dot.active {
@@ -142,7 +158,7 @@ body {
     width 0.25s ease,
     height 0.25s ease,
     opacity 0.3s ease;
-  will-change: left, top;
+  will-change: transform;
 }
 
 #cursor-ring.active {
@@ -166,7 +182,7 @@ body {
     height 0.25s ease,
     opacity 0.3s ease,
     border-color 0.3s ease;
-  will-change: left, top;
+  will-change: transform;
 }
 
 #cursor-ring-outer.active {
@@ -963,6 +979,14 @@ section {
   transition:
     opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Fallback for SEO crawlers and noscript */
+html.is-bot .reveal,
+noscript .reveal {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: none !important;
 }
 
 .reveal.visible {
@@ -1804,7 +1828,7 @@ section {
 
 /* Individual card */
 .team-card {
-  background: rgba(20, 20, 20, 0.45);
+  background: rgba(20, 20, 20, 0.82);
   border: 1px solid rgba(212, 201, 168, 0.1);
   padding: 24px;
   display: flex;
@@ -1836,7 +1860,7 @@ section {
 
 .team-card:hover {
   border-color: rgba(212, 201, 168, 0.35);
-  background: rgba(30, 30, 30, 0.55);
+  background: rgba(30, 30, 30, 0.94);
   transform: translateY(-5px);
   box-shadow:
     0 16px 40px rgba(0, 0, 0, 0.6),
@@ -2776,7 +2800,9 @@ a {
     visibility: visible !important;
     transform: none !important;
     border: 1px solid var(--border) !important;
-    background: rgba(20, 20, 20, 0.45) !important;
+    background: rgba(15, 15, 15, 0.88) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
   }
 
   .product-card {
@@ -3354,7 +3380,9 @@ a {
   flex-direction: column;
   outline: none;
   /* fixes top border vanishing on focus */
-  /* background comes from .product-card */
+  background: rgba(12, 12, 12, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Hide scrollbar for clean look */
@@ -3454,7 +3482,16 @@ a {
   }
 
   .carousel-card {
-    padding: 24px;
+    padding: 16px 20px;
+  }
+
+  .product-name {
+    font-size: 20px;
+  }
+
+  .product-desc {
+    font-size: 12.5px;
+    line-height: 1.5;
   }
 
   .carousel-controls {
@@ -3523,9 +3560,8 @@ a {
 .products-console-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  height: 580px; /* Expanded to match the right side showcase panel's bottom in overflow */
-  overflow-y: auto;
+  gap: 20px;
+  height: 100%;
   padding-right: 6px;
 }
 
@@ -3721,14 +3757,14 @@ a {
 }
 
 .showcase-mockup-frame {
-  height: 330px;
+  height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px dashed var(--accent-dim);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.55);
   position: relative;
   overflow: hidden;
   cursor: default;
@@ -3737,7 +3773,7 @@ a {
 
 .showcase-mockup-frame:hover {
   border-color: var(--accent);
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.75);
 }
 
 .showcase-mockup-frame:hover .play-button-trigger {
@@ -3958,8 +3994,10 @@ a {
 [data-theme='light'] .product-card,
 [data-theme='light'] .product-console-card,
 [data-theme='light'] .about-block {
-  background: rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.88) !important;
   border: 1px solid rgba(139, 125, 87, 0.15) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
 }
 [data-theme='light'] .venture-card:hover,
 [data-theme='light'] .product-card:hover,
@@ -3998,8 +4036,8 @@ a {
 
 .faq-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
   align-items: start;
   width: 100%;
 }
@@ -4007,13 +4045,20 @@ a {
 .faq-column {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
+  .faq-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
   .faq-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 16px;
   }
 }
 
@@ -4180,4 +4225,32 @@ a {
 [data-theme='light'] .console-input:focus {
   background: rgba(179, 138, 43, 0.01) !important;
   box-shadow: 0 0 12px rgba(179, 138, 43, 0.1) !important;
+}
+
+/* ── RESPONSIVE VIEWPORT UTILITIES ── */
+@media (min-width: 901px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+@media (max-width: 900px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* Light Mode Override for Carousel Card */
+[data-theme='light'] .carousel-card {
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* Light Mode Overrides for Product Simulator Frame */
+[data-theme='light'] .showcase-mockup-frame {
+  background: rgba(255, 255, 255, 0.78) !important;
+  border-color: rgba(139, 125, 87, 0.25) !important;
+}
+
+[data-theme='light'] .showcase-mockup-frame:hover {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: var(--accent) !important;
 }

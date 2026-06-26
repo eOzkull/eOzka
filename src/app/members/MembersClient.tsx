@@ -390,7 +390,7 @@ export default function MembersPage() {
             className="theme-btn"
             style={{ padding: '16px 32px', display: 'inline-block', textDecoration: 'none' }}
           >
-            ← Back to Main Studio
+            ← Back to Main Page
           </Link>
         </div>
       </section>

@@ -7,39 +7,39 @@ import '@/app/moce.css'; // Reuses the unified form and console styles
 const ONBOARDING_PHASES = [
   {
     phase: 1,
-    title: 'Handshake & Credentials',
+    title: 'Onboarding & Orientation',
     duration: 'Week 1-2',
     description:
-      'Successful applicants enter the program gate. You receive access keys to the eOzka internal developer portal, set up communication protocols, and join private channels with core engineering leads.',
-    milestones: ['Setup keys', 'Discord onboarding handshake', 'Initial cohort sync'],
+      'Welcome to the program! You will gain access to our community platforms, receive your ambassador toolkit, and meet your cohort members and the core team.',
+    milestones: ['Complete profile setup', 'Join community channels', 'Attend kickoff sync'],
   },
   {
     phase: 2,
     title: 'Advocacy & Outreach',
     duration: 'Week 3-6',
     description:
-      'Organize tech meetups and student developer circles at your campus. Promote open-source performance standards and demonstrate our release blueprints to builders.',
+      'Start organizing tech meetups, coding sessions, and student developer circles at your campus to promote open-source technologies.',
     milestones: [
-      'First campus hacking circle',
-      '10+ developers onboarded',
-      'Present eOzka blueprints',
+      'Host first campus meetup',
+      'Onboard 10+ student developers',
+      'Share eOzka initiatives',
     ],
   },
   {
     phase: 3,
-    title: 'Open-Source Engineering',
+    title: 'Open-Source Contributions',
     duration: 'Week 7-10',
     description:
-      'Contribute actively to public repositories under eOzka. Build custom components, review pull requests, audit security configurations, and guide peer developer cohorts.',
-    milestones: ['Merge 3+ code blueprints', 'AppSec validation audits', 'Peer reviews'],
+      'Get hands-on experience by contributing to eOzka open-source repositories, reviewing code, and collaborating on real-world engineering projects.',
+    milestones: ['Submit 3+ Pull Requests', 'Participate in code reviews', 'Host a technical workshop'],
   },
   {
     phase: 4,
-    title: 'Fast-Track Evaluation',
+    title: 'Evaluation & Next Steps',
     duration: 'Week 11-12',
     description:
-      'Final program evaluation by the Technical Directorate. Outstanding ambassadors are fast-tracked for paid internships, operations roles, or partner enterprise placements.',
-    milestones: ['Portfolio review', 'Certificate handshake', 'Internship placements'],
+      'At the end of the program, top-performing ambassadors will be evaluated for fast-tracked internships, full-time roles, or exclusive partner placements.',
+    milestones: ['Final portfolio review', 'Program certification', 'Career placement opportunities'],
   },
 ];
 
@@ -63,6 +63,25 @@ export default function CAClient() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    
+    reveals.forEach((el) => revealObserver.observe(el));
+
+    return () => {
+      revealObserver.disconnect();
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -165,12 +184,12 @@ export default function CAClient() {
           </Link>
         </div>
 
-        <div className="section-label">Cohort Admission</div>
+        <div className="section-label">Campus Ambassador Program</div>
         <h1
           className="section-headline"
           style={{ marginTop: '16px', fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', lineHeight: '1.1' }}
         >
-          Campus Ambassador <em>Cohort.</em>
+          Become a Campus <em>Ambassador.</em>
         </h1>
         <p
           className="team-intro"
@@ -182,9 +201,8 @@ export default function CAClient() {
             lineHeight: '1.6',
           }}
         >
-          Apply to join the select student engineering and advocacy division at eOzka. Lead
-          developer groups, contribute directly to core open-source projects, and fast-track your
-          engineering career.
+          Join the eOzka Campus Ambassador Program to build communities, organize tech meetups,
+          and advocate for open-source innovation at your university.
         </p>
 
         {/* 2-Column Grid Layout */}
@@ -212,7 +230,7 @@ export default function CAClient() {
                   letterSpacing: '0.05em',
                 }}
               >
-                {'// COHORT ONBOARDING LIFECYCLE'}
+                Program Timeline & Milestones
               </h3>
 
               {/* Stepper Buttons */}
@@ -331,7 +349,7 @@ export default function CAClient() {
                   letterSpacing: '0.05em',
                 }}
               >
-                {'// REWARDS & ALIGNMENT'}
+                Program Benefits & Perks
               </h3>
 
               <div
@@ -489,7 +507,7 @@ export default function CAClient() {
                     letterSpacing: '0.05em',
                   }}
                 >
-                  ADMISSION MODULE // COHORT HANDSHAKE GATEWAY
+                  Campus Ambassador Application
                 </span>
               </div>
               <p
@@ -500,7 +518,7 @@ export default function CAClient() {
                   lineHeight: '1.5',
                 }}
               >
-                Submit your technical background and statements to register for evaluation.
+                Fill out the form below to apply for the upcoming cohort.
               </p>
             </div>
 
@@ -549,13 +567,12 @@ export default function CAClient() {
                         fontFamily: "'DM Mono', monospace",
                       }}
                     >
-                      [SUCCESS] APPLICATION REGISTERED
+                      Application Submitted Successfully!
                     </h4>
                     <p
                       style={{ margin: '4px 0 0 0', fontSize: '13.5px', color: 'var(--white-dim)' }}
                     >
-                      Your application payload was cleanly transmitted to the eOzka operations logs.
-                      We will get in touch soon.
+                      Thank you for applying to the eOzka Campus Ambassador Program! Our team will review your application and get back to you shortly.
                     </p>
                   </div>
                 </div>
@@ -926,13 +943,13 @@ export default function CAClient() {
                         letterSpacing: '0.05em',
                       }}
                     >
-                      Why do you want to join the eOzka Campus Ambassador Cohort?{' '}
+                      Why do you want to become an eOzka Campus Ambassador?{' '}
                       <span style={{ color: '#ef4444', marginLeft: '2px' }}>•</span>
                     </label>
                     <textarea
                       id="statement"
                       className="form-input console-input"
-                      placeholder="Provide a statement of purpose outlining your motivation..."
+                      placeholder="Share your motivation and why you'd be a great fit..."
                       value={form.statement}
                       onChange={(e) => setForm({ ...form, statement: e.target.value })}
                       disabled={status === 'submitting'}
@@ -962,13 +979,13 @@ export default function CAClient() {
                         letterSpacing: '0.05em',
                       }}
                     >
-                      Detail a technical project you built recently (Stack, logic, complexity).{' '}
+                      Tell us about a time you took initiative or led a community project.{' '}
                       <span style={{ color: '#ef4444', marginLeft: '2px' }}>•</span>
                     </label>
                     <textarea
                       id="projects"
                       className="form-input console-input"
-                      placeholder="Describe your architecture and logic..."
+                      placeholder="Describe your experience with organizing events or leading projects..."
                       value={form.projects}
                       onChange={(e) => setForm({ ...form, projects: e.target.value })}
                       disabled={status === 'submitting'}
@@ -993,13 +1010,13 @@ export default function CAClient() {
                         letterSpacing: '0.05em',
                       }}
                     >
-                      How do you plan to lead developer communities and advocate open-source on
-                      campus? <span style={{ color: '#ef4444', marginLeft: '2px' }}>•</span>
+                      How do you plan to promote eOzka and open-source technologies at your university?{' '}
+                      <span style={{ color: '#ef4444', marginLeft: '2px' }}>•</span>
                     </label>
                     <textarea
                       id="advocacy"
                       className="form-input console-input"
-                      placeholder="Describe your leadership or community experiences and outreach plans..."
+                      placeholder="Describe your outreach plans and event ideas..."
                       value={form.advocacy}
                       onChange={(e) => setForm({ ...form, advocacy: e.target.value })}
                       disabled={status === 'submitting'}
@@ -1042,7 +1059,7 @@ export default function CAClient() {
                     transition: 'all 0.3s ease',
                   }}
                 >
-                  {status === 'submitting' ? 'TRANSMITTING APPLICATION...' : 'SUBMIT APPLICATION'}
+                  {status === 'submitting' ? 'Submitting Application...' : 'Submit Application'}
                 </button>
               </form>
             )}

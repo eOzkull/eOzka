@@ -118,7 +118,7 @@ export default function NolinClient() {
               color: '#a1a1aa',
             }}
           >
-            ← Back to Main Studio
+            ← Back to Main Page
           </Link>
           <a
             href="https://nolin.in"

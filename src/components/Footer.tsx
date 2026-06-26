@@ -156,7 +156,7 @@ export default function Footer() {
             style={{ fontSize: '13px', color: '#999', margin: '8px 0 16px 0', lineHeight: '1.5' }}
           >
             Subscribe for technical updates, security disclosures, and project launches from our
-            studio.
+            company.
           </p>
           {status === 'success' ? (
             <div

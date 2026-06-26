@@ -5,6 +5,7 @@ import './style.css';
 import './extras.css';
 import { AudioProvider } from '@/contexts/AudioContext';
 import CustomCursor from '@/components/CustomCursor';
+import SmoothScroll from '@/components/SmoothScroll';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -128,6 +129,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap"
           rel="stylesheet"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (/bot|google|baidu|bing|msn|duckduckbot|teoma|slurp|yandex/i.test(navigator.userAgent)) {
+                document.documentElement.classList.add('is-bot');
+              }
+            `,
+          }}
+        />
         {/* Schema.org Markup Graph for SEO Scaling */}
         <script
           type="application/ld+json"
@@ -191,13 +201,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     { '@id': 'https://eozka.com/#person-saurabh' },
                     { '@id': 'https://eozka.com/#person-manas' },
                   ],
-                  // subOrganization: [
-                  //   {
-                  //     '@type': 'Organization',
-                  //     name: 'Nolin',
-                  //     url: 'https://eozka.com/ventures/nolin',
-                  //   },
-                  // ],
+                  subOrganization: [
+                    {
+                      '@type': 'Organization',
+                      name: 'Nolin',
+                      url: 'https://eozka.com/ventures/nolin',
+                    },
+                  ],
                 },
                 {
                   '@type': 'WebSite',
@@ -381,6 +391,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           {/* Custom cursor following pointer */}
           <CustomCursor />
+
+          {/* Smooth scrolling inertia engine */}
+          <SmoothScroll />
 
           {/* Scroll progress loading bar */}
           <ScrollProgressBar />
