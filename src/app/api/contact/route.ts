@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, message } = body;
+    const { name, email, message, phone, discord } = body;
 
     // 1. Basic Server-Side Validation
     if (!name || !email || !message) {
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     let messageSent = false;
     const errors: string[] = [];
 
-    // ── STRATEGY A: DISCORD WEBHOOK (Recommended, Instant, 100% Free) ──
+    // ── STRATEGY A: DISCORD WEBHOOK ──
     const discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL;
     if (discordWebhookUrl) {
       try {
@@ -33,23 +33,27 @@ export async function POST(request: Request) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             username: 'eOzka Contact Node',
-            avatar_url: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
+            avatar_url:
+              'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
             embeds: [
               {
                 title: '📬 New Contact Form Submission',
-                color: 13945256, // Decimal for eOzka Gold/Accent #d4c9a8
+                color: 13945256,
                 fields: [
                   { name: '👤 Sender Name', value: name, inline: true },
                   { name: '📧 Sender Email', value: email, inline: true },
-                  { name: '💬 Message Content', value: message }
+                  { name: '📞 Phone Number', value: phone || 'Not Provided', inline: true },
+                  { name: '👾 Discord ID', value: discord || 'Not Provided', inline: true },
+                  { name: '💬 Message Content', value: message },
                 ],
                 footer: {
                   text: 'eOzka Operational Holding Company Core Systems',
-                  icon_url: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'
+                  icon_url:
+                    'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
                 },
-                timestamp: new Date().toISOString()
-              }
-            ]
+                timestamp: new Date().toISOString(),
+              },
+            ],
           }),
         });
 
@@ -61,9 +65,10 @@ export async function POST(request: Request) {
           console.error(`❌ Discord Webhook failed: ${errMsg}`);
           errors.push(errMsg);
         }
-      } catch (err: any) {
+      } catch (err) {
         console.error('❌ Error sending message to Discord:', err);
-        errors.push(`Discord error: ${err.message || err}`);
+        const errMsg = err instanceof Error ? err.message : String(err);
+        errors.push(`Discord error: ${errMsg}`);
       }
     }
 
@@ -72,9 +77,9 @@ export async function POST(request: Request) {
     const telegramChatId = process.env.TELEGRAM_CHAT_ID;
     if (telegramToken && telegramChatId) {
       try {
-        const text = `*📬 New Contact Submission*\n\n*Name:* ${name}\n*Email:* ${email}\n\n*Message:*\n${message}`;
+        const text = `*📬 New Contact Submission*\n\n*Name:* ${name}\n*Email:* ${email}\n*Phone:* ${phone || 'Not Provided'}\n*Discord:* ${discord || 'Not Provided'}\n\n*Message:*\n${message}`;
         const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
-        
+
         const telegramResponse = await fetch(telegramUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -93,13 +98,14 @@ export async function POST(request: Request) {
           console.error(`❌ Telegram failed: ${errMsg}`);
           errors.push(errMsg);
         }
-      } catch (err: any) {
+      } catch (err) {
         console.error('❌ Error sending message to Telegram:', err);
-        errors.push(`Telegram error: ${err.message || err}`);
+        const errMsg = err instanceof Error ? err.message : String(err);
+        errors.push(`Telegram error: ${errMsg}`);
       }
     }
 
-    // ── STRATEGY C: RESEND EMAIL API (Standard Email) ──
+    // ── STRATEGY C: RESEND EMAIL API ──
     const resendApiKey = process.env.RESEND_API_KEY;
     if (resendApiKey) {
       try {
@@ -107,7 +113,7 @@ export async function POST(request: Request) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${resendApiKey}`
+            Authorization: `Bearer ${resendApiKey}`,
           },
           body: JSON.stringify({
             from: 'eOzka Portal <onboarding@resend.dev>',
@@ -128,6 +134,14 @@ export async function POST(request: Request) {
                     <td style="padding: 6px 0; color: #f0eeea;"><a href="mailto:${email}" style="color: #d4c9a8; text-decoration: none;">${email}</a></td>
                   </tr>
                   <tr>
+                    <td style="padding: 6px 0; font-weight: bold; color: #d4c9a8;">PHONE:</td>
+                    <td style="padding: 6px 0; color: #f0eeea;">${phone || 'Not Provided'}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; font-weight: bold; color: #d4c9a8;">DISCORD:</td>
+                    <td style="padding: 6px 0; color: #f0eeea;">${discord || 'Not Provided'}</td>
+                  </tr>
+                  <tr>
                     <td style="padding: 6px 0; font-weight: bold; color: #d4c9a8;">TIMESTAMP:</td>
                     <td style="padding: 6px 0; color: #666;">${new Date().toLocaleString()}</td>
                   </tr>
@@ -142,8 +156,8 @@ export async function POST(request: Request) {
                   Automated Security Telemetry. Please do not reply directly to this automated onboarding address.
                 </div>
               </div>
-            `
-          })
+            `,
+          }),
         });
 
         if (resendResponse.ok) {
@@ -155,19 +169,22 @@ export async function POST(request: Request) {
           console.error(`❌ Resend failed: ${errMsg}`);
           errors.push(errMsg);
         }
-      } catch (err: any) {
+      } catch (err) {
         console.error('❌ Error sending email via Resend:', err);
-        errors.push(`Resend error: ${err.message || err}`);
+        const errMsg = err instanceof Error ? err.message : String(err);
+        errors.push(`Resend error: ${errMsg}`);
       }
     }
 
-    // ── STRATEGY D: LOCAL DEVELOPMENT FALLBACK (Logs to terminal) ──
+    // ── STRATEGY D: LOCAL DEVELOPMENT FALLBACK ──
     if (!discordWebhookUrl && !telegramToken && !resendApiKey) {
       console.log('\n======================================================');
       console.log('📬 [DEVELOPMENT FALLBACK] NEW CONTACT SUBMISSION');
       console.log('------------------------------------------------------');
       console.log(`👤 Name:    ${name}`);
       console.log(`📧 Email:   ${email}`);
+      console.log(`📞 Phone:   ${phone || 'Not Provided'}`);
+      console.log(`👾 Discord: ${discord || 'Not Provided'}`);
       console.log(`💬 Message: ${message}`);
       console.log('------------------------------------------------------');
       console.log('💡 TIP: Configure any of the following environment variables');
@@ -176,32 +193,35 @@ export async function POST(request: Request) {
       console.log('   - TELEGRAM_BOT_TOKEN & TELEGRAM_CHAT_ID');
       console.log('   - RESEND_API_KEY');
       console.log('======================================================\n');
-      
+
       return NextResponse.json({
         success: true,
-        message: 'Message captured cleanly (Logged in Node Terminal). Set environment keys for direct routing.',
-        devMode: true
+        message:
+          'Message captured cleanly (Logged in Node Terminal). Set environment keys for direct routing.',
+        devMode: true,
       });
     }
 
     if (messageSent) {
       return NextResponse.json({
         success: true,
-        message: 'Message successfully dispatched to eOzka core communication nodes.'
+        message: 'Message successfully dispatched to eOzka core communication nodes.',
       });
     } else {
       return NextResponse.json(
         {
-          error: 'Connection handshake complete, but dispatch channels failed to deliver the message.',
-          details: errors
+          error:
+            'Connection handshake complete, but dispatch channels failed to deliver the message.',
+          details: errors,
         },
         { status: 500 }
       );
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ Server error handling contact form submission:', error);
+    const errorDetails = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: 'Internal system fault during contact routing process.', details: error.message },
+      { error: 'Internal system fault during contact routing process.', details: errorDetails },
       { status: 500 }
     );
   }

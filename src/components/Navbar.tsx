@@ -22,10 +22,10 @@ export default function Navbar() {
     const htmlEl = document.documentElement;
     if (saved === 'light') {
       htmlEl.setAttribute('data-theme', 'light');
-      setTheme('light');
+      setTimeout(() => setTheme('light'), 0);
     } else {
       htmlEl.removeAttribute('data-theme');
-      setTheme('dark');
+      setTimeout(() => setTheme('dark'), 0);
     }
   }, []);
 
@@ -42,27 +42,32 @@ export default function Navbar() {
     }
   };
 
-  // Scroll listener (shrink nav & scrollspy)
+  // Scroll listener (shrink nav & scrollspy) with hysteresis to prevent rapid boundary toggling
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const handleScroll = () => {
-      setScrolled(window.scrollY > 60);
+      const y = window.scrollY;
+      setScrolled((prev) => {
+        if (prev && y < 40) return false;
+        if (!prev && y > 80) return true;
+        return prev;
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Scrollspy observer for headings
+  // Scrollspy observer for headings (simplified threshold to prevent observer trigger overload/flickering)
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (pathname !== '/') return;
 
     const sections = document.querySelectorAll('header, section');
     const observerOptions = {
-      threshold: [0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-      rootMargin: '-15% 0px -20% 0px',
+      threshold: 0.2,
+      rootMargin: '-20% 0px -20% 0px',
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -113,22 +118,24 @@ export default function Navbar() {
   };
 
   const isProductsActive = pathname.startsWith('/products');
-  const isShowcaseActive = pathname === '/' && activeSection === 'products';
-  
-  const isEcosystemActive = 
-    pathname === '/community' || 
-    pathname === '/blog' || 
-    pathname === '/social' || 
+  const isShowcaseActive = pathname === '/' && activeSection === 'showcase';
+  const isTemplatesActive = pathname === '/templates';
+
+  const isEcosystemActive =
+    pathname === '/community' ||
+    pathname === '/blog' ||
+    pathname === '/social' ||
     (pathname === '/' && activeSection === 'ventures');
-    
-  const isCompanyActive = 
-    pathname === '/members' || 
+
+  const isCompanyActive =
+    pathname === '/members' ||
     (pathname === '/' && ['about', 'story', 'team', 'contact'].includes(activeSection));
 
   return (
     <nav id="main-nav" className={`${scrolled ? 'scrolled' : ''} ${mobileActive ? 'active' : ''}`}>
       <Link href="/" className="nav-logo" onClick={handleHomeClick}>
         <div className="nav-logo-svgs">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="nav-svg-monogram"
             src="/assets/eOzka-essentials/eOzka_Logo_Package_V1/SVG/eozka-venture-studio-logo.svg"
@@ -141,14 +148,25 @@ export default function Navbar() {
       </Link>
 
       <ul className={`nav-links ${mobileActive ? 'active' : ''}`} id="nav-menu" ref={navMenuRef}>
-        {/* Showcase Link (smooth scrolls to homepage #products) */}
+        {/* Showcase Link */}
         <li>
           <Link
-            href={pathname === '/' ? '#products' : '/#products'}
+            href="/#showcase"
             className={isShowcaseActive ? 'nav-active' : ''}
-            onClick={(e) => pathname === '/' && handleLinkClick(e, 'products')}
+            onClick={(e) => handleLinkClick(e, 'showcase')}
           >
             Showcase
+          </Link>
+        </li>
+
+        {/* Templates Link */}
+        <li>
+          <Link
+            href="/templates"
+            className={isTemplatesActive ? 'nav-active' : ''}
+            onClick={() => setMobileActive(false)}
+          >
+            Templates
           </Link>
         </li>
 
@@ -163,30 +181,56 @@ export default function Navbar() {
           </Link>
           <ul className="dropdown-content products-dropdown">
             <li>
-              <Link href="/products" onClick={() => setMobileActive(false)}>All Products</Link>
+              <Link
+                href="/products"
+                className={pathname === '/products' ? 'dropdown-active' : ''}
+                onClick={() => setMobileActive(false)}
+              >
+                All Products
+              </Link>
             </li>
             <li>
-              <Link href="/products/airis-security" onClick={() => setMobileActive(false)}>
+              <Link
+                href="/products/airis-security"
+                className={pathname === '/products/airis-security' ? 'dropdown-active' : ''}
+                onClick={() => setMobileActive(false)}
+              >
                 AIris Security
               </Link>
             </li>
             <li>
-              <Link href="/products/paradigm-shift" onClick={() => setMobileActive(false)}>
+              <Link
+                href="/products/paradigm-shift"
+                className={pathname === '/products/paradigm-shift' ? 'dropdown-active' : ''}
+                onClick={() => setMobileActive(false)}
+              >
                 Paradigm-Shift
               </Link>
             </li>
             <li>
-              <Link href="/products/entab-d" onClick={() => setMobileActive(false)}>
+              <Link
+                href="/products/entab-d"
+                className={pathname === '/products/entab-d' ? 'dropdown-active' : ''}
+                onClick={() => setMobileActive(false)}
+              >
                 Entab-D
               </Link>
             </li>
             <li>
-              <Link href="/products/mindspace" onClick={() => setMobileActive(false)}>
+              <Link
+                href="/products/mindspace"
+                className={pathname === '/products/mindspace' ? 'dropdown-active' : ''}
+                onClick={() => setMobileActive(false)}
+              >
                 MindSpace
               </Link>
             </li>
             <li>
-              <Link href="/products/management-systems" onClick={() => setMobileActive(false)}>
+              <Link
+                href="/products/management-systems"
+                className={pathname === '/products/management-systems' ? 'dropdown-active' : ''}
+                onClick={() => setMobileActive(false)}
+              >
                 Management-Systems
               </Link>
             </li>
@@ -315,6 +359,24 @@ export default function Navbar() {
           >
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </Link>
+        <Link
+          href={pathname === '/' ? '#contact' : '/#contact'}
+          className="theme-btn"
+          title="Contact eOzka"
+          onClick={(e) => pathname === '/' && handleLinkClick(e, 'contact')}
+        >
+          <svg
+            className="theme-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
           </svg>
         </Link>
         <button

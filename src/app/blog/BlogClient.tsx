@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 
-
 export default function BlogClient() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -160,4 +159,3 @@ export default function BlogClient() {
     </main>
   );
 }
-

@@ -4,7 +4,7 @@ import BlogClient from './BlogClient';
 export const metadata: Metadata = {
   title: 'Engineering Blog | Open-Source Tech & AI Security | eOzka',
   description:
-    'Read insights from the eOzka engineering team. We write about building open-source AI scanners, EdTech systems, health tech projects, and scaling an operational holding company.',
+    'Read engineering insights from eOzka. We write about building open-source AI vulnerability scanners, EdTech networks, and scaling a digital holding company.',
   alternates: {
     canonical: '/blog',
   },
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: 'https://eozka.com/blog',
     title: 'Engineering Blog | Open-Source Tech & AI Security | eOzka',
     description:
-      'Read insights from the eOzka engineering team. We write about building open-source AI scanners, EdTech systems, health tech projects, and scaling an operational holding company.',
+      'Read engineering insights from eOzka. We write about building open-source AI vulnerability scanners, EdTech networks, and scaling a digital holding company.',
     images: [
       {
         url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Engineering Blog | Open-Source Tech & AI Security | eOzka',
     description:
-      'Read insights from the eOzka engineering team. We write about building open-source AI scanners, EdTech systems, health tech projects, and scaling an operational holding company.',
+      'Read engineering insights from eOzka. We write about building open-source AI vulnerability scanners, EdTech networks, and scaling a digital holding company.',
     creator: '@weareeozka',
     site: '@weareeozka',
     images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],
@@ -47,18 +47,18 @@ export default function BlogPage() {
               {
                 '@type': 'BreadcrumbList',
                 '@id': 'https://eozka.com/blog/#breadcrumb',
-                'itemListElement': [
+                itemListElement: [
                   {
                     '@type': 'ListItem',
-                    'position': 1,
-                    'name': 'Home',
-                    'item': 'https://eozka.com/',
+                    position: 1,
+                    name: 'Home',
+                    item: 'https://eozka.com/',
                   },
                   {
                     '@type': 'ListItem',
-                    'position': 2,
-                    'name': 'Blog',
-                    'item': 'https://eozka.com/blog',
+                    position: 2,
+                    name: 'Blog',
+                    item: 'https://eozka.com/blog',
                   },
                 ],
               },

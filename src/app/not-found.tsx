@@ -179,9 +179,11 @@ export default function NotFound() {
         >
           <span>404</span>
           <span style={{ width: '1px', height: '24px', background: 'var(--border-mid)' }}></span>
-          <span style={{ fontSize: '15px', fontWeight: 400, color: 'var(--white-dim)' }}>This page could not be found.</span>
+          <span style={{ fontSize: '15px', fontWeight: 400, color: 'var(--white-dim)' }}>
+            This page could not be found.
+          </span>
         </h1>
-        
+
         <p
           style={{
             fontSize: '14px',
@@ -191,7 +193,8 @@ export default function NotFound() {
             fontWeight: 400,
           }}
         >
-          The requested resource is missing or has been moved within the eOzka venture holding ecosystem.
+          The requested resource is missing or has been moved within the eOzka venture holding
+          ecosystem.
         </p>
 
         <div
@@ -215,7 +218,7 @@ export default function NotFound() {
           >
             <span>Return to Core Hub</span>
           </Link>
-          
+
           <div
             style={{
               display: 'flex',

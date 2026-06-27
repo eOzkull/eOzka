@@ -65,7 +65,8 @@ export default function SentientOrb() {
         ctx.fillStyle = this.color;
 
         if (isLight) {
-          const isGolden = this.color.includes('179') || this.color.includes('120') || this.color.includes('194');
+          const isGolden =
+            this.color.includes('179') || this.color.includes('120') || this.color.includes('194');
           if (isGolden) {
             ctx.shadowBlur = 10;
             ctx.shadowColor = 'rgba(179, 138, 43, 0.5)';
@@ -95,10 +96,10 @@ export default function SentientOrb() {
       const orbitCount = isMobile ? 3 : 7;
       const colors = isLight
         ? [
-            'rgba(179, 138, 43, 1)',  // Gold
-            'rgba(15, 20, 35, 1)',    // Slate-charcoal
-            'rgba(120, 91, 25, 1)',   // Slate-gold/bronze
-            'rgba(80, 80, 90, 1)',    // Muted grey-charcoal
+            'rgba(179, 138, 43, 1)', // Gold
+            'rgba(15, 20, 35, 1)', // Slate-charcoal
+            'rgba(120, 91, 25, 1)', // Slate-gold/bronze
+            'rgba(80, 80, 90, 1)', // Muted grey-charcoal
           ]
         : [
             'rgba(212, 201, 168, 1)', // Gold accent

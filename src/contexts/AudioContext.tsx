@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
 
 export interface Track {
   name: string;
@@ -62,14 +62,23 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const metallicClickRef = useRef<HTMLAudioElement | null>(null);
   const cassetteHoverRef = useRef<HTMLAudioElement | null>(null);
 
+  const unlockAudio = useCallback(() => {
+    if (globalUnlocked.current) return;
+    globalUnlocked.current = true;
+    if (!isMuted && bgMusicRef.current) {
+      bgMusicRef.current.play().catch(() => {});
+    }
+  }, [isMuted]);
+
   // Load initial mute state from localStorage on client-side mount
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const saved = localStorage.getItem('eOzka_audio_muted');
     if (saved !== null) {
-      setIsMuted(saved === 'true');
-    } else {
-      setIsMuted(true); // default to true if never saved
+      const parsedMuted = saved === 'true';
+      if (parsedMuted !== true) {
+        setTimeout(() => setIsMuted(parsedMuted), 0);
+      }
     }
   }, []);
 
@@ -85,26 +94,29 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Helper to play a cloned audio instance supporting rapid, polyphonic overlapping plays
-  const playAudioHelper = (audioRef: React.RefObject<HTMLAudioElement | null>, volume: number = 0.5) => {
-    if (isMuted || typeof window === 'undefined' || !audioRef.current) return;
-    try {
-      const clone = audioRef.current.cloneNode(true) as HTMLAudioElement;
-      clone.volume = volume;
-      clone.play().catch((err) => {
-        console.warn('Audio playback failed or was interrupted:', err);
-      });
-    } catch (e) {
-      console.error('Error playing cloned audio:', e);
-    }
-  };
+  const playAudioHelper = useCallback(
+    (audioRef: React.RefObject<HTMLAudioElement | null>, volume: number = 0.5) => {
+      if (isMuted || typeof window === 'undefined' || !audioRef.current) return;
+      try {
+        const clone = audioRef.current.cloneNode(true) as HTMLAudioElement;
+        clone.volume = volume;
+        clone.play().catch((err) => {
+          console.warn('Audio playback failed or was interrupted:', err);
+        });
+      } catch (e) {
+        console.error('Error playing cloned audio:', e);
+      }
+    },
+    [isMuted]
+  );
 
   // 1. Mechanical Keyboard Keystroke (Buttons click sound)
-  const playClickSound = () => {
+  const playClickSound = useCallback(() => {
     playAudioHelper(metallicClickRef, 0.45);
-  };
+  }, [playAudioHelper]);
 
   // 2. Cassette tape start-stop (triggered programmatically during message transmission)
-  const playHoverWhoosh = () => {
+  const playHoverWhoosh = useCallback(() => {
     if (isMuted || typeof window === 'undefined' || !cassetteHoverRef.current) return;
     try {
       cassetteHoverRef.current.currentTime = 0;
@@ -115,9 +127,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.error('Error playing cassette audio:', e);
     }
-  };
+  }, [isMuted]);
 
-  const stopHoverWhoosh = () => {
+  const stopHoverWhoosh = useCallback(() => {
     if (typeof window === 'undefined' || !cassetteHoverRef.current) return;
     try {
       cassetteHoverRef.current.pause();
@@ -125,16 +137,18 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.error('Error stopping cassette audio:', e);
     }
-  };
+  }, []);
 
   // 3. Silent no-op hover for standard clickables (revolver sound removed)
-  const playHoverClickable = () => { };
+  const playHoverClickable = useCallback(() => {}, []);
 
   // 4. Futuristic Soft Chime (For navbar clicks under 150ms)
-  const playNavClickSound = () => {
+  const playNavClickSound = useCallback(() => {
     if (isMuted) return;
     try {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioCtx =
+        window.AudioContext ||
+        (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       if (!AudioCtx) return;
       const ctx = new AudioCtx();
       const destination = ctx.destination;
@@ -144,7 +158,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       const osc1 = ctx.createOscillator();
       const gain1 = ctx.createGain();
       osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(1046.50, now);
+      osc1.frequency.setValueAtTime(1046.5, now);
 
       gain1.gain.setValueAtTime(0, now);
       gain1.gain.linearRampToValueAtTime(0.06, now + 0.003); // ultra-fast attack
@@ -158,7 +172,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
       gain2.gain.setValueAtTime(0, now);
       gain2.gain.linearRampToValueAtTime(0.02, now + 0.003); // ultra-fast attack
-      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.10); // quicker decay
+      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.1); // quicker decay
 
       // Highpass filter to eliminate any mid-frequency thuds, making it airy and sparkling
       const filter = ctx.createBiquadFilter();
@@ -181,7 +195,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.error('Failed to play navbar chime click:', e);
     }
-  };
+  }, [isMuted]);
 
   // ── BACKGROUND MUSIC ENGINE EFFECTS ──
 
@@ -202,7 +216,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       if (bgMusicRef.current) {
         bgMusicRef.current.src = ORBITAL_TRACKS[currentRadioIndex.current].url;
         if (!isMuted) {
-          bgMusicRef.current.play().catch(() => { });
+          bgMusicRef.current.play().catch(() => {});
           const track = ORBITAL_TRACKS[currentRadioIndex.current];
           setNowPlaying({ name: track.name, artist: track.artist, img: track.img || '' });
         }
@@ -258,13 +272,32 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       if (!target) return;
 
       // Intercept click on any button, anchor, navbar link, form inputs, etc.
-      const isClickable = target.closest('button, a, [role="button"], .btn-submit, .nav-link, .nav-item, .clickable, .social-icon, .orb-wrapper, .mute-toggle');
+      const isClickable = target.closest(
+        'button, a, [role="button"], .btn-submit, .nav-link, .nav-item, .clickable, .social-icon, .orb-wrapper, .mute-toggle'
+      );
       if (isClickable) {
-        // Play soft chime for navbar clicks and Sentient Hub buttons (except chat-send), mechanical click for standard on-page elements
-        const isNavItem = isClickable.closest('nav') || isClickable.matches('.nav-link, .nav-item, [class*="nav-"]');
-        const isHubButton = isClickable.closest('#hub-panel, #hub-toggle') && !isClickable.closest('.chat-send');
+        // Play soft chime for navbar clicks, Sentient Hub buttons, and key call-to-action buttons
+        const isNavItem =
+          isClickable.closest('nav') ||
+          isClickable.matches('.nav-link, .nav-item, [class*="nav-"]');
+        const isHubButton =
+          isClickable.closest('#hub-panel, #hub-toggle') && !isClickable.closest('.chat-send');
 
-        if (isNavItem || isHubButton) {
+        const clickableText = (isClickable.textContent || '').trim().toLowerCase();
+        const isActionButton =
+          clickableText.includes('see our products') ||
+          clickableText.includes('our story') ||
+          clickableText.includes('explore details') ||
+          clickableText.includes('explore more') ||
+          clickableText.includes('play briefing') ||
+          clickableText.includes('access slides') ||
+          clickableText.includes('apply now') ||
+          clickableText.includes('send message') ||
+          isClickable.matches(
+            '.btn-primary, .btn-secondary, .theme-btn, .project-link-btn, .nav-cta, [class*="btn-"]'
+          );
+
+        if (isNavItem || isHubButton || isActionButton) {
           playNavClickSound();
         } else {
           playClickSound();
@@ -277,7 +310,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     return () => {
       document.removeEventListener('click', handleGlobalClick);
     };
-  }, [isMuted]);
+  }, [isMuted, playClickSound, playNavClickSound]);
 
   // ── FIRST USER INTERACTION UNLOCK (FOR BROWSER AUTOPLAY COMPLIANCE) ──
   useEffect(() => {
@@ -299,15 +332,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       window.removeEventListener('keydown', handleFirstInteraction);
       window.removeEventListener('touchstart', handleFirstInteraction);
     };
-  }, [isMuted]);
-
-  const unlockAudio = () => {
-    if (globalUnlocked.current) return;
-    globalUnlocked.current = true;
-    if (!isMuted && bgMusicRef.current) {
-      bgMusicRef.current.play().catch(() => { });
-    }
-  };
+  }, [isMuted, unlockAudio]);
 
   const toggleMute = () => {
     const newMuted = !isMuted;
@@ -326,7 +351,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       } else {
         const isPreviewing = previewPlayerRef.current && !previewPlayerRef.current.paused;
         bgMusicRef.current.volume = isPreviewing ? 0.05 : 0.25;
-        bgMusicRef.current.play().catch(() => { });
+        bgMusicRef.current.play().catch(() => {});
 
         if (isPreviewing && activePreviewUrl) {
           const track = ORBITAL_TRACKS.find((t) => t.url === activePreviewUrl);
@@ -349,7 +374,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       previewPlayerRef.current.pause();
     } else {
       previewPlayerRef.current.src = track.url;
-      previewPlayerRef.current.play().catch(() => { });
+      previewPlayerRef.current.play().catch(() => {});
       setActivePreviewUrl(track.url);
       setNowPlaying({ name: track.name, artist: track.artist, img: track.img || '' });
     }

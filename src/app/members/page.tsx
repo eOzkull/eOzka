@@ -4,7 +4,7 @@ import MembersClient from './MembersClient';
 export const metadata: Metadata = {
   title: 'Our Team & Members Directory | eOzka',
   description:
-    'Meet the creative designers, documentation officers, and software engineers driving eOzka\'s strategic vision forward into production.',
+    "Meet the creative designers, software engineers, and product builders driving eOzka's strategic vision and open-source infrastructure forward.",
   alternates: {
     canonical: '/members',
   },
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: 'https://eozka.com/members',
     title: 'Our Team & Members Directory | eOzka',
     description:
-      'Meet the creative designers, documentation officers, and software engineers driving eOzka\'s strategic vision forward into production.',
+      "Meet the creative designers, software engineers, and product builders driving eOzka's strategic vision and open-source infrastructure forward.",
     images: [
       {
         url: '/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Our Team & Members Directory | eOzka',
     description:
-      "Meet the creative designers, documentation officers, and software engineers driving eOzka's strategic vision forward into production.",
+      "Meet the creative designers, software engineers, and product builders driving eOzka's strategic vision and open-source infrastructure forward.",
     images: ['/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png'],
   },
 };
@@ -47,7 +47,7 @@ export default function MembersPage() {
                 url: 'https://eozka.com/members',
                 name: 'Our Team & Members Directory | eOzka',
                 description:
-                  'Meet the creative designers, documentation officers, and software engineers driving eOzka\'s strategic vision forward into production.',
+                  "Meet the creative designers, software engineers, and product builders driving eOzka's strategic vision and open-source infrastructure forward.",
                 isPartOf: {
                   '@id': 'https://eozka.com/#website',
                 },

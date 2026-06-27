@@ -5,6 +5,12 @@ import Link from 'next/link';
 import SentientOrb from '@/components/SentientOrb';
 import Products3DCarousel from '@/components/Products3DCarousel';
 import { useAudio } from '@/contexts/AudioContext';
+import {
+  AIrisSecurityPreview,
+  ParadigmShiftPreview,
+  EntabDPreview,
+  MindSpacePreview,
+} from '@/components/ProductPreviews';
 
 interface TeamMember {
   name: string;
@@ -14,7 +20,10 @@ interface TeamMember {
   desc: string;
   github?: string;
   linkedin?: string;
+  customImage?: string; // Optional custom image URL
 }
+
+const SHOW_GITHUB_AVATARS = false; // Set to true to show GitHub avatars by default if customImage is missing
 
 const teamMembers: TeamMember[] = [
   {
@@ -91,7 +100,8 @@ const interactiveProducts: InteractiveProduct[] = [
     tagline: 'AI vulnerability scanner for web applications',
     badge: 'Security Platform',
     status: 'Live',
-    description: 'Detects, classifies, and prioritizes security flaws before they ship. Built for fast triage and practical protection, achieving high-accuracy detection without reliance on cloud-based APIs.',
+    description:
+      'Detects, classifies, and prioritizes security flaws before they ship. Built for fast triage and practical protection, achieving high-accuracy detection without reliance on cloud-based APIs.',
     github: 'https://github.com/Kush05Bhardwaj/AIris-Security_AI-Powered-Vulnerability-Scanner',
     deployment: 'https://airis-security1.vercel.app/',
     slug: '/products/airis-security',
@@ -99,14 +109,15 @@ const interactiveProducts: InteractiveProduct[] = [
       { label: 'Focus', value: 'Web Apps' },
       { label: 'Latency', value: '<3.8ms' },
       { label: 'F1 Score', value: '94.2%' },
-    ]
+    ],
   },
   {
     name: 'Paradigm-Shift',
     tagline: 'Unified HRMS for modern organizations',
     badge: 'HRMS Suite',
     status: 'Live',
-    description: 'A structured human-resource management system that acts as a real-time operational source of truth for people, performance, and cross-team workflows.',
+    description:
+      'A structured human-resource management system that acts as a real-time operational source of truth for people, performance, and cross-team workflows.',
     github: 'https://github.com/MRINALPRAKASHFSD/MINI_PROJECT_PARADIGM_SHIFT',
     deployment: 'https://mini-project-paradigm-shift-5y6i.vercel.app/',
     slug: '/products/paradigm-shift',
@@ -114,196 +125,375 @@ const interactiveProducts: InteractiveProduct[] = [
       { label: 'Scope', value: 'HRMS' },
       { label: 'Engine', value: 'Real-time' },
       { label: 'Workflows', value: 'Active' },
-    ]
+    ],
   },
   {
     name: 'Entab-D',
     tagline: 'Chrome tab organizer for heavy workflows',
     badge: 'Browser Utility',
     status: 'Live',
-    description: 'A browser extension that automatically organizes browser tabs by domain and page title, solving window clutter for research-heavy workflows.',
+    description:
+      'A browser extension that automatically organizes browser tabs by domain and page title, solving window clutter for research-heavy workflows.',
     github: 'https://github.com/eOzkull/entab-D',
     slug: '/products/entab-d',
     metrics: [
       { label: 'Grouping', value: 'Automatic' },
       { label: 'Config', value: 'Zero' },
       { label: 'Installs', value: '100+' },
-    ]
+    ],
   },
   {
     name: 'MindSpace',
     tagline: 'Empathetic AI mental wellness companion',
     badge: 'Mental Wellness',
     status: 'Live',
-    description: 'An AI companion for stress support, mood tracking, and guided reflection, designed to provide supportive and human-like interactions.',
+    description:
+      'An AI companion for stress support, mood tracking, and guided reflection, designed to provide supportive and human-like interactions.',
     github: 'https://github.com/eOzkull/MindSpace',
+    deployment: 'https://mindspace-sepia.vercel.app/',
     slug: '/products/mindspace',
     metrics: [
       { label: 'Type', value: 'Companion' },
       { label: 'Mood Logs', value: 'Secure' },
       { label: 'Tone', value: 'Organic' },
-    ]
+    ],
   },
-  {
-    name: 'Management-Systems',
-    tagline: 'Holding-company operations and compliance layer',
-    badge: 'Internal Platform',
-    status: 'In Progress',
-    description: 'Internal governance and reporting system under active development, tailored for modern, decentralized holding structures.',
-    github: 'https://github.com/eOzkull',
-    slug: '/products/management-systems',
-    metrics: [
-      { label: 'Scope', value: 'Governance' },
-      { label: 'Replication', value: 'Active' },
-      { label: 'Access', value: 'Audited' },
-    ]
-  }
+
 ];
 
-const ProductCarousel = ({ product }: { product: any }) => {
+const ClickToPlayVideo = ({ src }: { src: string }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  const togglePlay = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play().catch(err => console.log("Video play interrupted:", err));
+      setIsPlaying(true);
+    }
+  };
+
+  return (
+    <div
+      onClick={togglePlay}
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        cursor: 'pointer',
+        background: '#050505',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        playsInline
+        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+      />
+      {!isPlaying && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(0, 0, 0, 0.4)',
+            transition: 'background 0.3s ease',
+          }}
+        >
+          <div
+            className="play-button-trigger"
+            style={{
+              width: '56px',
+              height: '56px',
+              borderRadius: '50%',
+              background: 'var(--accent)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 0 20px var(--accent-glow)',
+              transition: 'transform 0.2s ease',
+            }}
+          >
+            <div className="play-triangle" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const ProductCarousel = ({ product }: { product: InteractiveProduct }) => {
   const [slide, setSlide] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxUrl, setLightboxUrl] = useState('');
+  const [lightboxCaption, setLightboxCaption] = useState('');
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  useEffect(() => {
+    setIsZoomed(false);
+  }, [slide, lightboxOpen]);
+
+  const createMediaSlide = (
+    mediaNode: React.ReactNode,
+    title: string,
+    subPath: string,
+    slideNum: number,
+    totalSlides: number,
+    isVideo = false
+  ) => {
+    return {
+      type: 'media',
+      content: (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            overflow: 'hidden',
+            background: 'var(--black)',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          {/* Browser Header Bar */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'var(--off-black)',
+              padding: '8px 14px',
+              borderBottom: '1px solid var(--border)',
+              height: '34px',
+            }}
+          >
+            <div style={{ display: 'flex', gap: '5px' }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#ff5f56' }} />
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#ffbd2e' }} />
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#27c93f' }} />
+            </div>
+            <div
+              style={{
+                flex: 1,
+                margin: '0 20px',
+                background: 'var(--black)',
+                border: '1px solid var(--border)',
+                borderRadius: '5px',
+                padding: '2px 10px',
+                fontSize: '9px',
+                color: 'var(--white-dim)',
+                fontFamily: 'var(--font-mono)',
+                textAlign: 'center',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              eozka.dev/{product.slug.split('/').pop()}/{subPath}
+            </div>
+          </div>
+
+          {/* Media Container with dots grid and glow */}
+          <div
+            style={{
+              flex: 1,
+              position: 'relative',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '16px 20px 28px 20px',
+              background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 75%), repeating-radial-gradient(circle, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 18px)',
+              backgroundSize: '18px 18px',
+              height: 'calc(100% - 34px)',
+            }}
+          >
+            <div style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              maxHeight: '480px',
+            }}>
+              {isVideo ? (
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '4px',
+                  overflow: 'hidden',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border)'
+                }}>
+                  {mediaNode}
+                </div>
+              ) : (
+                React.cloneElement(mediaNode as React.ReactElement<any>, {
+                  style: {
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    objectFit: 'contain',
+                    borderRadius: '4px',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border)',
+                    cursor: 'zoom-in'
+                  },
+                  onClick: () => {
+                    setLightboxUrl((mediaNode as React.ReactElement<any>).props.src);
+                    setLightboxCaption(title);
+                    setLightboxOpen(true);
+                  }
+                })
+              )}
+            </div>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: 'rgba(5, 5, 5, 0.75)',
+                backdropFilter: 'blur(8px)',
+                borderTop: '1px solid var(--border)',
+                padding: '6px 12px',
+                fontSize: '9.5px',
+                fontFamily: 'var(--font-mono)',
+                color: 'var(--white-dim)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                zIndex: 15
+              }}
+            >
+              <span>{title}</span>
+              <span style={{ color: 'var(--accent)' }}>{slideNum} / {totalSlides}</span>
+            </div>
+          </div>
+        </div>
+      )
+    };
+  };
+
+  const createSimulationSlide = (
+    component: React.ReactNode,
+    slideNum: number,
+    totalSlides: number
+  ) => {
+    return {
+      type: 'simulation',
+      content: (
+        <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', background: 'var(--off-black)', padding: '14px 14px 28px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          {component}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              background: 'rgba(5, 5, 5, 0.75)',
+              backdropFilter: 'blur(8px)',
+              borderTop: '1px solid var(--border)',
+              padding: '4px 12px',
+              fontSize: '9px',
+              fontFamily: 'var(--font-mono)',
+              color: 'var(--white-dim)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              zIndex: 10
+            }}
+          >
+            <span>Interactive Simulator</span>
+            <span style={{ color: 'var(--accent)' }}>{slideNum} / {totalSlides}</span>
+          </div>
+        </div>
+      )
+    };
+  };
 
   const getSlides = () => {
-    const slide1 = {
-      type: 'image',
-      content: (
-        <div style={{
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(135deg, rgba(179, 138, 43, 0.02) 0%, rgba(179, 138, 43, 0.06) 100%)',
-          border: '1px dashed var(--accent-dim)',
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '12px',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          {/* Subtle glowing core */}
-          <div style={{
-            position: 'absolute',
-            width: '180px',
-            height: '180px',
-            borderRadius: '50%',
-            background: 'var(--accent)',
-            opacity: 0.04,
-            filter: 'blur(50px)',
-            pointerEvents: 'none'
-          }} />
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-dim)" strokeWidth="1.5">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-            <circle cx="9" cy="9" r="2" />
-            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-          </svg>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '10px',
-            color: 'var(--white-dimmer)',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase'
-          }}>
-            [ {product.name} — Viewport Main ]
-          </span>
-        </div>
-      )
-    };
+    const list = [];
 
-    const slide2 = {
-      type: 'image',
-      content: (
-        <div style={{
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(135deg, rgba(179, 138, 43, 0.01) 0%, rgba(179, 138, 43, 0.04) 100%)',
-          border: '1px dashed var(--accent-dim)',
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '12px',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          <div style={{
-            position: 'absolute',
-            width: '180px',
-            height: '180px',
-            borderRadius: '50%',
-            background: 'var(--accent)',
-            opacity: 0.02,
-            filter: 'blur(50px)',
-            pointerEvents: 'none'
-          }} />
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-dim)" strokeWidth="1.5">
-            <path d="M3 3h18v18H3zM21 9H3M21 15H3M12 3v18" />
-          </svg>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '10px',
-            color: 'var(--white-dimmer)',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase'
-          }}>
-            [ {product.name} — Metrics Wireframe ]
-          </span>
-        </div>
-      )
-    };
+    let total = 1;
+    if (product.name === 'AIris Security') {
+      total = 2; // Video Walkthrough + Simulator
+    } else if (product.name === 'Paradigm-Shift' || product.name === 'Entab-D' || product.name === 'MindSpace') {
+      total = 3; // 2 Screenshots + Simulator
+    }
 
-    const slide3 = {
-      type: 'image',
-      content: (
-        <div style={{
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(135deg, rgba(179, 138, 43, 0.02) 0%, rgba(179, 138, 43, 0.04) 100%)',
-          border: '1px dashed var(--accent-dim)',
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '12px',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          <div style={{
-            position: 'absolute',
-            width: '180px',
-            height: '180px',
-            borderRadius: '50%',
-            background: 'var(--accent)',
-            opacity: 0.03,
-            filter: 'blur(50px)',
-            pointerEvents: 'none'
-          }} />
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-dim)" strokeWidth="1.5">
-            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7" />
-          </svg>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '10px',
-            color: 'var(--white-dimmer)',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase'
-          }}>
-            [ {product.name} — Telemetry Out ]
-          </span>
-        </div>
-      )
-    };
+    if (product.name === 'AIris Security') {
+      list.push(createMediaSlide(
+        <ClickToPlayVideo src="/assets/Products-Showcase/Alris-Security/Airis-V2-Demo.mp4" />,
+        "Live Demonstration Walkthrough",
+        "video-tour",
+        1,
+        total,
+        true
+      ));
+      list.push(createSimulationSlide(<AIrisSecurityPreview />, 2, total));
+    } else if (product.name === 'Paradigm-Shift') {
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Paradigm-shift/paradigm-screenshot-1.jpg" alt="Paradigm-Shift Preview" />,
+        "Product Interface Preview",
+        "recruitment-pipeline",
+        1,
+        total
+      ));
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Paradigm-shift/paradigm-screenshot-2.jpg" alt="Paradigm-Shift Interface" />,
+        "Employee Management Panel",
+        "directory",
+        2,
+        total
+      ));
+      list.push(createSimulationSlide(<ParadigmShiftPreview />, 3, total));
+    } else if (product.name === 'Entab-D') {
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Entab-D/entab-screenshot-1.jpg" alt="Entab-D Preview" />,
+        "Tab Grouping Engine Interface",
+        "active-tabs",
+        1,
+        total
+      ));
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Entab-D/entab-screenshot-2.jpg" alt="Entab-D Sorting Analysis" />,
+        "Tab Sorting Analytics Console",
+        "analytics",
+        2,
+        total
+      ));
+      list.push(createSimulationSlide(<EntabDPreview />, 3, total));
+    } else if (product.name === 'MindSpace') {
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Mindspace/mindspace-screenshot-1.png" alt="MindSpace Preview" />,
+        "MindSpace Companion Dashboard",
+        "wellness-dashboard",
+        1,
+        total
+      ));
+      list.push(createMediaSlide(
+        <img src="/assets/Products-Showcase/Mindspace/mindspace-screenshot-2.png" alt="MindSpace Chat interface" />,
+        "Compassionate AI Conversation Session",
+        "chat",
+        2,
+        total
+      ));
+      list.push(createSimulationSlide(<MindSpacePreview />, 3, total));
+    }
 
-    return [slide1, slide2, slide3];
+    return list;
   };
 
   const slides = getSlides();
-
-  useEffect(() => {
-    setSlide(0);
-  }, [product.name]);
 
   const nextSlide = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -316,8 +506,20 @@ const ProductCarousel = ({ product }: { product: any }) => {
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '260px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ flex: 1, position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        minHeight: '260px',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <div
+        style={{ flex: 1, position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}
+      >
         {slides.map((s, idx) => (
           <div
             key={idx}
@@ -329,7 +531,7 @@ const ProductCarousel = ({ product }: { product: any }) => {
               transition: 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
               pointerEvents: slide === idx ? 'all' : 'none',
               height: '100%',
-              width: '100%'
+              width: '100%',
             }}
           >
             {s.content}
@@ -337,85 +539,199 @@ const ProductCarousel = ({ product }: { product: any }) => {
         ))}
       </div>
 
-      <button
-        onClick={prevSlide}
-        type="button"
-        style={{
-          position: 'absolute',
-          left: '12px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          width: '28px',
-          height: '28px',
-          borderRadius: '50%',
-          background: 'rgba(0, 0, 0, 0.5)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          color: '#ffffff',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '14px',
-          zIndex: 10,
-          transition: 'all 0.2s',
-          outline: 'none'
-        }}
-      >
-        ‹
-      </button>
-      <button
-        onClick={nextSlide}
-        type="button"
-        style={{
-          position: 'absolute',
-          right: '12px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          width: '28px',
-          height: '28px',
-          borderRadius: '50%',
-          background: 'rgba(0, 0, 0, 0.5)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          color: '#ffffff',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '14px',
-          zIndex: 10,
-          transition: 'all 0.2s',
-          outline: 'none'
-        }}
-      >
-        ›
-      </button>
-
-      <div style={{ position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px', zIndex: 10 }}>
-        {slides.map((_, idx) => (
+      {slides.length > 1 && (
+        <>
           <button
-            key={idx}
+            onClick={prevSlide}
             type="button"
-            onClick={(e) => { e.stopPropagation(); setSlide(idx); }}
             style={{
-              width: '6px',
-              height: '6px',
+              position: 'absolute',
+              left: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '28px',
+              height: '28px',
               borderRadius: '50%',
-              background: slide === idx ? 'var(--accent)' : 'rgba(255, 255, 255, 0.3)',
-              border: 'none',
-              padding: 0,
+              background: 'rgba(0, 0, 0, 0.5)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#ffffff',
               cursor: 'pointer',
-              transition: 'background 0.3s ease, transform 0.3s ease',
-              transform: slide === idx ? 'scale(1.2)' : 'scale(1.0)',
-              outline: 'none'
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '14px',
+              zIndex: 10,
+              transition: 'all 0.2s',
+              outline: 'none',
             }}
-          />
-        ))}
-      </div>
+          >
+            ‹
+          </button>
+          <button
+            onClick={nextSlide}
+            type="button"
+            style={{
+              position: 'absolute',
+              right: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '28px',
+              height: '28px',
+              borderRadius: '50%',
+              background: 'rgba(0, 0, 0, 0.5)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#ffffff',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '14px',
+              zIndex: 10,
+              transition: 'all 0.2s',
+              outline: 'none',
+            }}
+          >
+            ›
+          </button>
+
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '12px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              gap: '6px',
+              zIndex: 10,
+            }}
+          >
+            {slides.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSlide(idx);
+                }}
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  background: slide === idx ? 'var(--accent)' : 'rgba(255, 255, 255, 0.3)',
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
+                  transition: 'background 0.3s ease, transform 0.3s ease',
+                  transform: slide === idx ? 'scale(1.2)' : 'scale(1.0)',
+                  outline: 'none',
+                }}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* Full-Screen Lightbox Modal for Homepage Showcase */}
+      {lightboxOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(5, 5, 5, 0.95)',
+            backdropFilter: 'blur(12px)',
+            zIndex: 99999,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '24px',
+          }}
+          onClick={() => setLightboxOpen(false)}
+        >
+          {/* Close Button */}
+          <button
+            onClick={() => setLightboxOpen(false)}
+            style={{
+              position: 'absolute',
+              top: '24px',
+              right: '24px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid var(--border)',
+              color: 'var(--white)',
+              width: '44px',
+              height: '44px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              zIndex: 100000,
+              fontSize: '20px',
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'}
+          >
+            ✕
+          </button>
+
+          {/* Lightbox Image Container */}
+          <div
+            style={{
+              position: 'relative',
+              maxWidth: isZoomed ? '96vw' : '85vw',
+              maxHeight: isZoomed ? '90vh' : '75vh',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: isZoomed ? 'auto' : 'hidden',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={lightboxUrl}
+              alt={lightboxCaption}
+              style={{
+                maxWidth: isZoomed ? 'none' : '100%',
+                maxHeight: isZoomed ? 'none' : '100%',
+                objectFit: 'contain',
+                borderRadius: '8px',
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.6)',
+                cursor: isZoomed ? 'zoom-out' : 'zoom-in',
+                transition: isZoomed ? 'none' : 'transform 0.3s ease',
+              }}
+              onClick={() => setIsZoomed(!isZoomed)}
+            />
+          </div>
+
+          {/* Lightbox Caption */}
+          {lightboxCaption && (
+            <div
+              style={{
+                marginTop: '24px',
+                textAlign: 'center',
+                fontFamily: 'var(--font-mono)',
+                zIndex: 100000,
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <p style={{ color: 'var(--white)', fontSize: '15px', margin: '0 0 4px 0', fontWeight: 'bold' }}>
+                {lightboxCaption}
+              </p>
+              <p style={{ color: 'var(--accent)', fontSize: '11px', margin: 0 }}>
+                Click anywhere outside the image to exit full-screen view
+              </p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
 
-function renderTeamCard(member: TeamMember, index: number) {
+function renderTeamCard(member: TeamMember) {
   const initials = member.name
     .split(' ')
     .map((n) => n[0])
@@ -423,23 +739,49 @@ function renderTeamCard(member: TeamMember, index: number) {
     .substring(0, 2)
     .toUpperCase();
 
+  const githubUsername = member.github ? member.github.split('/').filter(Boolean).pop() : null;
+  const githubAvatarUrl =
+    githubUsername && githubUsername !== 'github.com'
+      ? `https://github.com/${githubUsername}.png`
+      : null;
+
+  // Prioritize customImage, fallback to githubAvatarUrl if flag is active, otherwise null
+  const displayAvatarUrl = member.customImage || (SHOW_GITHUB_AVATARS ? githubAvatarUrl : null);
+  const schemaImageUrl = member.customImage || githubAvatarUrl || '';
+
   return (
-    <div className="team-card" key={member.name}>
+    <div className="team-card" key={member.name} itemScope itemType="https://schema.org/Person">
+      {schemaImageUrl && <meta itemProp="image" content={schemaImageUrl} />}
       <div className="team-card-top">
-        <div className="team-avatar">
-          {initials}
+        <div className="team-avatar" style={{ overflow: 'hidden' }}>
+          {displayAvatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={displayAvatarUrl}
+              alt={`${member.name} Avatar`}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          ) : (
+            initials
+          )}
         </div>
         <div className="team-card-meta">
-          <div className="team-name">{member.name}</div>
-          <div className="team-title">{member.role}</div>
+          <div className="team-name" itemProp="name">
+            {member.name}
+          </div>
+          <div className="team-title" itemProp="jobTitle">
+            {member.role}
+          </div>
         </div>
         {member.badge && (
-          <span className={`team-badge ${member.badge.toLowerCase() === 'founder' ? 'badge-founder' : ''}`}>
+          <span
+            className={`team-badge ${member.badge.toLowerCase() === 'founder' ? 'badge-founder' : ''}`}
+          >
             {member.badge}
           </span>
         )}
       </div>
-      <div className="team-desc">
+      <div className="team-desc" itemProp="description">
         {member.desc}
       </div>
       {(member.github || member.linkedin) && (
@@ -450,6 +792,7 @@ function renderTeamCard(member: TeamMember, index: number) {
               target="_blank"
               rel="noopener noreferrer"
               className="team-social-link"
+              itemProp="sameAs"
             >
               <svg viewBox="0 0 16 16">
                 <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
@@ -463,6 +806,7 @@ function renderTeamCard(member: TeamMember, index: number) {
               target="_blank"
               rel="noopener noreferrer"
               className="team-social-link"
+              itemProp="sameAs"
             >
               <svg viewBox="0 0 16 16">
                 <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" />
@@ -481,13 +825,73 @@ export default function Home() {
   const { playHoverWhoosh, stopHoverWhoosh, playClickSound } = useAudio();
 
   // Contact Form States
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    discord: '',
+    message: '',
+  });
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formErrorMessage, setFormErrorMessage] = useState('');
 
   // Interactive Product Selector States
   const [selectedProductIndex, setSelectedProductIndex] = useState(0);
-  const [expandedSection, setExpandedSection] = useState<'problem' | 'opportunity' | null>('problem');
+
+  // Stateful FAQ Accordion
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+    playClickSound();
+  };
+
+  const faqData = [
+    {
+      question: "What is eOzka's core venture studio model?",
+      answer:
+        'eOzka operates as a co-building venture studio. Instead of just providing capital, we actively build, refine, and support our subsidiaries from inception to scale. We supply dedicated technical advisory, core software infrastructure, and initial governance setups, allowing each product to operate independently under a unified standards framework.',
+    },
+    {
+      question: 'How does the studio model differ from standard venture capital or accelerators?',
+      answer:
+        'Unlike traditional venture capital firms that focus purely on financial investment, or accelerators that offer short-term mentorship, eOzka is an operational partner. We write code, build system architectures, design database frameworks, and establish initial operational systems alongside founders. We commit deep engineering bandwidth and operational leadership rather than just writing checks.',
+    },
+    {
+      question: 'Are all eOzka products fully built and open-source?',
+      answer:
+        'Our completed software tools, utility blueprints, and browser extensions are released as open-source repositories under the Apache 2.0 License to support developer communities. However, active commercial ventures and enterprise platforms within our studio ecosystem maintain proprietary codebases tailored for specific industrial and compliance standards.',
+    },
+    {
+      question: 'Who can join the Campus Ambassador Program?',
+      answer:
+        'The Campus Ambassador Program is designed for students, developers, and aspiring product leaders who want to spearhead open-source engineering standards and technology outreach on their campuses. We look for individuals with a builder mindset who are interested in technical workshop coordination, community building, and direct mentorship from our core team.',
+    },
+    {
+      question: 'How can organizations request dedicated briefings or integrations?',
+      answer:
+        "Organizations seeking custom system integrations, AppSec audits, or custom administrative setups can use our standalone Request Meeting page. This initiates eOzka's Handshake Briefing Protocol, transitioning from telemetry intake and architecture review directly into a dedicated custom system handoff.",
+    },
+    {
+      question: 'What technology stack does eOzka prioritize?',
+      answer:
+        'We build with high-performance modern technologies: React, Next.js, and TypeScript for web applications; Vanilla CSS for rich styling; Flutter and Dart for mobile applications; and Python for machine learning heuristics.',
+    },
+    {
+      question: "How can I contribute to eOzka's open-source projects?",
+      answer:
+        'All our core software releases are open-source under the Apache 2.0 license and available on GitHub at github.com/eOzkull. We are committed to building in public and contributing back to the community.',
+    },
+    {
+      question: 'Where is eOzka headquartered?',
+      answer:
+        'eOzka operates as a decentralized, digital-first holding and software advisory company, coordinating operations across virtual workspaces and local regional hubs.',
+    },
+    {
+      question: 'What security methodologies does the studio follow?',
+      answer:
+        'We implement institutional security standards across our platforms, including automated vulnerability scanning (AIris-Security), dependency audits, and secure communication webhooks for onboarding and contact portals.',
+    },
+  ];
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -516,12 +920,12 @@ export default function Home() {
 
       if (res.ok && data.success) {
         setFormStatus('success');
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: '', email: '', phone: '', discord: '', message: '' });
       } else {
         setFormStatus('error');
         setFormErrorMessage(data.error || 'Failed to send message. Please try again.');
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error('Submission failure:', err);
 
       const elapsedTime = Date.now() - startTime;
@@ -737,10 +1141,11 @@ export default function Home() {
         });
       },
       {
-        threshold: [0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-        rootMargin: '-15% 0px -20% 0px',
+        threshold: 0.2,
+        rootMargin: '-20% 0px -20% 0px',
       }
     );
+
     sectionElements.forEach((sec) => {
       if (sec.id) spyObs.observe(sec);
     });
@@ -749,11 +1154,7 @@ export default function Home() {
     let autoscrollInitialized = false;
 
     const destroyMobileAutoscroll = () => {
-      const targets = [
-        '.ventures-track',
-        '.team-core-track',
-        '.team-directorate-track'
-      ];
+      const targets = ['.ventures-track', '.team-core-track', '.team-directorate-track'];
       targets.forEach((selector) => {
         const container = document.querySelector(selector) as HTMLElement | null;
         if (container) {
@@ -774,11 +1175,7 @@ export default function Home() {
       if (autoscrollInitialized) return;
       autoscrollInitialized = true;
 
-      const targets = [
-        '.ventures-track',
-        '.team-core-track',
-        '.team-directorate-track'
-      ];
+      const targets = ['.ventures-track', '.team-core-track', '.team-directorate-track'];
 
       targets.forEach((selector) => {
         const container = document.querySelector(selector) as HTMLElement | null;
@@ -802,7 +1199,7 @@ export default function Home() {
         { selector: '.products-console-sidebar' },
         { selector: '.ventures-grid' },
         { selector: '.team-cards-grid.core' },
-        { selector: '.team-cards-grid.directorate' }
+        { selector: '.team-cards-grid.directorate' },
       ];
 
       const speed = 0.8; // Smooth visible pace
@@ -821,7 +1218,7 @@ export default function Home() {
           container,
           paused: false,
           scrollPos: container.scrollLeft,
-          resumeTimeout: undefined as any
+          resumeTimeout: undefined as NodeJS.Timeout | undefined,
         };
 
         const handleStart = () => {
@@ -888,7 +1285,6 @@ export default function Home() {
       cleanups.push(() => cancelAnimationFrame(animationFrameId));
     };
 
-
     const handleAutoscrollResize = () => {
       initMobileAutoscroll();
     };
@@ -903,7 +1299,6 @@ export default function Home() {
       setupAutoscroll();
     }, 800);
     cleanups.push(() => clearTimeout(autoscrollStartTimeout));
-
 
     return () => {
       clearTimeout(startTimeout);
@@ -934,7 +1329,7 @@ export default function Home() {
           <SentientOrb />
         </div>
         <div className="hero-content" style={{ position: 'relative', zIndex: 2 }}>
-          <p className="hero-eyebrow">eOzka — Operational Holding Company</p>
+          <p className="hero-eyebrow">eOzka — Operational Holding Company (Est. 2026)</p>
           <h1 className="hero-headline">
             Where ideas
             <br />
@@ -949,24 +1344,92 @@ export default function Home() {
             An operational holding company engaged in the development, management, and provision of{' '}
             <strong>technology solutions</strong>, <strong>software infrastructure</strong>,{' '}
             <strong>digital platforms</strong>, and <strong>consulting services</strong>. We run{' '}
-            <strong>community‑driven programs</strong> with the objective of supporting individuals, startups,{' '}
-            and enterprises across diverse sectors.
+            <strong>community‑driven programs</strong> with the objective of supporting individuals,
+            startups, and enterprises across diverse sectors.
           </p>
-          <div className="hero-ctas">
+          <div
+            className="hero-ctas"
+            style={{
+              display: 'flex',
+              gap: '12px',
+              flexWrap: 'wrap',
+              maxWidth: '640px',
+              width: '100%',
+            }}
+          >
             <a
-              href="#products"
+              href="#showcase"
               className="btn-primary"
-              onClick={(e) => handleScrollToId(e, 'products')}
+              onClick={(e) => handleScrollToId(e, 'showcase')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                flex: '1 1 auto',
+                minWidth: '140px',
+                padding: '10px 18px',
+                fontSize: '12px',
+                height: '42px',
+                margin: 0,
+              }}
             >
-              <span>See Our Products</span>
+              <span>Explore Showcase</span>
             </a>
             <a
               href="#story"
               className="btn-secondary"
               onClick={(e) => handleScrollToId(e, 'story')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                flex: '1 1 auto',
+                minWidth: '110px',
+                padding: '10px 18px',
+                fontSize: '12px',
+                height: '42px',
+                margin: 0,
+              }}
             >
               Our Story
             </a>
+            <Link
+              href="/request-meeting"
+              className="btn-secondary"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                border: '1px solid var(--accent)',
+                background: 'rgba(212, 201, 168, 0.05)',
+                color: 'var(--accent)',
+                padding: '10px 18px',
+                fontSize: '12px',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                transition: 'all 0.3s ease',
+                flex: '1.2 1 auto',
+                minWidth: '160px',
+                height: '42px',
+                margin: 0,
+                textAlign: 'center',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(212, 201, 168, 0.15)';
+                e.currentTarget.style.boxShadow = '0 0 16px rgba(212, 201, 168, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(212, 201, 168, 0.05)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              Request Meeting
+            </Link>
           </div>
         </div>
 
@@ -1004,7 +1467,7 @@ export default function Home() {
       <section id="story">
         <div className="section-label">01 — Story</div>
         <h2 className="section-headline reveal">
-          A gap we couldn't ignore.
+          A gap we couldn&apos;t ignore.
           <br />
           <em>Born from conviction. Built with intent.</em>
         </h2>
@@ -1035,7 +1498,7 @@ export default function Home() {
               </span>
             </div>
             <div className="stat-cell">
-              <span className="stat-num" data-target="12">
+              <span className="stat-num" data-target="6">
                 0
               </span>
               <span className="stat-label">
@@ -1077,32 +1540,52 @@ export default function Home() {
           <div className="about-block reveal">
             <h3>The Mission</h3>
             <p>
-              Our mission is to build entities that solve real-world problems across a range of industries. We began by developing robust{' '}
-              <span className="about-highlight">technology solutions</span> and <span className="about-highlight">software infrastructure</span>, and have since grown into{' '}
-              <span className="about-highlight">Education</span> and <span className="about-highlight">consulting services</span>. Our vision extends further, actively charting expansion into{' '}
-              <span className="about-highlight">healthcare</span> and <span className="about-highlight">agricultural technology</span> to directly impact lives.
+              Our mission is to build entities that solve real-world problems across a range of
+              industries. We began by developing robust{' '}
+              <span className="about-highlight">technology solutions</span> and{' '}
+              <span className="about-highlight">software infrastructure</span>, and have since grown
+              into <span className="about-highlight">Education</span> and{' '}
+              <span className="about-highlight">consulting services</span>. Our vision extends
+              further, actively charting expansion into{' '}
+              <span className="about-highlight">healthcare</span> and{' '}
+              <span className="about-highlight">agricultural technology</span> to directly impact
+              lives.
             </p>
             <p style={{ marginTop: '16px' }}>
-              At the parent level, eOzka provides the structural backing, equity governance, and technical advisory that empowers our specialized subsidiaries to operate with absolute autonomy while maintaining a shared commitment to accountability.
+              At the parent level, eOzka provides the structural backing, equity governance, and
+              technical advisory that empowers our specialized subsidiaries to operate with absolute
+              autonomy while maintaining a shared commitment to accountability.
             </p>
           </div>
           <div className="about-block reveal">
             <h3>The Philosophy & Pillars</h3>
             <p>
-              We believe the best builders are underestimated early. We are proving that conviction one product at a time — with the governance, structure, and discipline of an enterprise built to stand the test of time. Our framework coordinates three key operational pillars to translate ambitious ideas into reality:
+              We believe the best builders are underestimated early. We are proving that conviction
+              one product at a time — with the governance, structure, and discipline of an
+              enterprise built to stand the test of time. Our framework coordinates three key
+              operational pillars to translate ambitious ideas into reality:
             </p>
             <ul className="about-pillars-list">
               <li className="about-pillar-item">
                 <span className="about-pillar-num">I. Software Infrastructure & Solutions</span>
-                <span className="about-pillar-text">Engineering resilient security utilities, database systems, and utility platforms built on solid architecture.</span>
+                <span className="about-pillar-text">
+                  Engineering resilient security utilities, database systems, and utility platforms
+                  built on solid architecture.
+                </span>
               </li>
               <li className="about-pillar-item">
                 <span className="about-pillar-num">II. Specialized Consulting Services</span>
-                <span className="about-pillar-text">Guiding startups and enterprises with high-fidelity system analysis, technical advisory, and specialized code audits.</span>
+                <span className="about-pillar-text">
+                  Guiding startups and enterprises with high-fidelity system analysis, technical
+                  advisory, and specialized code audits.
+                </span>
               </li>
               <li className="about-pillar-item">
                 <span className="about-pillar-num">III. Community-Driven Programs</span>
-                <span className="about-pillar-text">Fostering open education, developer-centric initiatives, and local outreach programs to empower the builders of tomorrow.</span>
+                <span className="about-pillar-text">
+                  Fostering open education, developer-centric initiatives, and local outreach
+                  programs to empower the builders of tomorrow.
+                </span>
               </li>
             </ul>
           </div>
@@ -1110,20 +1593,20 @@ export default function Home() {
       </section>
 
       {/* ── PRODUCTS SECTION ── */}
-      <section id="products">
-        <div className="section-label">03 — Products</div>
+      <section id="showcase">
+        <div className="section-label">03 — Showcase</div>
         <h2 className="section-headline reveal">
           Technical Pipeline.
           <br />
           <em>Our builds and releases.</em>
         </h2>
         <p className="products-intro reveal">
-          Click on any product to examine its core architecture, problem statements, and real-world deployment details.
+          Click on any product to examine its core architecture, problem statements, and real-world
+          deployment details.
         </p>
-        
-        {/* Compact Console Shell Layout */}
-        <div className="products-console-container reveal">
-          
+
+        {/* Compact Console Shell Layout (Desktop View) */}
+        <div className="products-console-container desktop-only reveal">
           {/* Left: Product Cards Stack */}
           <div className="products-console-sidebar">
             {interactiveProducts.map((product, idx) => {
@@ -1136,80 +1619,105 @@ export default function Home() {
                     setSelectedProductIndex(idx);
                     playClickSound();
                   }}
-                  style={{ 
+                  style={{
                     cursor: 'pointer',
-                    minHeight: '90px'
+                    minHeight: '90px',
                   }}
                 >
                   <div className="product-card-top">
                     <span className="product-num">0{idx + 1}</span>
-                    <span className={`product-tag ${product.status === 'Live' ? 'tag-live' : 'tag-research'}`}>
+                    <span
+                      className={`product-tag ${product.status === 'Live' ? 'tag-live' : 'tag-research'}`}
+                    >
                       {product.status}
                     </span>
                   </div>
-                  <h3 
-                    className="product-name" 
-                    style={{ 
-                      fontSize: isActive ? '24px' : '14px', 
+                  <h3
+                    className="product-name"
+                    style={{
+                      fontSize: isActive ? '24px' : '14px',
                       margin: isActive ? '8px 0 6px 0' : '4px 0 2px 0',
-                      transition: 'all 0.3s ease'
+                      transition: 'all 0.3s ease',
                     }}
                   >
                     {product.name}
                   </h3>
-                  <p 
-                    className="product-summary" 
-                    style={{ 
-                      margin: 0, 
-                      fontSize: isActive ? '13px' : '11px', 
-                      color: 'var(--white-dim)', 
-                      textOverflow: isActive ? 'clip' : 'ellipsis', 
-                      overflow: isActive ? 'visible' : 'hidden', 
+                  <p
+                    className="product-summary"
+                    style={{
+                      margin: 0,
+                      fontSize: isActive ? '13px' : '11px',
+                      color: 'var(--white-dim)',
+                      textOverflow: isActive ? 'clip' : 'ellipsis',
+                      overflow: isActive ? 'visible' : 'hidden',
                       whiteSpace: isActive ? 'normal' : 'nowrap',
-                      transition: 'all 0.3s ease'
+                      transition: 'all 0.3s ease',
                     }}
                   >
                     {product.tagline}
                   </p>
 
                   {/* Smooth Expandable Description Accordion */}
-                  <div 
+                  <div
                     className="product-card-expanded-content"
                     style={{
                       maxHeight: isActive ? '400px' : '0px',
                       opacity: isActive ? 1 : 0,
                       overflow: 'hidden',
                       transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                      marginTop: isActive ? '14px' : '0px'
+                      marginTop: isActive ? '14px' : '0px',
                     }}
                   >
-                    <p className="product-desc" style={{ margin: 0, fontSize: '13.5px', lineHeight: '1.6', color: 'var(--white-dim)' }}>
+                    <p
+                      className="product-desc"
+                      style={{
+                        margin: 0,
+                        fontSize: '13.5px',
+                        lineHeight: '1.6',
+                        color: 'var(--white-dim)',
+                      }}
+                    >
                       {product.description}
                     </p>
-                    <div style={{ display: 'flex', gap: '16px', marginTop: '16px', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
-                      <Link 
-                        href={product.slug} 
-                        className="product-link" 
+                    <div
+                      style={{
+                        display: 'flex',
+                        gap: '16px',
+                        marginTop: '16px',
+                        fontSize: '12px',
+                        fontFamily: 'var(--font-mono)',
+                      }}
+                    >
+                      <Link
+                        href={product.slug}
+                        className="product-link"
                         onClick={(e) => e.stopPropagation()}
-                        style={{ borderBottom: '1.5px solid var(--accent)', paddingBottom: '3px', fontWeight: 'bold' }}
+                        style={{
+                          borderBottom: '1.5px solid var(--accent)',
+                          paddingBottom: '3px',
+                          fontWeight: 'bold',
+                        }}
                       >
                         Learn More →
                       </Link>
                       {product.github && (
-                        <a 
-                          href={product.github} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
+                        <a
+                          href={product.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="product-link-dim"
                           onClick={(e) => e.stopPropagation()}
-                          style={{ borderBottom: '1.5px solid var(--white-dimmer)', paddingBottom: '3px', fontWeight: 'bold' }}
+                          style={{
+                            borderBottom: '1.5px solid var(--white-dimmer)',
+                            paddingBottom: '3px',
+                            fontWeight: 'bold',
+                          }}
                         >
                           GitHub
                         </a>
                       )}
                     </div>
                   </div>
-
                 </div>
               );
             })}
@@ -1225,79 +1733,104 @@ export default function Home() {
                     setSelectedProductIndex(idx);
                     playClickSound();
                   }}
-                  style={{ 
+                  style={{
                     cursor: 'pointer',
-                    minHeight: '90px'
+                    minHeight: '90px',
                   }}
                 >
                   <div className="product-card-top">
                     <span className="product-num">0{idx + 1}</span>
-                    <span className={`product-tag ${product.status === 'Live' ? 'tag-live' : 'tag-research'}`}>
+                    <span
+                      className={`product-tag ${product.status === 'Live' ? 'tag-live' : 'tag-research'}`}
+                    >
                       {product.status}
                     </span>
                   </div>
-                  <h3 
-                    className="product-name" 
-                    style={{ 
-                      fontSize: isCloneActive ? '24px' : '14px', 
+                  <h3
+                    className="product-name"
+                    style={{
+                      fontSize: isCloneActive ? '24px' : '14px',
                       margin: isCloneActive ? '8px 0 6px 0' : '4px 0 2px 0',
-                      transition: 'all 0.3s ease'
+                      transition: 'all 0.3s ease',
                     }}
                   >
                     {product.name}
                   </h3>
-                  <p 
-                    className="product-summary" 
-                    style={{ 
-                      margin: 0, 
-                      fontSize: isCloneActive ? '13px' : '11px', 
-                      color: 'var(--white-dim)', 
-                      textOverflow: isCloneActive ? 'clip' : 'ellipsis', 
-                      overflow: isCloneActive ? 'visible' : 'hidden', 
+                  <p
+                    className="product-summary"
+                    style={{
+                      margin: 0,
+                      fontSize: isCloneActive ? '13px' : '11px',
+                      color: 'var(--white-dim)',
+                      textOverflow: isCloneActive ? 'clip' : 'ellipsis',
+                      overflow: isCloneActive ? 'visible' : 'hidden',
                       whiteSpace: isCloneActive ? 'normal' : 'nowrap',
-                      transition: 'all 0.3s ease'
+                      transition: 'all 0.3s ease',
                     }}
                   >
                     {product.tagline}
                   </p>
 
-                  <div 
+                  <div
                     className="product-card-expanded-content"
                     style={{
                       maxHeight: isCloneActive ? '400px' : '0px',
                       opacity: isCloneActive ? 1 : 0,
                       overflow: 'hidden',
                       transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                      marginTop: isCloneActive ? '14px' : '0px'
+                      marginTop: isCloneActive ? '14px' : '0px',
                     }}
                   >
-                    <p className="product-desc" style={{ margin: 0, fontSize: '13.5px', lineHeight: '1.6', color: 'var(--white-dim)' }}>
+                    <p
+                      className="product-desc"
+                      style={{
+                        margin: 0,
+                        fontSize: '13.5px',
+                        lineHeight: '1.6',
+                        color: 'var(--white-dim)',
+                      }}
+                    >
                       {product.description}
                     </p>
-                    <div style={{ display: 'flex', gap: '16px', marginTop: '16px', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
-                      <Link 
-                        href={product.slug} 
-                        className="product-link" 
+                    <div
+                      style={{
+                        display: 'flex',
+                        gap: '16px',
+                        marginTop: '16px',
+                        fontSize: '12px',
+                        fontFamily: 'var(--font-mono)',
+                      }}
+                    >
+                      <Link
+                        href={product.slug}
+                        className="product-link"
                         onClick={(e) => e.stopPropagation()}
-                        style={{ borderBottom: '1.5px solid var(--accent)', paddingBottom: '3px', fontWeight: 'bold' }}
+                        style={{
+                          borderBottom: '1.5px solid var(--accent)',
+                          paddingBottom: '3px',
+                          fontWeight: 'bold',
+                        }}
                       >
                         Learn More →
                       </Link>
                       {product.github && (
-                        <a 
-                          href={product.github} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
+                        <a
+                          href={product.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="product-link-dim"
                           onClick={(e) => e.stopPropagation()}
-                          style={{ borderBottom: '1.5px solid var(--white-dimmer)', paddingBottom: '3px', fontWeight: 'bold' }}
+                          style={{
+                            borderBottom: '1.5px solid var(--white-dimmer)',
+                            paddingBottom: '3px',
+                            fontWeight: 'bold',
+                          }}
                         >
                           GitHub
                         </a>
                       )}
                     </div>
                   </div>
-
                 </div>
               );
             })}
@@ -1305,47 +1838,70 @@ export default function Home() {
 
           {/* Right: Product Showcase Panel */}
           <div className="product-showcase-panel">
-            
             {/* Top Area: Description and Link */}
             <div>
               <span className="showcase-header-tag">
                 Pipeline Product // {interactiveProducts[selectedProductIndex].badge}
               </span>
               <div className="showcase-title-row" style={{ marginTop: '4px' }}>
-                <h3 className="showcase-title" style={{ fontSize: '1.6rem', color: 'var(--white)', fontWeight: 'bold' }}>
+                <h3
+                  className="showcase-title"
+                  style={{ fontSize: '1.6rem', color: 'var(--white)', fontWeight: 'bold' }}
+                >
                   {interactiveProducts[selectedProductIndex].name}
                 </h3>
                 <Link
                   href={interactiveProducts[selectedProductIndex].slug}
                   className="theme-btn"
-                  style={{ 
-                    padding: '6px 14px', 
-                    fontSize: '10px', 
-                    textTransform: 'uppercase', 
-                    textDecoration: 'none', 
-                    display: 'inline-flex', 
-                    alignItems: 'center', 
-                    gap: '4px', 
+                  style={{
+                    padding: '6px 14px',
+                    fontSize: '10px',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
                     fontWeight: 'bold',
                     border: '1px solid var(--border)',
-                    borderRadius: '6px'
+                    borderRadius: '6px',
                   }}
                 >
                   Explore Details →
                 </Link>
               </div>
-              <p className="showcase-desc" style={{ fontSize: '13px', color: 'var(--white-dim)', marginTop: '8px', lineHeight: '1.6' }}>
+              <p
+                className="showcase-desc"
+                style={{
+                  fontSize: '13px',
+                  color: 'var(--white-dim)',
+                  marginTop: '8px',
+                  lineHeight: '1.6',
+                }}
+              >
                 {interactiveProducts[selectedProductIndex].description}
               </p>
             </div>
 
             {/* Middle Area: Interactive Product Preview Screen */}
             <div className="showcase-mockup-frame" style={{ cursor: 'default' }}>
-              <ProductCarousel product={interactiveProducts[selectedProductIndex]} />
+              <ProductCarousel
+                key={interactiveProducts[selectedProductIndex].name}
+                product={interactiveProducts[selectedProductIndex]}
+              />
             </div>
 
             {/* Bottom Area: Github & Deployment */}
-            <div className="showcase-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border)', paddingTop: '16px', fontSize: '12px' }}>
+            <div
+              className="showcase-footer"
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                borderTop: '1px solid var(--border)',
+                paddingTop: '16px',
+                fontSize: '12px',
+              }}
+            >
               {interactiveProducts[selectedProductIndex].github ? (
                 <a
                   href={interactiveProducts[selectedProductIndex].github}
@@ -1371,8 +1927,12 @@ export default function Home() {
                 <span className="showcase-footer-tag">Internal System Node</span>
               )}
             </div>
-
           </div>
+        </div>
+
+        {/* 3D Products Carousel (Mobile View) */}
+        <div className="mobile-only">
+          <Products3DCarousel />
         </div>
       </section>
 
@@ -1385,7 +1945,12 @@ export default function Home() {
           <em>Directors.</em>
         </h2>
         <p className="team-intro reveal">
-          Our governing board and operational directorate leading eOzka's strategic vision. For our full engineering and creative design force, view our dedicated <Link href="/members" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>Members directory</Link> under the More menu.
+          Our governing board and operational directorate leading eOzka&apos;s strategic vision. For
+          our full engineering and creative design force, view our dedicated{' '}
+          <Link href="/members" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>
+            Members directory
+          </Link>{' '}
+          under the More menu.
         </p>
 
         <div className="team-grid-wrap" id="team-grid">
@@ -1399,7 +1964,7 @@ export default function Home() {
               <div className="team-core-track">
                 {teamMembers
                   .filter((m) => m.category === 'core')
-                  .map((member, index) => renderTeamCard(member, index))}
+                  .map((member) => renderTeamCard(member))}
               </div>
             </div>
           </div>
@@ -1414,7 +1979,7 @@ export default function Home() {
               <div className="team-directorate-track">
                 {teamMembers
                   .filter((m) => m.category === 'directorate')
-                  .map((member, index) => renderTeamCard(member, index))}
+                  .map((member) => renderTeamCard(member))}
               </div>
             </div>
           </div>
@@ -1437,7 +2002,7 @@ export default function Home() {
                   gap: '24px',
                   position: 'relative',
                   overflow: 'hidden',
-                  animation: 'fadeIn 0.5s ease'
+                  animation: 'fadeIn 0.5s ease',
                 }}
               >
                 {/* Glowing neon checkmark node */}
@@ -1457,7 +2022,15 @@ export default function Home() {
                   >
                     <svg
                       viewBox="0 0 24 24"
-                      style={{ width: '20px', height: '20px', fill: 'none', stroke: 'var(--accent)', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }}
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        fill: 'none',
+                        stroke: 'var(--accent)',
+                        strokeWidth: 2,
+                        strokeLinecap: 'round',
+                        strokeLinejoin: 'round',
+                      }}
                     >
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
@@ -1469,19 +2042,29 @@ export default function Home() {
                         fontSize: '22px',
                         fontWeight: '400',
                         color: 'var(--white)',
-                        lineHeight: '1.2'
+                        lineHeight: '1.2',
                       }}
                     >
                       Message Sent.
                     </h3>
-                    <p style={{ fontFamily: "'DM Mono', monospace", fontSize: '10px', color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '4px' }}>
+                    <p
+                      style={{
+                        fontFamily: "'DM Mono', monospace",
+                        fontSize: '10px',
+                        color: 'var(--accent)',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.08em',
+                        marginTop: '4px',
+                      }}
+                    >
                       Thank you for reaching out
                     </p>
                   </div>
                 </div>
 
                 <p style={{ fontSize: '14px', color: 'var(--white-dim)', lineHeight: '1.7' }}>
-                  We have received your message. Our team will review your inquiry and get back to you as soon as possible.
+                  We have received your message. Our team will review your inquiry and get back to
+                  you as soon as possible.
                 </p>
 
                 <button
@@ -1493,10 +2076,104 @@ export default function Home() {
                   Send Another Message —&gt;
                 </button>
               </div>
+            ) : formStatus === 'error' ? (
+              <div
+                style={{
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  padding: '40px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '24px',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  animation: 'fadeIn 0.5s ease',
+                }}
+              >
+                {/* Glowing red warning node */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <div
+                    style={{
+                      width: '48px',
+                      height: '48px',
+                      borderRadius: '50%',
+                      border: '1px solid #ef4444',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'rgba(239, 68, 68, 0.08)',
+                      boxShadow: '0 0 16px rgba(239, 68, 68, 0.2)',
+                    }}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        fill: 'none',
+                        stroke: '#ef4444',
+                        strokeWidth: 2,
+                        strokeLinecap: 'round',
+                        strokeLinejoin: 'round',
+                      }}
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3
+                      style={{
+                        fontFamily: "'DM Serif Display', serif",
+                        fontSize: '22px',
+                        fontWeight: '400',
+                        color: 'var(--white)',
+                        lineHeight: '1.2',
+                      }}
+                    >
+                      Transmission Failed.
+                    </h3>
+                    <p
+                      style={{
+                        fontFamily: "'DM Mono', monospace",
+                        fontSize: '10px',
+                        color: '#fca5a5',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.08em',
+                        marginTop: '4px',
+                      }}
+                    >
+                      Handshake error encountered
+                    </p>
+                  </div>
+                </div>
+
+                <p style={{ fontSize: '14px', color: 'var(--white-dim)', lineHeight: '1.7' }}>
+                  {formErrorMessage ||
+                    'Something went wrong while transmitting your message. Please try again.'}
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setFormStatus('idle')}
+                  className="btn-submit"
+                  style={{
+                    marginTop: '12px',
+                    border: '1px solid rgba(239, 68, 68, 0.4)',
+                    color: '#fca5a5',
+                    background: 'transparent',
+                  }}
+                >
+                  Retry Form Submission —&gt;
+                </button>
+              </div>
             ) : (
               <form className="contact-form" onSubmit={handleContactSubmit}>
                 <div className="form-group">
-                  <label>Name</label>
+                  <label>
+                    Name <span style={{ color: '#ef4444', marginLeft: '2px' }}>•</span>
+                  </label>
                   <input
                     type="text"
                     className="form-input"
@@ -1508,7 +2185,9 @@ export default function Home() {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Email</label>
+                  <label>
+                    Email <span style={{ color: '#ef4444', marginLeft: '2px' }}>•</span>
+                  </label>
                   <input
                     type="email"
                     className="form-input"
@@ -1520,7 +2199,34 @@ export default function Home() {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Message</label>
+                  <label>
+                    Phone Number <span style={{ color: '#ef4444', marginLeft: '2px' }}>•</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="+1 (555) 019-2834"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    disabled={formStatus === 'submitting'}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Social Media ID (Discord / Telegram / LinkedIn)</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="username, @username, or link"
+                    value={formData.discord}
+                    onChange={(e) => setFormData({ ...formData, discord: e.target.value })}
+                    disabled={formStatus === 'submitting'}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>
+                    Message <span style={{ color: '#ef4444', marginLeft: '2px' }}>•</span>
+                  </label>
                   <textarea
                     className="form-input"
                     placeholder="Tell us about your project..."
@@ -1531,28 +2237,6 @@ export default function Home() {
                   ></textarea>
                 </div>
 
-                {formStatus === 'error' && (
-                  <div
-                    style={{
-                      padding: '12px 16px',
-                      background: 'rgba(239, 68, 68, 0.05)',
-                      border: '1px solid rgba(239, 68, 68, 0.25)',
-                      color: '#fca5a5',
-                      fontSize: '13px',
-                      fontFamily: "'DM Mono', monospace",
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '4px',
-                      marginBottom: '10px'
-                    }}
-                  >
-                    <div style={{ fontWeight: 'bold', textTransform: 'uppercase', fontSize: '10px', color: '#f87171', letterSpacing: '0.05em' }}>
-                      ⚠️ Transmission Error
-                    </div>
-                    <div>{formErrorMessage}</div>
-                  </div>
-                )}
-
                 <button
                   type="submit"
                   className="btn-submit"
@@ -1562,7 +2246,7 @@ export default function Home() {
                     transition: 'all 0.3s ease',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '10px'
+                    gap: '10px',
                   }}
                 >
                   {formStatus === 'submitting' ? (
@@ -1576,7 +2260,7 @@ export default function Home() {
                           stroke: 'currentColor',
                           fill: 'none',
                           strokeWidth: '3',
-                          strokeLinecap: 'round'
+                          strokeLinecap: 'round',
                         }}
                       >
                         <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.15)"></circle>
@@ -1592,7 +2276,6 @@ export default function Home() {
             )}
           </div>
 
-
           {/* RIGHT: INFO */}
           <div className="reveal">
             <div className="section-label">05 — Contact</div>
@@ -1602,8 +2285,8 @@ export default function Home() {
               invest, or join us?
             </h2>
             <p className="contact-sub">
-              We're open to partnerships, sponsorships, and new talent. If you believe in what we're
-              building, reach out directly.
+              We&apos;re open to partnerships, sponsorships, and new talent. If you believe in what
+              we&apos;re building, reach out directly.
             </p>
             <a href="mailto:eozka.hq@gmail.com" className="contact-email">
               eozka.hq@gmail.com
@@ -1620,29 +2303,132 @@ export default function Home() {
         </h2>
         <div className="ventures-grid">
           <div className="ventures-track">
+            {/* 
             <Link
-              href="/ventures/moce"
+              href="/ventures/nolin"
               className="venture-card reveal"
             >
               <span className="venture-num">Subsidiary I</span>
-              <span className="venture-name">MOCE</span>
+              <span className="venture-name">Nolin.in</span>
               <p className="venture-desc">
-                Operating as the specialized technology and consulting arm of eOzka. Home to AIris-Security,
-                Stress-Calculator, and custom management systems, MOCE delivers high-performance software
-                solutions, software infrastructure, and technical advisory to startups and enterprises.
+                Reimagining campus commerce from the ground up. Order canteen meals from your seat, track
+                preparation times with live ETA calculations, and collect securely with unique pickup codes.
               </p>
-              <span className="venture-cta">Explore MOCE</span>
+              <span className="venture-cta">Explore Nolin.in</span>
             </Link>
+            */}
             <div className="venture-card coming-soon reveal">
               <span className="venture-num">Subsidiary II</span>
-              <span className="venture-name">MOCK</span>
+              <span className="venture-name">Coming Soon</span>
               <p className="venture-desc">
-                Laying the groundwork for eOzka's expansion into multi-sector programs, healthcare integration,
-                and agricultural technology. Focused on localized community-driven programs, open-source education
-                advocacy, and sustainable research frameworks.
+                Laying the groundwork for eOzka&apos;s expansion into multi-sector programs,
+                healthcare integration, and agricultural technology. Focused on localized
+                community-driven programs, open-source education advocacy, and sustainable research
+                frameworks.
               </p>
-              <span className="venture-cta">Research Phase</span>
-            </div >
+              <span className="venture-cta">Coming Soon ...</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ SECTION ── */}
+      <section
+        id="faq"
+        className="reveal"
+        style={{
+          padding: '80px 24px',
+          maxWidth: '1100px',
+          margin: '0 auto',
+          borderTop: '1px solid var(--border)',
+        }}
+      >
+        <div className="section-label">07 — FAQ</div>
+        <h2 className="section-headline" style={{ marginBottom: '40px' }}>
+          Frequently Asked <em>Questions.</em>
+        </h2>
+        <div className="faq-grid">
+          <div className="faq-column">
+            {faqData.map((faq, idx) => {
+              if (idx % 2 !== 0) return null;
+              const isOpen = openFaqIndex === idx;
+              return (
+                <div key={idx} className={`faq-item ${isOpen ? 'active' : ''}`}>
+                  <button
+                    type="button"
+                    className="faq-header"
+                    onClick={() => toggleFaq(idx)}
+                    aria-expanded={isOpen}
+                  >
+                    <h3 className="faq-question">{faq.question}</h3>
+                    <div className="faq-icon-wrap">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{ transition: 'transform 0.3s ease' }}
+                      >
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </div>
+                  </button>
+                  <div
+                    className="faq-content-wrapper"
+                    style={{
+                      maxHeight: isOpen ? '300px' : '0px',
+                    }}
+                  >
+                    <p className="faq-answer">{faq.answer}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="faq-column">
+            {faqData.map((faq, idx) => {
+              if (idx % 2 === 0) return null;
+              const isOpen = openFaqIndex === idx;
+              return (
+                <div key={idx} className={`faq-item ${isOpen ? 'active' : ''}`}>
+                  <button
+                    type="button"
+                    className="faq-header"
+                    onClick={() => toggleFaq(idx)}
+                    aria-expanded={isOpen}
+                  >
+                    <h3 className="faq-question">{faq.question}</h3>
+                    <div className="faq-icon-wrap">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{ transition: 'transform 0.3s ease' }}
+                      >
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </div>
+                  </button>
+                  <div
+                    className="faq-content-wrapper"
+                    style={{
+                      maxHeight: isOpen ? '300px' : '0px',
+                    }}
+                  >
+                    <p className="faq-answer">{faq.answer}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -1652,10 +2438,11 @@ export default function Home() {
         <div className="indicator-bar" data-target="hero"></div>
         <div className="indicator-bar" data-target="story"></div>
         <div className="indicator-bar" data-target="about"></div>
-        <div className="indicator-bar" data-target="products"></div>
+        <div className="indicator-bar" data-target="showcase"></div>
         <div className="indicator-bar" data-target="team"></div>
         <div className="indicator-bar" data-target="contact"></div>
         <div className="indicator-bar" data-target="ventures"></div>
+        <div className="indicator-bar" data-target="faq"></div>
       </div>
     </main>
   );

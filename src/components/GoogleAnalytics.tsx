@@ -3,14 +3,20 @@
 import { useEffect, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
+declare global {
+  interface Window {
+    gtag?: (command: string, id: string, config?: Record<string, unknown>) => void;
+  }
+}
+
 function AnalyticsTracker({ gaId }: { gaId: string }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && (window as any).gtag) {
+    if (typeof window !== 'undefined' && window.gtag) {
       const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : '');
-      (window as any).gtag('config', gaId, {
+      window.gtag('config', gaId, {
         page_path: url,
       });
     }

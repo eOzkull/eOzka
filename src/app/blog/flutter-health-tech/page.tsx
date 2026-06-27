@@ -57,27 +57,28 @@ export default function FlutterHealthBlog() {
               {
                 '@type': 'BlogPosting',
                 '@id': 'https://eozka.com/blog/flutter-health-tech/#post',
-                'url': 'https://eozka.com/blog/flutter-health-tech/',
-                'headline': 'Why We Chose Flutter for Health-Tech',
-                'description':
+                url: 'https://eozka.com/blog/flutter-health-tech/',
+                headline: 'Why We Chose Flutter for Health-Tech',
+                description:
                   'Analyzing the performance trade-offs of using cross-platform frameworks to process continuous biometric telemetry natively on mobile devices.',
-                'image': 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
-                'keywords': 'Flutter, Health-Tech, Biometrics, Cross-Platform, Mobile Performance',
-                'datePublished': '2026-05-02T00:00:00Z',
-                'dateModified': '2026-05-02T00:00:00Z',
-                'author': {
+                image:
+                  'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
+                keywords: 'Flutter, Health-Tech, Biometrics, Cross-Platform, Mobile Performance',
+                datePublished: '2026-05-02T00:00:00Z',
+                dateModified: '2026-05-02T00:00:00Z',
+                author: {
                   '@type': 'Person',
-                  'name': 'Pratham Sharma',
+                  name: 'Pratham Sharma',
                 },
-                'publisher': {
+                publisher: {
                   '@type': 'Organization',
-                  'name': 'eOzka',
-                  'logo': {
+                  name: 'eOzka',
+                  logo: {
                     '@type': 'ImageObject',
-                    'url': 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
+                    url: 'https://eozka.com/assets/eOzka-essentials/eOzka_Logo_Package_V1/PNG/eozka-venture-studio-logo.png',
                   },
                 },
-                'mainEntityOfPage': {
+                mainEntityOfPage: {
                   '@type': 'WebPage',
                   '@id': 'https://eozka.com/blog/flutter-health-tech/',
                 },
@@ -85,24 +86,24 @@ export default function FlutterHealthBlog() {
               {
                 '@type': 'BreadcrumbList',
                 '@id': 'https://eozka.com/blog/flutter-health-tech/#breadcrumb',
-                'itemListElement': [
+                itemListElement: [
                   {
                     '@type': 'ListItem',
-                    'position': 1,
-                    'name': 'Home',
-                    'item': 'https://eozka.com/',
+                    position: 1,
+                    name: 'Home',
+                    item: 'https://eozka.com/',
                   },
                   {
                     '@type': 'ListItem',
-                    'position': 2,
-                    'name': 'Blog',
-                    'item': 'https://eozka.com/blog',
+                    position: 2,
+                    name: 'Blog',
+                    item: 'https://eozka.com/blog',
                   },
                   {
                     '@type': 'ListItem',
-                    'position': 3,
-                    'name': 'Why We Chose Flutter for Health-Tech',
-                    'item': 'https://eozka.com/blog/flutter-health-tech',
+                    position: 3,
+                    name: 'Why We Chose Flutter for Health-Tech',
+                    item: 'https://eozka.com/blog/flutter-health-tech',
                   },
                 ],
               },
@@ -175,17 +176,20 @@ export default function FlutterHealthBlog() {
         }}
       >
         <p>
-          In health-tech, software reliability isn't just a design choice—it's a critical operational threshold.
-          When developing mobile systems that interface with continuous biometric hardware (like Bluetooth BLE heart rate monitors,
-          pulse oximeters, and smart rings), the engine must maintain uninterrupted pipelines. Real-time telemetry signals
-          require constant background data acquisition, decoding, stream ingestion, and chart rendering.
+          In health-tech, software reliability isn&apos;t just a design choice—it&apos;s a critical
+          operational threshold. When developing mobile systems that interface with continuous
+          biometric hardware (like Bluetooth BLE heart rate monitors, pulse oximeters, and smart
+          rings), the engine must maintain uninterrupted pipelines. Real-time telemetry signals
+          require constant background data acquisition, decoding, stream ingestion, and chart
+          rendering.
         </p>
 
         <p>
-          At <strong>eOzka</strong>, we had to choose between three leading options for our healthcare product lines:
-          building fully native apps twice (Swift/iOS + Kotlin/Android), utilizing React Native, or leveraging Flutter.
-          After putting all three through exhaustive profiling, we chose <strong>Flutter and Dart</strong>. Here are the
-          reasons behind our decision.
+          At <strong>eOzka</strong>, we had to choose between three leading options for our
+          healthcare product lines: building fully native apps twice (Swift/iOS + Kotlin/Android),
+          utilizing React Native, or leveraging Flutter. After putting all three through exhaustive
+          profiling, we chose <strong>Flutter and Dart</strong>. Here are the reasons behind our
+          decision.
         </p>
 
         <h2
@@ -199,15 +203,18 @@ export default function FlutterHealthBlog() {
           1. Eliminating the JavaScript Bridge Bottleneck
         </h2>
         <p>
-          When reading biometric sensors, devices send batches of packets up to 100 times per second. In standard cross-platform
-          frameworks like React Native, each data point must be converted into JSON, serialized, pushed over a structural "JS Bridge",
-          deserialized, and executed in the JS runtime. At scale, this bridge gets choked, resulting in frames dropping, UI lag,
-          and battery drain.
+          When reading biometric sensors, devices send batches of packets up to 100 times per
+          second. In standard cross-platform frameworks like React Native, each data point must be
+          converted into JSON, serialized, pushed over a structural &quot;JS Bridge&quot;,
+          deserialized, and executed in the JS runtime. At scale, this bridge gets choked, resulting
+          in frames dropping, UI lag, and battery drain.
         </p>
         <p>
-          Flutter bypasses this bottleneck. Dart compiles directly into native <strong>AOT (Ahead-of-Time)</strong> machine code.
-          Flutter doesn’t rely on a bridge or standard OEM widgets; instead, it renders every single pixel itself via its
-          native-compiled Impeller graphic runtime, allowing us to push 100Hz biometric signals onto screens at a flawless 60fps.
+          Flutter bypasses this bottleneck. Dart compiles directly into native{' '}
+          <strong>AOT (Ahead-of-Time)</strong> machine code. Flutter doesn’t rely on a bridge or
+          standard OEM widgets; instead, it renders every single pixel itself via its
+          native-compiled Impeller graphic runtime, allowing us to push 100Hz biometric signals onto
+          screens at a flawless 60fps.
         </p>
 
         <h2
@@ -221,13 +228,18 @@ export default function FlutterHealthBlog() {
           2. Garbage Collection (GC) Benchmarking
         </h2>
         <p>
-          High-frequency streams allocate and release thousands of short-lived objects. If a mobile language’s Garbage Collection (GC)
-          strategy is inefficient, it causes periodic visual micro-stuttering (GC pauses) during rendering. Dart’s generational garbage
-          collector is highly optimized for short-lived allocation pipelines. It operates on a fast young generation zone, collecting objects
-          in milliseconds without pausing the main isolate's rendering frame.
+          High-frequency streams allocate and release thousands of short-lived objects. If a mobile
+          language’s Garbage Collection (GC) strategy is inefficient, it causes periodic visual
+          micro-stuttering (GC pauses) during rendering. Dart’s generational garbage collector is
+          highly optimized for short-lived allocation pipelines. It operates on a fast young
+          generation zone, collecting objects in milliseconds without pausing the main
+          isolate&apos;s rendering frame.
         </p>
 
-        <p>Here is our internal GC latency benchmark comparison across options when processing 10,000 telemetry messages:</p>
+        <p>
+          Here is our internal GC latency benchmark comparison across options when processing 10,000
+          telemetry messages:
+        </p>
 
         <table
           style={{
@@ -252,7 +264,9 @@ export default function FlutterHealthBlog() {
               <td style={{ padding: '12px' }}>&lt; 1</td>
             </tr>
             <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-              <td style={{ padding: '12px', fontWeight: 'bold', color: 'var(--accent)' }}>Flutter / Dart (AOT)</td>
+              <td style={{ padding: '12px', fontWeight: 'bold', color: 'var(--accent)' }}>
+                Flutter / Dart (AOT)
+              </td>
               <td style={{ padding: '12px', color: 'var(--accent)' }}>1.2ms</td>
               <td style={{ padding: '12px', color: 'var(--accent)' }}>1.4</td>
             </tr>
@@ -275,10 +289,11 @@ export default function FlutterHealthBlog() {
           3. Dynamic Platform Channels for Native BLE Handles
         </h2>
         <p>
-          While Flutter draws its own UI, it still needs native iOS CoreBluetooth and Android BluetoothAdapter channels to access
-          hardware chips. Flutter achieves this through <strong>MethodChannels</strong> and <strong>EventChannels</strong>.
-          We designed a thread-safe platform channel that passes byte arrays straight into Dart memory as raw buffers, entirely bypassing
-          expensive serialization steps.
+          While Flutter draws its own UI, it still needs native iOS CoreBluetooth and Android
+          BluetoothAdapter channels to access hardware chips. Flutter achieves this through{' '}
+          <strong>MethodChannels</strong> and <strong>EventChannels</strong>. We designed a
+          thread-safe platform channel that passes byte arrays straight into Dart memory as raw
+          buffers, entirely bypassing expensive serialization steps.
         </p>
 
         <h2
@@ -292,9 +307,10 @@ export default function FlutterHealthBlog() {
           4. Summary Findings
         </h2>
         <p>
-          By implementing Flutter, we halved our development cost, maintained a singular secure codebase, and achieved
-          near-native metrics (under 1.5 dropped frames/min) across all operating systems. For high-frequency, telemetry-driven
-          health products, Flutter stands out as a highly viable, enterprise-grade engineering choice.
+          By implementing Flutter, we halved our development cost, maintained a singular secure
+          codebase, and achieved near-native metrics (under 1.5 dropped frames/min) across all
+          operating systems. For high-frequency, telemetry-driven health products, Flutter stands
+          out as a highly viable, enterprise-grade engineering choice.
         </p>
       </article>
     </main>
